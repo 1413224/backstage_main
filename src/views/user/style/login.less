@@ -1,0 +1,150 @@
+.page-login{
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 1;
+  background: #f0f2f5;
+  background-image: url(../../../assets/loginbg.svg);
+  width: 100%;
+  min-height: 100%;
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: 100%;
+  .page-lr{
+    position: absolute;
+    width: 800px;
+    border-radius: 3px;
+    text-align: center;
+    margin-bottom: -5px;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    -webkit-transform: translate(-50%, -50%);
+    -moz-transform: translate(-50%, -50%);
+    -ms-transform: translate(-50%, -50%);
+    .sign-up-box{
+      display: block;
+      position: relative;
+      overflow: hidden;
+      font-size: 0;
+      white-space: nowrap;
+      margin: 0 auto;
+      box-shadow: 0 0 20px rgba(0,0,0,.08);
+      .sign-up-bg{
+        position: relative;
+        display: block;
+        height: 600px;
+        width: 300px;
+        border-radius: 3px 0 0 3px;
+        vertical-align: middle;
+        background: url(../../../assets/register-bg.jpg) no-repeat center;
+        .sign-up-content{
+          position: absolute;
+          top: 50%;
+          left: 50%;
+          text-align: center;
+          transform: translate(-50%, -50%);
+          -webkit-transform: translate(-50%, -50%);
+          -moz-transform: translate(-50%, -50%);
+          -ms-transform: translate(-50%, -50%);
+          .login-btn{
+            display: block;
+            text-decoration: none;
+            // padding: 0 20px;
+            width: 70px;
+            height: 30px;
+            line-height: 30px;
+            margin-top: 20px;
+            cursor: pointer;
+            background-color: transparent;
+            border: 1px solid #fff;
+            -moz-border-radius: 10px;
+            -webkit-border-radius: 10px;
+            border-radius: 10px;
+            font-size: 14px;
+            color: #fff;
+          }
+        }
+      }
+      .sign-up-formbox{
+        position: relative;
+        display: inline-block;
+        vertical-align: middle;
+        background: #fff;
+        // padding: 100px 60px;
+        width: 500px;
+        height: 600px;
+        border-radius: 0 3px 3px 0;
+        .form-title{
+          font-size: 16px;
+          font-weight: 600;
+          color: #000;
+          letter-spacing: 3px;
+          text-align: center;
+          margin-top: 100px;
+        }
+        .form-body{
+          width: 380px;
+          margin: 80px auto 0;
+          .input-item{
+            margin-bottom: 30px;
+          }
+          .remember{
+            // border: 1px solid #333;
+            // position: absolute;
+            margin-top: 20px;
+            .forget{
+              width: 100px;
+              height: 40px;
+            }
+          }
+          .login-up{
+            width: 160px;
+            height: 36px;
+            line-height: 36px;
+            cursor: pointer;
+            background-color: #38f;
+            font-size: 14px;
+            color: #fff;
+            border: none;
+            border-image: initial;
+            border-radius: 36px;
+            margin: 80px auto 0;
+          }
+        }
+      }
+    }
+  }
+  .register{
+    .form-body{
+      margin: 60px auto 0 !important;
+      .input-item{
+        position: relative;
+        .btn-yam{
+          position: absolute;
+          bottom: 10px;
+          right: 0;
+          z-index: 999;
+        }
+      }
+      .login-up{
+        margin: 50px auto 0 !important;
+      }
+      .hasuser{
+        width: 160px;
+        height: 36px;
+        line-height: 36px;
+        // cursor: pointer;
+        // background-color: #38f;
+        font-size: 14px;
+        color: #333;
+        border: none;
+        border-image: initial;
+        border-radius: 36px;
+        margin: 0 auto;
+      }
+    }
+  }
+}

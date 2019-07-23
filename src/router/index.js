@@ -13,6 +13,16 @@ export default new Router({
       component: HelloWorld
     },
     {
+      path:'/login',
+      name:'login',
+      component:() => import('@/views/user/login')
+    },
+    {
+      path:'/forgetPass',
+      name:'forget',
+      component:() => import('@/views/user/forgetPass')
+    },
+    {
       path:'/',
       name:'layout',
       component: () => import('@/layout'),
