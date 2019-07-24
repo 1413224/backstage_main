@@ -86,6 +86,22 @@ export default {
     },
     changePassword(){
       let _this = this
+      if(_this.phone==''){
+        this.$message('请输入手机号码')
+        return 
+      }
+      if(_this.yzm==''){
+        this.$message('请输入验证码')
+        return 
+      }
+      if(_this.password==''){
+        this.$message('请输入密码')
+        return 
+      }
+      if(_this.$utils.testPhone(_this.phone)){
+        this.$message('请输入正确的手机号码')
+        return
+      }
       _this.$http.get(_this.url.user.ForgetPassword,{
         params:{
           role_type:_this.url.role_type,

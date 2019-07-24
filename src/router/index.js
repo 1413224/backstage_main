@@ -47,6 +47,14 @@ export default new Router({
           meta:{
             parentsLabel:'店铺'
           }
+        },
+        {
+          path:'/useredit',
+          component: () => import('@/views/user/useredit')
+        },
+        {
+          path:'/addressLibrary',
+          component: () => import('@/views/addressLibrary/index')
         }
       ]
     },

@@ -1,6 +1,6 @@
 <template>
   <svg :class="svgClass" aria-hidden="true">
-    <use :xlink:href="iconName" fill="#fff"></use>
+    <use :xlink:href="iconName" :fill="color"></use>
   </svg>
 </template>
 <script>
@@ -13,6 +13,9 @@ export default {
     className:{
       type: String,
       default: ''
+    },
+    color:{
+      type:String
     }
   },
   computed:{

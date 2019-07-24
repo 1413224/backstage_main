@@ -142,9 +142,16 @@ export default {
       }).then((res)=>{
         if(res.data.ret==200){
           localStorage.setItem("info",JSON.stringify(res.data.data))
-          _this.$router.replace({
-            path:'/test1'
-          })
+          if(_this.$route.query.redirect){
+            _this.$router.replace({
+              path:_this.$route.query.redirect
+            })
+          }else{
+            _this.$router.replace({
+              path:'/test1'
+            })
+          }
+          
         }
       })
     }

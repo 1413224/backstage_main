@@ -1,7 +1,8 @@
 import Vue from 'vue'
 import store from '@/store/index'
 import axios from 'axios'
-import { Message } from 'element-ui';
+import { Message, Loading } from 'element-ui';
+import router from '../router';
 
 
 axios.defaults.retry = 4 //请求次数
@@ -10,12 +11,18 @@ axios.defaults.baseURL = '//api.9yetech.com/apigw/' // 演示环境
 
 axios.interceptors.request.use(config => {
 
+	Loading.service({text:'加载中'})
 
-    config.headers = {
+	let _token = Vue.prototype.$utils.getToken(),
+			type = 'application/json;charset=utf-8';
 
-    }
 
-    return config
+	config.headers = {
+		'Content-Type': type,
+		// 'token': _token
+	}
+
+	return config
 },error => {
     return Promise.reject(error)
 })
@@ -23,12 +30,20 @@ axios.interceptors.request.use(config => {
 
 
 axios.interceptors.response.use(res => {
-    if(res.data.ret!==200){
-        Message(res.data.msg)
-    }
-    return res
+	Loading.service().close()
+	if(res.data.ret!==200){
+		Message(res.data.msg)
+		// console.log(router)
+		if(res.data.ret == 10000){//登陆信息已失效
+			router.push({
+				path:`/login?redirect=${router.history.current.fullPath}`
+			})
+		}
+	}
+	return res
 },error => {
-    console.log(999999)
+    Loading.service().close()
+
     return Promise.reject(error)
 })
 

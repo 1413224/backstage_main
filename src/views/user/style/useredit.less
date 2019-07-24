@@ -1,0 +1,93 @@
+.not-edit-all{
+  width: 320px;
+  margin: 0 auto;
+  padding: 50px 0;
+  // border: 1px solid #333;
+  .avatar-type{
+    width: 80px;
+    height: 80px;
+    border-radius: 50%;
+    margin: 0 auto;
+    position: relative;
+    overflow: hidden;
+    z-index: 10;
+    // border: 1px solid #333;
+    &:hover{
+      cursor: pointer;
+      .tip{
+        display: block;
+      }
+    }
+    .tip{
+      width: 80px;
+      height: 40px;
+      line-height: 40px;
+      background: rgba(0, 0, 0, .5);
+      color: #fff;
+      position: absolute;
+      bottom: 0;
+      text-align: center;
+      font-size: 14px;
+      display: none;
+    }
+  }
+  .item{
+    height: 40px;
+    line-height: 37px;
+    border-bottom: 1px solid #e6e6e6;
+    // padding-bottom: 5px;
+    margin-top:20px; 
+    .lab{
+      color: #9797a1;
+      font-size: 14px;
+    }
+  }
+  .submit{
+    width: 100%;
+    margin-top: 80px;
+  }
+}
+
+// 账号管理
+.not-edit-all2{
+  .msg-title{
+    font-size: 16px;
+    color: #595961;
+  }
+  .item{
+    .lab-right{
+      color: #595961;
+      font-size: 14px;
+      text-align: right;
+      cursor: pointer;
+    }
+    margin-bottom: 40px;
+  }
+  
+}
+// 修改手机号
+.change-phone{
+  .tit{
+    font-size: 14px;
+    color: #595961;
+    margin-top: 20px;
+    span{
+      &:hover{
+        cursor: pointer;
+        color: #409EFF;
+      }
+    }
+  }
+  .item{
+    .lab-right{
+      color: #595961;
+      font-size: 14px;
+      text-align: right;
+      cursor: pointer;
+    }
+    margin-bottom: 40px;
+  }
+}
+.yzm{
+  cursor: default;
+}
