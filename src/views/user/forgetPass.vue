@@ -111,7 +111,7 @@ export default {
         }
       }).then((res)=>{
         if(res.data.ret==200){
-          this.$message(res.data.msg)
+          this.$message(res.data.data.title)
           _this.$router.push({
             path:'/login'
           })

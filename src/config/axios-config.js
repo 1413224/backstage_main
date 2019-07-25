@@ -34,7 +34,10 @@ axios.interceptors.response.use(res => {
 	if(res.data.ret!==200){
 		Message(res.data.msg)
 		// console.log(router)
-		if(res.data.ret == 10000){//登陆信息已失效
+		if(
+				res.data.ret == 10000	//登陆信息已失效
+				|| res.data.ret == 400	//缺少必要参数token
+			){
 			router.push({
 				path:`/login?redirect=${router.history.current.fullPath}`
 			})

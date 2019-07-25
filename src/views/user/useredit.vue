@@ -67,7 +67,10 @@
                     <el-input v-model="accountForm.yzm" autocomplete="off" placeholder="请填写短信验证码"></el-input>
                   </el-form-item>
                 </el-col>
-                <el-col :span="7" class="lab-right">获取验证码</el-col>
+                <el-col :span="7" class="lab-right">
+                  <span v-if="showChangePassByYzm" @click="getYzmByChangePass">获取验证码</span>
+                  <span class="yzm" v-if="!showChangePassByYzm">{{timesChangePass}}</span>
+                </el-col>
               </el-row>
               <el-row class="item">
                 <el-col>
@@ -76,7 +79,7 @@
                   </el-form-item>
                 </el-col>
               </el-row>
-              <el-button type="primary" class="submit">确认修改</el-button>            
+              <el-button type="primary" class="submit" @click="ChangePasswordByCode('accountForm')">确认修改</el-button>            
             </el-form>
           </div>
 
@@ -180,6 +183,8 @@ export default {
       showChangePhone:false,
       showChangePhoneTime:true,
       timesChangePhone:'',
+      showChangePassByYzm:true,
+      timesChangePass:'',
       activeName:'second',
       imageUrl:'',
       nickName:'',
@@ -198,7 +203,7 @@ export default {
           {validator:validatorPass}
         ]
       },
-      phone:'15219150150',
+      phone:'',
       oldPhoneNum:'',
       changePhoneForm:{
         oldPassword:'',
@@ -215,7 +220,7 @@ export default {
     }
   },
   created(){
-
+    this.getInfo()
   },
   methods:{
     ...actions

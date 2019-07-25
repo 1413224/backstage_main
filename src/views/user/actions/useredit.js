@@ -5,7 +5,7 @@ export default {
   beforeAvatarUpload(file) {
     
   },
-  goChangePhone(){
+  getInfo(){
     let _this = this
     _this.$http.get(_this.url.user.GetInfo,{
       params:{
@@ -16,9 +16,12 @@ export default {
         // console.log(res.data.data)
         let data = res.data.data
         _this.oldPhoneNum = data.mobile
-        this.showChangePhone = true
+        _this.phone = data.mobile
       }
     })
+  },
+  goChangePhone(){
+    this.showChangePhone = true    
   },
   getYzmChangePhone(){
     let _this = this 
@@ -31,6 +34,19 @@ export default {
     }).then((res)=>{
       if(res.data.ret==200){
         _this.changePhoneCountDown()
+      }
+    })
+  },
+  getYzmByChangePass(){
+    let _this = this
+    _this.$http.get(_this.url.user.GetLoginCode,{
+      params:{
+        token:_this.$utils.getToken(),
+        type:1
+      }
+    }).then((res)=>{
+      if(res.data.ret==200){
+        _this.changePassCountDown()
       }
     })
   },
@@ -49,10 +65,34 @@ export default {
         }
       }).then((res)=>{
         if(res.data.ret==200){
-          alert("成功")
+          _this.$message(res.data.data.title)
+          _this.$refs[formName].resetFields()
         }
       })
 
+    })
+  },
+  ChangePasswordByCode(formName){
+    let _this = this
+    _this.$refs[formName].validate((valid) => {
+      if(!valid){
+        return false
+      }
+      _this.$http.get(_this.url.user.ChangePasswordByCode,{
+        params:{
+          token:_this.$utils.getToken(),
+          verification_code:_this.accountForm.yzm,
+          new_password:_this.MD5(_this.accountForm.password)
+        }
+      }).then((res)=>{
+        if(res.data.ret==200){
+          _this.$message(res.data.data.title)
+          _this.$refs[formName].resetFields()
+          _this.$router.replace({
+            path:'/login'
+          })
+        }
+      })
     })
   },
   changePhoneCountDown(){
@@ -68,4 +108,17 @@ export default {
       }
     },1000)
   },
+  changePassCountDown(){
+    let _this = this,
+        time = 60;
+    let timer = setInterval(()=>{
+      _this.showChangePassByYzm = false
+      time--;
+      _this.timesChangePass = time + 's'
+      if(time == 0){
+        clearInterval(timer)
+        _this.showChangePassByYzm = true
+      }
+    },1000)
+  }
 }
