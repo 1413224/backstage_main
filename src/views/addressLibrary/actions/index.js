@@ -60,15 +60,16 @@ export default {
     // console.log(data)
     let _this = this
     // _this.transferDataByAdd = data
-    _this.$refs[formName].resetFields()
+    // _this.$refs[formName].resetFields()
     _this.showAddEdit = true
+    _this.dialogTitle = '添加子分类'
     _this.dialogForm.parentName = data.name
     _this.dialogForm.parentId = data.id
     _this.dialogVisible = true
   },
   showEditArea(data){
     event.stopPropagation()
-    console.log(data)
+    // console.log(data)
     let _this = this
     _this.dialogTitle = '编辑子分类'
     _this.showAddEdit = false
@@ -126,6 +127,7 @@ export default {
   },
   //编辑分类
   editAreaSubmit(formName){
+    let _this = this
     _this.$refs[formName].validate((valid)=>{
       if(!valid){
         return false

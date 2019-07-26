@@ -20,7 +20,7 @@
             <span class="custom-tree-node" slot-scope="{ node, data}">
               <span class="zdy-node-label">{{node.label}}</span>
               <span>
-                <span style="width: 340px;display: flex;justify-content: space-between;">
+                <span style="width: 340px;display: flex;justify-content: space-between;padding-right:10px">
                   <span>
                     <el-tag v-if="data.status==1"  size="mini" class="mouse-hand" type="success" @click.native="openConfirm(data, '是否将此区域的状态变更为不显示状态?', 0, changeStatusById)">显示</el-tag>
                     <el-tag v-if="data.status==0" size="mini" class="mouse-hand" type="info" @click.native="openConfirm(data, '是否将此区域的状态变更为显示状态?', 1, changeStatusById)">不显示</el-tag>			
@@ -49,7 +49,8 @@
         :title="dialogTitle"
         :visible.sync="dialogVisible"
         @close="resetForm('dialogForm')"
-        width="30%">
+        width="30%"
+        class="dialog">
         <span>
           <el-form :model="dialogForm" :rules="rules" ref="dialogForm" label-width="130px">
             <el-form-item label="上级分类：" prop="parentName">
@@ -174,40 +175,43 @@ export default {
 }
 </style>
 <style lang="less">
-.tree-wrap{
-  .el-tree-node{
-    margin-top: 10px;
-  }
-  .el-form-item{
-    .avatar-uploader {
-      .el-upload{
-        border: 1px dashed #d9d9d9 !important;
-        border-radius: 6px;
-        cursor: pointer;
-        position: relative;
-        overflow: hidden;
-      }
+.dialog{
+  .avatar-uploader {
+    .el-upload{
+      border: 1px dashed #d9d9d9 !important;
+      border-radius: 6px;
+      cursor: pointer;
+      position: relative;
+      overflow: hidden;
     }
   }
-  .el-form-item /deep/ .el-upload{
-    border: 1px solid #333;
-  }
-  
   .avatar-uploader .el-upload:hover {
     border-color: #409EFF;
   }
   .avatar-uploader-icon {
     font-size: 28px;
     color: #8c939d;
-    width: 178px;
-    height: 178px;
-    line-height: 178px;
+    width: 100px;
+    height: 100px;
+    line-height: 100px;
     text-align: center;
   }
   .avatar {
-    width: 178px;
-    height: 178px;
+    width: 100px;
+    height: 100px;
     display: block;
+  }
+}
+.tree-wrap{
+  .el-tree-node{
+    padding-top: 10px;
+    // padding-right: 10px;
+  }
+  .el-tree-node__content{
+    line-height: 26px;
+  }
+  .el-tree-node__content:hover{
+    background: #ebeef2;
   }
 }
 </style>
