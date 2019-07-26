@@ -20,7 +20,10 @@ export default new Router({
     {
       path:'/forgetPass',
       name:'forget',
-      component:() => import('@/views/user/forgetPass')
+      component:() => import('@/views/user/forgetPass'),
+      meta:{
+        title:'忘记密码'
+      }
     },
     {
       path:'/',
@@ -50,11 +53,17 @@ export default new Router({
         },
         {
           path:'/useredit',
-          component: () => import('@/views/user/useredit')
+          component: () => import('@/views/user/useredit'),
+          meta:{
+            title:'账户信息'
+          }
         },
         {
           path:'/addressLibrary',
-          component: () => import('@/views/addressLibrary/index')
+          component: () => import('@/views/addressLibrary/index'),
+          meta:{
+            title:'全球地址库'
+          }
         }
       ]
     },

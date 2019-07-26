@@ -17,8 +17,56 @@ export default {
         let data = res.data.data
         _this.oldPhoneNum = data.mobile
         _this.phone = data.mobile
+        //个人信息
+        _this.nickName = data.nickname
+        _this.qqNumber = data.qq
+        _this.wxNumber = data.wechat
+        _this.email = data.email
+        _this.alipay = data.alipay
+        _this.gender = Number(data.gender)
+        _this.emergencyStatus = data.emergency_status
+        if(data.emergency_info.emergency_type!=0){
+          _this.emergencyType = Number(data.emergency_info.emergency_type)
+        }
+        _this.emergency = data.emergency_info.emergency
+        _this.egmobile = data.emergency_info.egmobile
+        _this.remark = data.remark
       }
     })
+  },
+  changeInfo(){
+    let _this = this
+    let params = {
+      token:_this.$utils.getToken(),
+      nickname:_this.nickName,
+      thumb:'',
+      gender:_this.gender,
+      email:_this.email,
+      qq:_this.qqNumber,
+      wechat:_this.wxNumber,
+      alipay:_this.alipay,
+      remark:_this.remark,
+      emergency_status:_this.emergencyStatus
+
+    }
+    if(_this.emergencyStatus==1){
+      params.emergency_type = _this.emergencyType
+      params.emergency = _this.emergency
+      params.egmobile = _this.egmobile
+    }
+    _this.$http.get(_this.url.user.ChangeInfo,{
+      params
+    }).then((res)=>{
+      if(res.data.ret==200){
+        // console.log(res)
+        // _this.resetInfo()
+        // window.location.reload()
+        _this.$message(res.data.data.title)
+      }
+    })
+  },
+  resetInfo(){
+
   },
   goChangePhone(){
     this.showChangePhone = true    

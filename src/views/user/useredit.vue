@@ -23,28 +23,86 @@
             <el-row class="item">
               <el-col :span="5" class="lab">昵称</el-col>
               <el-col :span="19">
-                <el-input v-model="nickName" placeholder="请填写您的昵称"></el-input>
+                <el-input v-model="nickName" placeholder="请填写您的昵称" clearable></el-input>
               </el-col>
             </el-row>
             <el-row class="item">
               <el-col :span="5" class="lab">QQ号</el-col>
               <el-col :span="19">
-                <el-input v-model="qqNumber" placeholder="请填写您的QQ号"></el-input>
+                <el-input v-model="qqNumber" placeholder="请填写您的QQ号" clearable></el-input>
               </el-col>
             </el-row>
             <el-row class="item">
               <el-col :span="5" class="lab">微信号</el-col>
               <el-col :span="19">
-                <el-input v-model="wxNumber" placeholder="请填写您的微信号"></el-input>
+                <el-input v-model="wxNumber" placeholder="请填写您的微信号" clearable></el-input>
+              </el-col>
+            </el-row>
+            <el-row class="item">
+              <el-col :span="5" class="lab">支付宝号</el-col>
+              <el-col :span="19">
+                <el-input v-model="alipay" placeholder="请填写您的支付宝号" clearable></el-input>
               </el-col>
             </el-row>
             <el-row class="item">
               <el-col :span="5" class="lab">邮箱</el-col>
               <el-col :span="19">
-                <el-input v-model="email" placeholder="请填写您的邮箱"></el-input>
+                <el-input v-model="email" placeholder="请填写您的邮箱" clearable></el-input>
               </el-col>
             </el-row>
-            <el-button type="primary" class="submit">保存</el-button>
+            <el-row class="item">
+              <el-col :span="5" class="lab">性别</el-col>
+              <el-col :span="19">
+                <el-radio-group v-model="gender">
+                  <el-radio :label="0">保密</el-radio>
+                  <el-radio :label="1">男</el-radio>
+                  <el-radio :label="2">女</el-radio>
+                </el-radio-group>
+              </el-col>
+            </el-row>
+            <el-row class="item">
+              <el-col :span="6" class="lab">紧急联系人</el-col>
+              <el-col :span="18">
+                <el-radio-group v-model="emergencyStatus">
+                  <el-radio :label="0">暂不设置</el-radio>
+                  <el-radio :label="1">设置</el-radio>
+                </el-radio-group>
+              </el-col>
+            </el-row>
+            <template v-if="emergencyStatus==1">
+              <el-row class="item">
+                <el-col :span="6" class="lab">联系人类型</el-col>
+                <el-col :span="18">
+                  <el-select v-model="emergencyType" placeholder="请选择" clearable>
+                    <el-option 
+                      v-for="(item,index) in optionsData"
+                      :key="index"
+                      :label="item.label" 
+                      :value="item.value">
+                    </el-option>
+                  </el-select>
+                </el-col>
+              </el-row>
+              <el-row class="item">
+                <el-col :span="5" class="lab">联系人</el-col>
+                <el-col :span="19">
+                  <el-input v-model="emergency" placeholder="请填写联系人" clearable></el-input>
+                </el-col>
+              </el-row>
+              <el-row class="item">
+                <el-col :span="7" class="lab">联系人手机号</el-col>
+                <el-col :span="17">
+                  <el-input v-model="egmobile" placeholder="请填写联系人手机号" clearable></el-input>
+                </el-col>
+              </el-row>
+              <el-row class="item textArea">
+                <el-col :span="5" class="lab">备注</el-col>
+                <el-col :span="19">
+                  <el-input type="textarea" v-model="remark" placeholder="请输入" clearable></el-input>
+                </el-col>
+              </el-row>
+            </template>
+            <el-button type="primary" class="submit" @click="changeInfo">保存</el-button>
           </div>
         </el-tab-pane>
 
@@ -185,12 +243,26 @@ export default {
       timesChangePhone:'',
       showChangePassByYzm:true,
       timesChangePass:'',
-      activeName:'second',
+      activeName:'first',
       imageUrl:'',
       nickName:'',
       qqNumber:'',
       wxNumber:'',
       email:'',
+      gender:0,
+      alipay:'',
+      emergencyStatus:0,
+      emergencyType:null,
+      optionsData:[
+        {label:'配偶',value:1},
+        {label:'同事',value:2},
+        {label:'直系亲属',value:3},
+        {label:'朋友',value:4},
+        {label:'其他',value:5},
+      ],
+      emergency:'',
+      egmobile:'',
+      remark:'',
       accountForm:{
         yzm:'',
         password:''

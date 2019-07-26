@@ -94,7 +94,13 @@ export default {
     }
   },
   created(){
-
+    var _this = this
+    document.onkeydown = function(e){
+      let key = window.event.keyCode
+      if(key==13){
+        _this.login()
+      }
+    }
   },
   methods:{
     senYzm(){
