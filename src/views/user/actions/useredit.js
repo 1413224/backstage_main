@@ -126,15 +126,29 @@ export default {
       if(!valid){
         return false
       }
-      _this.$http.get(_this.url.user.ChangePasswordByCode,{
-        params:{
-          token:_this.$utils.getToken(),
-          verification_code:_this.accountForm.yzm,
-          new_password:_this.MD5(_this.accountForm.password)
-        }
+      let url
+      let params={
+        token:_this.$utils.getToken(),
+        new_password:_this.MD5(_this.accountForm.password)
+      }
+      if(_this.chanPasswordStatus==0){//根据旧密码修改
+        params.old_password = _this.MD5(_this.accountForm.oldPassword)
+        url = _this.url.user.ChangePasswordByOld
+      }
+      if(_this.chanPasswordStatus==1){//根据验证码修改密码
+        params.verification_code = _this.accountForm.yzm
+        url = _this.url.user.ChangePasswordByCode
+      }
+
+      _this.$http.get(url,{
+        params
       }).then((res)=>{
         if(res.data.ret==200){
-          _this.$message(res.data.data.title)
+          localStorage.removeItem('info')
+          _this.$message({
+            type:'success',
+            message:res.data.data.title
+          })
           _this.$refs[formName].resetFields()
           _this.$router.replace({
             path:'/login'
@@ -168,5 +182,11 @@ export default {
         _this.showChangePassByYzm = true
       }
     },1000)
+  },
+  changePassWordStatus(formName){
+    let _this = this
+    // _this.accountForm.oldPassword = ''
+    // _this.accountForm.yzm = ''
+    _this.$refs[formName].resetFields()
   }
 }

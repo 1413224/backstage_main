@@ -46,6 +46,7 @@ export default {
       })
     }else{
       _this.getValidList(node.data.id).then(function(data){
+        // console.log(data)
         return resolve(data)
       })
     }

@@ -64,6 +64,14 @@ export default new Router({
           meta:{
             title:'全球地址库'
           }
+        },
+        {
+          path:'/setUp/shortMessage/setInterface',
+          component: () => import('@/views/setUp/shortMessage/setInterface'),
+          meta:{
+            title:'短信接口设置',
+            parentsLabel:'设置'
+          }
         }
       ]
     },

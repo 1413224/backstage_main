@@ -110,7 +110,8 @@ export default {
     return {
       defaultProps:{
         children: 'children',
-        label:'name'
+        label:'name',
+        isLeaf:'is_leaf'
       },
       addressData:[],
       treeData:[],

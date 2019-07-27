@@ -118,8 +118,23 @@
               <el-col :span="8" class="lab-right"><span @click="goChangePhone">修改手机号</span></el-col>
             </el-row>
             <p class="msg-title">修改密码</p>
+            <el-row class="item">
+              <el-col>
+                <el-radio-group v-model="chanPasswordStatus" @change="changePassWordStatus('accountForm')">
+                  <el-radio :label="0">根据旧密码修改</el-radio>
+                  <el-radio :label="1">根据验证码修改</el-radio>
+                </el-radio-group>
+              </el-col>
+            </el-row>
             <el-form :model="accountForm" :rules="rules" ref="accountForm" label-width="82px">
-              <el-row class="item">
+              <el-row class="item" v-if="chanPasswordStatus==0">
+                <el-col>
+                  <el-form-item label="旧密码" prop="oldPassword">
+                    <el-input v-model="accountForm.oldPassword" type="password" autocomplete="off" placeholder="请填写旧密码"></el-input>
+                  </el-form-item>
+                </el-col>
+              </el-row>
+              <el-row class="item" v-if="chanPasswordStatus==1">
                 <el-col :span="17">
                   <el-form-item label="短信验证码" prop="yzm">
                     <el-input v-model="accountForm.yzm" autocomplete="off" placeholder="请填写短信验证码"></el-input>
@@ -132,7 +147,7 @@
               </el-row>
               <el-row class="item">
                 <el-col>
-                  <el-form-item label="设置密码" prop="password">
+                  <el-form-item label="新密码" prop="password">
                     <el-input v-model="accountForm.password" type="password" autocomplete="off" placeholder="8-16位，必须包含数字和字母"></el-input>
                   </el-form-item>
                 </el-col>
@@ -155,13 +170,6 @@
               <el-form :model="changePhoneForm" :rules="changePhoneRules" ref="changePhoneForm" label-width="82px">
                 <el-row class="item">
                   <el-col>
-                    <el-form-item label="旧密码" prop="oldPassword">
-                      <el-input v-model="changePhoneForm.oldPassword" type="password" autocomplete="off" placeholder="请填写旧密码"></el-input>
-                    </el-form-item>
-                  </el-col>
-                </el-row>
-                <el-row class="item">
-                  <el-col>
                     <el-form-item label="新手机号" prop="newPhone">
                       <el-input v-model="changePhoneForm.newPhone" autocomplete="off" placeholder="请填写更改后的手机号"></el-input>
                     </el-form-item>
@@ -180,7 +188,7 @@
                 </el-row>
                 <el-row class="item">
                   <el-col>
-                    <el-form-item label="设置密码" prop="changePhonePassword">
+                    <el-form-item label="账户密码" prop="changePhonePassword">
                       <el-input v-model="changePhoneForm.changePhonePassword" type="password" autocomplete="off" placeholder="8-16位，必须包含数字和字母"></el-input>
                     </el-form-item>
                   </el-col>
@@ -243,7 +251,7 @@ export default {
       timesChangePhone:'',
       showChangePassByYzm:true,
       timesChangePass:'',
-      activeName:'first',
+      activeName:'second',
       imageUrl:'',
       nickName:'',
       qqNumber:'',
@@ -253,6 +261,7 @@ export default {
       alipay:'',
       emergencyStatus:0,
       emergencyType:null,
+      chanPasswordStatus:0,
       optionsData:[
         {label:'配偶',value:1},
         {label:'同事',value:2},
@@ -265,7 +274,8 @@ export default {
       remark:'',
       accountForm:{
         yzm:'',
-        password:''
+        password:'',
+        oldPassword:''
       },
       rules:{
         yzm:[
@@ -273,18 +283,18 @@ export default {
         ],
         password:[
           {validator:validatorPass}
-        ]
+        ],
+        oldPassword:[{validator:validatorOldPass}]
       },
       phone:'',
       oldPhoneNum:'',
       changePhoneForm:{
-        oldPassword:'',
+        // oldPassword:'',
         newPhone:'',
         changePhoneYzm:'',
         changePhonePassword:''
       },
       changePhoneRules:{
-        oldPassword:[{validator:validatorOldPass}],
         newPhone:[{validator:validatorNewPhone}],
         changePhoneYzm:[{validator:validateYzm}],
         changePhonePassword:[{validator:validatorPass}],

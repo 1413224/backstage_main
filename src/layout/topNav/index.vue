@@ -46,6 +46,7 @@ export default {
       }).then((res)=>{
         if(res.data.ret == 200){
           localStorage.removeItem('info')
+          _this.$message('退出登录成功')
           _this.$router.replace({
             path:'/login'
           })

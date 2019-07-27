@@ -102,21 +102,21 @@ export default {
           ]
         },
         {
-          name:'资金',
+          name:'设置',
           icon:'clipboard',
           children:[
             {
               id:5,
               type:'submenu',
               index:'price',
-              lable:'资金列表',
+              lable:'短信配置',
               children:[
                 {
                   id:6,
                   type:'item',
-                  index:'priceList',
-                  lable:'我的资金',
-                  path:'/test1'
+                  index:'setInterface',
+                  lable:'短信接口设置',
+                  path:'/setUp/shortMessage/setInterface'
                 }
               ]
             }
@@ -151,7 +151,7 @@ export default {
     toNavMenu(item,index,e) {
       // console.log(this.$route)
       this.idx = index
-      console.log(e.target.innerText)
+      // console.log(e.target.innerText)
       
       //后续完善默认显示第一个路由
       if(!item.children){

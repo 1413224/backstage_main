@@ -7,6 +7,7 @@ let url = {
     ForgetPassword:'common/role/Account/ForgetPassword',
     GetPublicCode:'common/role/verificationCode/GetPublicCode',//账户未登录时发送验证码接口
     GetLoginCode:'common/role/verificationCode/GetLoginCode',//账户登录后发送验证码接口
+    ChangePasswordByOld:'common/role/Account/ChangePasswordByOld',//后台端根据旧密码修改密码接口
     GetInfo:'common/role/Account/GetInfo',//后台端获取账户信息接口
     ChangeInfo:'common/role/Account/ChangeInfo',//后台端修改账户信息接口
     ChangeMobile:'common/role/Account/ChangeMobile',//后台端修改手机号接口
@@ -21,7 +22,9 @@ let url = {
     GetAreaInfoById:'control/setting/Area/GetInfoById',//总平台管理端获取地址详情信息接口
     GetAreaList:'control/setting/Area/GetList',//总平台管理端获取地址列表信息接口[非总后台请勿调用该接口]
     UpdateAreaData:'control/setting/Area/UpdateAreaData',//总平台管理端更新区域数据
-    UpdateDisplayOrderById:'control/setting/Area/UpdateDisplayOrderById'//总平台管理端修改地址排序接口
+    UpdateDisplayOrderById:'control/setting/Area/UpdateDisplayOrderById',//总平台管理端修改地址排序接口
+    SmsGetConfig:'control/setting/Sms/GetConfig',//总平台管理端获取短信接口设置信息接口
+    SmsSaveConfig:'control/setting/Sms/SaveConfig',//总平台管理端修改短信接口设置信息接口
   }
 }
 
