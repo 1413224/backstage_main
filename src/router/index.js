@@ -72,6 +72,14 @@ export default new Router({
             title:'短信接口设置',
             parentsLabel:'设置'
           }
+        },
+        {
+          path:'/setUp/classification/index',
+          component: () => import('@/views/setUp/classification/index'),
+          meta:{
+            parentsLabel:'设置',
+            title:'通用分类'
+          }
         }
       ]
     },

@@ -6,6 +6,7 @@ import ElementUI from 'element-ui'
 import App from './App'
 import router from './router'
 import axios from './config/axios-config'
+import store from './store/index'//引入store
 import url from './api/api'
 import MD5 from 'js-md5'
 import utils from './utils/index'
@@ -45,6 +46,7 @@ router.afterEach(()=>{
 new Vue({
   el: '#app',
   router,
+  store,
   components: { App },
   template: '<App/>'
 })

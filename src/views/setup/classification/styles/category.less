@@ -1,0 +1,98 @@
+.category-wrap{
+  height: 100%;
+  width: 100%;
+  overflow-x: scroll;
+  overflow-y: hidden;
+}
+.category{
+  width: 19%;
+  margin-right: 1%;
+  position: relative;
+  height: 100%;
+  border: 1px solid #e3e2e5;
+  display: inline-block;
+  box-sizing: border-box;
+  .category-ul{
+    height: 90%;
+    overflow-x: hidden;
+    overflow-y: auto;
+    .category-item{
+      height: 50px;
+      line-height: 50px;
+      padding: 0 10px 0 15px;
+      cursor: move;
+      position: relative;
+      // z-index: 10;
+      // .del{
+      //   border: 1px solid #333;
+      // }
+      &:hover{
+        .icon-edit{
+          display: block;
+        }
+        .icon-del{
+          display: block;
+        }
+      }
+      .txt{
+        font-size: 12px;
+        color: #595961;
+      }
+      .txt.disable{
+        color: #bbb;
+      }
+      .icon-del{
+        width: 12px;
+        height: 12px;
+        position: absolute;
+        top: 19px;
+        right: 10px;
+        display: none;
+        &:hover{
+          cursor: pointer;
+        }
+      }
+      .icon-edit{
+        width: 12px;
+        height: 12px;
+        position: absolute;
+        top: 19px;
+        right: 30px;
+        display: none;
+        // z-index: 100;
+        &:hover{
+          cursor: pointer;
+        }
+      }
+    }
+  }
+  
+}
+.add-category{
+  margin: 20px auto 0;
+  display: block;
+  width: 85%;
+}
+.avatar-uploader /deep/ .el-upload {
+  border: 1px dashed #d9d9d9;
+  border-radius: 6px;
+  cursor: pointer;
+  position: relative;
+  overflow: hidden;
+}
+.avatar-uploader .el-upload:hover {
+  border-color: #409EFF;
+}
+.avatar-uploader-icon {
+  font-size: 28px;
+  color: #8c939d;
+  width: 120px;
+  height: 120px;
+  line-height: 120px;
+  text-align: center;
+}
+.avatar {
+  width: 178px;
+  height: 178px;
+  display: block;
+}

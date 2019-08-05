@@ -119,6 +119,21 @@ export default {
                   path:'/setUp/shortMessage/setInterface'
                 }
               ]
+            },
+            {
+              id:10,
+              type:'submenu',
+              index:'fenlei',
+              lable:'分类',
+              children:[
+                {
+                  id:11,
+                  type:'item',
+                  index:'tyfl',
+                  lable:'通用分类',
+                  path:'/setUp/classification/index'
+                }
+              ]
             }
           ]
         }

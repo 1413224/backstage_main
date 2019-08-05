@@ -2,13 +2,12 @@
   <div class="app-wrapper">
     <!-- <sidebar></sidebar> -->
     <menuNav></menuNav>
+    <topNav></topNav>
+
     <div class="app-container container">
-      <topNav></topNav>
       <div class="app">
         <div class="app-inner">
-          <div class="app-init-container">
-            <router-view></router-view>
-          </div>
+          <router-view></router-view>
         </div>
       </div>
 
@@ -36,18 +35,34 @@ export default {
 <style lang="less" scoped>
 .app-container{
   margin-left: 224px;
+  position: absolute;
+  top: 50px;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  // zoom: 1;
 }
 .container{
   background: #f2f2f2;
   padding-bottom: 50px;
   
   .app{
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    width: auto !important;
+    bottom: 0;
+    height: auto;
     .app-inner{
       margin: 10px;
       padding: 15px;
-      min-height: 500px;
+      height: 100%;
       box-shadow: 0;
       background: #fff;
+      .app-init-container{
+        height: 100%;
+      }
     }
   }
 }

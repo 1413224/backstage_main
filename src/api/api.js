@@ -25,6 +25,11 @@ let url = {
     UpdateDisplayOrderById:'control/setting/Area/UpdateDisplayOrderById',//总平台管理端修改地址排序接口
     SmsGetConfig:'control/setting/Sms/GetConfig',//总平台管理端获取短信接口设置信息接口
     SmsSaveConfig:'control/setting/Sms/SaveConfig',//总平台管理端修改短信接口设置信息接口
+    GetCommonCategoryList:'control/setting/CommonCategory/GetList',//总平台管理端获取通用分类列表信息接口[非总后台请勿调用该接口]
+    DelCommonCategoryByIds:'control/setting/CommonCategory/DelByIds',//总平台管理端批量删除通用分类接口
+    AddCommonCategory:'control/setting/CommonCategory/Add',//总平台管理端新增通用分类信息接口
+    EditCommonCategoryById:'control/setting/CommonCategory/EditById',//总平台管理端修改通用分类信息接口
+    ChangeCommonCategoryStatusByIds:'control/setting/CommonCategory/ChangeStatusByIds',//总平台管理端批量修改通用分类可用状态接口
   }
 }
 

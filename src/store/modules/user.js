@@ -1,6 +1,6 @@
 const user = {
     state:{
-
+        userstate:'efew'
     },
     mutations:{
 
