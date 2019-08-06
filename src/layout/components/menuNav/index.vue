@@ -136,6 +136,28 @@ export default {
               ]
             }
           ]
+        },
+        {
+          name:'后台工厂',
+          icon:'clipboard',
+          children:[
+            {
+              id:10,
+              type:'item',
+              index:'fenlei',
+              lable:'分类',
+              path:'/factory'
+              // children:[
+              //   {
+              //     id:11,
+              //     type:'item',
+              //     index:'tyfl',
+              //     lable:'通用分类',
+              //     path:'/setUp/classification/index'
+              //   }
+              // ]
+            }
+          ]
         }
       ],
       subMenuData:[

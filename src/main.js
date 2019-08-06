@@ -10,6 +10,7 @@ import store from './store/index'//引入store
 import url from './api/api'
 import MD5 from 'js-md5'
 import utils from './utils/index'
+import './utils/fillter'
 
 import './style/reset.css'
 import './style/global.less'

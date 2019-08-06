@@ -7,14 +7,16 @@ export default {
     _this.idxArray[contentIndex].idx = index //控制选中样式
     _this.idxArray[contentIndex+1].disable = false //重置下一级的拖动状态
     
-    _this.getList(item)
+    _this.getList(contentIndex+1,item)//item必传
   },
-  getList(item){
+  getList(contentIndex,item,update){
     let _this = this 
+    _this.loadingArray[contentIndex].loading = true
     let params = {
       token:_this.$utils.getToken(),
       type:1,
-      status:-1
+      status:-1,
+      isNoLoading:true
     }
     if(item){
       params.parent_id = item.id
@@ -24,10 +26,15 @@ export default {
     }).then((res)=>{
       if(res.data.ret==200){
         let data = res.data.data
+        _this.loadingArray[contentIndex].loading = false
         if(!item){
-          _this.dimenArray.push(data.list)
+          if(update){//修改数据，非初始化
+            _this.dimenArray[contentIndex] = data.list
+          }else{
+            _this.dimenArray.push(data.list)
+          }
         }else{
-          _this.dimenArray[item.level] = data.list
+          _this.dimenArray[Number(item.level)] = data.list
           _this.$forceUpdate()
           if(Number(_this.dimenArray.length) > (Number(item.level)+1)){//只显示下一级
             _this.dimenArray.pop()
@@ -43,26 +50,21 @@ export default {
     if(evt.item.classList.length == 2){
       _this.idxArray[contentIndex].idx = evt.newIndex
     }
-    // console.log(_this.dimenArray[contentIndex])
-    // console.log(contentIndex)
-    // console.log(evt)
 
   },
   completeSort(contentIndex){
     let _this = this
-    // console.log(_this.dimenArray[contentIndex])
     let ids = []
     _this.dimenArray[contentIndex].map((item)=>{
-      // console.log(item)
       ids.push(item.id)
     })
     let params = {
       token:_this.$utils.getToken(),
-      status:1,
+      type:1,
       ids:ids.toString()
     }
-    return
-    _this.$http.get(_this.url.control.ChangeCommonCategoryStatusByIds,{
+    
+    _this.$http.get(_this.url.control.UpdateCommonCategoryDisplayOrderByIds,{
       params
     }).then((res)=>{
       if(res.data.ret==200){
@@ -74,21 +76,9 @@ export default {
       }
     })
   },
-  delCategory(id){
-    let _this = this
-    _this.$http.get(_this.url.control.DelCommonCategoryByIds,{
-      params:{
-        token:_this.$utils.getToken(),
-        ids:id
-      }
-    }).then((res)=>{
-      if(res.data.ret==200){
-        _this.$message('删除成功')
-      }
-    })
-  },
   addCategory(contentIndex){//contentIndex -1 
     let _this = this
+    _this.addContentIndex = contentIndex + 1
     _this.dialogText = '新增分类'
     _this.editId = ''//重置编辑id
     _this.categoryForm.display_order = ''
@@ -121,7 +111,7 @@ export default {
     _this.$refs[formName].resetFields()
     _this.dialogVisible = false
   },
-  submitForm(formName){
+  submitForm(formName,update){
     let _this = this
     this.$refs[formName].validate((valid)=>{
       if(!valid){
@@ -153,8 +143,19 @@ export default {
             type: 'success',
             message:'添加成功'
           })
-          _this.editId = ''
+          if(_this.editId){//修改
+            _this.getList(_this.addContentIndex,{id:_this.parentId,level:_this.addContentIndex})
+            _this.editId = ''
+          }else{//新增
+            if(_this.addContentIndex==0){//新增第一级
+              _this.getList(_this.addContentIndex,null,update)
+            }
+            else{
+              _this.getList(_this.addContentIndex,{id:_this.parentId,level:_this.addContentIndex})
+            }
+          }
           _this.dialogVisible = false
+          
         }
       })
     })
@@ -173,18 +174,22 @@ export default {
     _this.categoryForm.code = item.code
     _this.categoryForm.thumb = item.thumb
     _this.categoryForm.description = item.description
+
+    _this.addContentIndex = contentIndex+1//编辑所用index
     _this.dialogVisible = true
     this.getParentId(contentIndex)
 
   },
-  delCategory(id){
+  delCategory(id,item,contentIndex){
     let _this = this
-    
+    _this.getParentId(contentIndex-1)
     _this.$confirm('此操作将删除该分类, 是否继续?','提示',{
       confirmButtonText: '确定',
       cancelButtonText: '取消',
       type: 'warning'
     }).then(()=>{
+      _this.loadingArray[contentIndex].loading = true
+
       _this.$http.get(_this.url.control.DelCommonCategoryByIds,{
         params:{
           token:_this.$utils.getToken(),
@@ -192,6 +197,12 @@ export default {
         }
       }).then((res)=>{
         if(res.data.ret==200){
+          _this.loadingArray[contentIndex].loading = false
+          if(contentIndex==0){
+            _this.getList()
+          }else{
+            _this.getList(contentIndex,{id:_this.parentId,level:contentIndex})
+          }
           _this.$message({
             type: 'success',
             message: '删除成功'

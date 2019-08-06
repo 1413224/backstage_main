@@ -3,10 +3,9 @@
     <div 
       class="category" 
       v-for="(contentItem,contentIndex) in dimenArray" 
-      :key="contentIndex">
+      :key="contentIndex"
+      v-loading="loadingArray[contentIndex].loading">
       <ul class="category-ul" :ref="'category'+contentIndex">
-                  <!-- v-model="categoryList" -->
-                  <!-- @end="onEnd" -->
         <draggable 
           v-model="dimenArray[contentIndex]"
           @end="onEnd($event,contentIndex)">
@@ -19,7 +18,7 @@
 
             <span class="txt" :class="idxArray[contentIndex].disable ? 'disable' : ''">{{item.name}}</span>
 
-            <div class="del" @click.stop="delCategory(item.id)">
+            <div class="del" @click.stop="delCategory(item.id,item,contentIndex)">
               <svg-icon className="icon-del" icon-class="del" color="#B2AEBC"/>
             </div>
             <div class="edit" @click.stop="editCategory(item,contentIndex-1)">
@@ -76,7 +75,7 @@
       </el-form>
       <span slot="footer" class="dialog-footer">
         <el-button @click="closeForm('categoryForm')">取 消</el-button>
-        <el-button type="primary" @click="submitForm('categoryForm')">确 定</el-button>
+        <el-button type="primary" @click="submitForm('categoryForm','updata')">确 定</el-button>
       </span>
     </el-dialog>
 
@@ -99,10 +98,9 @@ export default {
     return {
       parentId:null,//用于新增分类
       editId:null,//用于编辑分类
-      categoryList:[
-        {text:'分类1'},
-        {text:'分类2'},
-      ],
+      addContentIndex:null,//用于新增刷新数据时候的index
+      currentItem:null,//选中的item，不区分
+      level:null,
       dialogText:'新增分类',
       dialogVisible:false,
       dimenArray:[],
@@ -111,6 +109,14 @@ export default {
         {idx:0,disable:false},
         {idx:0,disable:false},
         {idx:0,disable:false},
+        {idx:0,disable:false},
+      ],
+      loadingArray:[
+        {loading:false},
+        {loading:false},
+        {loading:false},
+        {loading:false},
+        {loading:false},
       ],
       categoryForm:{
         parent_id:'',//所属上级分类
@@ -134,7 +140,7 @@ export default {
   },
   mounted(){
     this.$nextTick(()=>{
-      this.getList()
+      this.getList(0)
     })
   },
   computed:{

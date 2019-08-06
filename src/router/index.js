@@ -80,6 +80,10 @@ export default new Router({
             parentsLabel:'设置',
             title:'通用分类'
           }
+        },
+        {
+          path:'/factory',
+          component:() => import('@/views/factory')
         }
       ]
     },

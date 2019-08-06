@@ -13,6 +13,7 @@ let url = {
     ChangeMobile:'common/role/Account/ChangeMobile',//后台端修改手机号接口
     ChangePasswordByCode:'common/role/Account/ChangePasswordByCode',//后台端根据验证码修改密码接口
     GetValidList:'common/Area/GetValidList',//获取地址列表信息接口
+    GetMultilevelList:'common/Area/GetMultilevelList',//根据当前的area_ids获取多级地址列表信息接口，仅显示有效的
   },
   control:{
     AddAres:'control/setting/Area/Add',//总平台管理端新增地址信息接口
@@ -29,7 +30,7 @@ let url = {
     DelCommonCategoryByIds:'control/setting/CommonCategory/DelByIds',//总平台管理端批量删除通用分类接口
     AddCommonCategory:'control/setting/CommonCategory/Add',//总平台管理端新增通用分类信息接口
     EditCommonCategoryById:'control/setting/CommonCategory/EditById',//总平台管理端修改通用分类信息接口
-    ChangeCommonCategoryStatusByIds:'control/setting/CommonCategory/ChangeStatusByIds',//总平台管理端批量修改通用分类可用状态接口
+    UpdateCommonCategoryDisplayOrderByIds:'control/setting/CommonCategory/UpdateDisplayOrderByIds',//总平台管理端统一修改所有通用分类排序接口
   }
 }
 

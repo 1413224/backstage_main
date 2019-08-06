@@ -10,8 +10,11 @@ axios.defaults.retryDelay = 1000 //请求间隙
 axios.defaults.baseURL = '//api.9yetech.com/apigw/' // 演示环境
 
 axios.interceptors.request.use(config => {
-
-	Loading.service({text:'加载中'})
+	if(config.params){
+		if(!config.params.isNoLoading){
+			// Loading.service({text:'加载中'})
+		}
+	}
 
 	let _token = Vue.prototype.$utils.getToken(),
 			type = 'application/json;charset=utf-8';
@@ -30,7 +33,7 @@ axios.interceptors.request.use(config => {
 
 
 axios.interceptors.response.use(res => {
-	Loading.service().close()
+	// Loading.service().close()
 	if(res.data.ret!==200){
 		Message(res.data.msg)
 		// console.log(router)
@@ -45,7 +48,7 @@ axios.interceptors.response.use(res => {
 	}
 	return res
 },error => {
-    Loading.service().close()
+    // Loading.service().close()
 
     return Promise.reject(error)
 })
