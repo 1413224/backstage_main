@@ -20,7 +20,8 @@
     </Pagination>
     <ySelect v-model="selData.modelVal" :options="selData.optionData"></ySelect>
     
-    <yArea></yArea>
+    <yArea v-model="area"></yArea>
+    <el-button @click="aa">测试关联</el-button>
   </div>
 </template>
 <script>
@@ -66,7 +67,8 @@ export default {
           {value:1,label:'黄金糕'},
           {value:2,label:'双皮奶'},
         ]
-      }
+      },
+      area:[]
 
     }
   },
@@ -120,8 +122,8 @@ export default {
     dropOnEnd(ids){
       console.log(ids)
     },
-    aa(val){
-      console.log(val)
+    aa(){
+      console.log(this.area)
     }
   },
   components:{
