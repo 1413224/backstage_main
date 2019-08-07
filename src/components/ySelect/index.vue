@@ -1,5 +1,5 @@
 <template>
-  <el-select v-model="yvalue" placeholder="请选择" @change="selChange">
+  <el-select v-model="yvalue" :placeholder="placeholder" @change="selChange">
     <el-option 
       v-for="(item,index) in options"
       :key="index"
@@ -18,6 +18,10 @@ export default {
     options:{
       type:Array,
       default:[]
+    },
+    placeholder:{
+      type:String,
+      default:'请选择'
     }
   },
   data(){
