@@ -43,6 +43,13 @@
 </template>
 <script>
 // import MyTable from '@/components/table/myTable'
+const MyTable = () => ({
+  component:import("@/components/table/myTable"),
+  // loading:dateTimePicker,// loading时渲染
+  // error:dateTimePicker, // 出错时渲染
+  // delay: 2000, // 当前组件等待时间
+  // timeout: 3000 //   最长等待时间
+})
 import Pagination from '@/components/pagination/pagination'
 import ySelect from '@/components/ySelect/index'
 import yArea from '@/components/cascader/yArea'
@@ -170,7 +177,8 @@ export default {
     }
   },
   components:{
-    MyTable:() => import('@/components/table/myTable'),
+    // MyTable:() => import('@/components/table/myTable'),
+    MyTable,
     Pagination,
     ySelect,
     yArea,
