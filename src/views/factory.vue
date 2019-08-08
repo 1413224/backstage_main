@@ -5,7 +5,7 @@
 
 
 
-      <MyTable 
+      <MyTable
         :tableData="tableData"
         :columns="columns"
         :rowDrop="rowDrop"
@@ -42,7 +42,7 @@
   </div>
 </template>
 <script>
-import MyTable from '@/components/table/myTable'
+// import MyTable from '@/components/table/myTable'
 import Pagination from '@/components/pagination/pagination'
 import ySelect from '@/components/ySelect/index'
 import yArea from '@/components/cascader/yArea'
@@ -170,7 +170,7 @@ export default {
     }
   },
   components:{
-    MyTable,
+    MyTable:() => import('@/components/table/myTable'),
     Pagination,
     ySelect,
     yArea,
