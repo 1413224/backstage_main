@@ -12,7 +12,7 @@
 export default {
   name:'y-select',
   props:{
-    value:{//接受外部v-model传入的值
+    value:{
       type:[String,Number]
     },
     options:{

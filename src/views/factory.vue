@@ -33,6 +33,10 @@
       <el-button @click="aa">测试关联</el-button>
       <yRadioGroup v-model="radioData.modelVal" :options="radioData.optionData"></yRadioGroup>
       <yCheckBoxGroup v-model="checkBoxData.modelVal" :options="checkBoxData.optionData"></yCheckBoxGroup>
+      <datePicker v-model="date" optionsBtn></datePicker>
+      <linkageDatePicker v-model="linkDate"></linkageDatePicker>
+      <dateTimePicker v-model="datetime"></dateTimePicker>
+      <linkageDateTimePicker v-model="datetimerange" optionsBtn></linkageDateTimePicker>
 
     </div>
   </div>
@@ -44,6 +48,10 @@ import ySelect from '@/components/ySelect/index'
 import yArea from '@/components/cascader/yArea'
 import yRadioGroup from '@/components/yRadioGroup/yRadioGroup'
 import yCheckBoxGroup from '@/components/yCheckBoxGroup/yCheckBoxGroup'
+import datePicker from '@/components/datePicker/datePicker'
+import linkageDatePicker from '@/components/datePicker/linkageDatePicker'
+import dateTimePicker from '@/components/dateTimePicker/dateTimePicker'
+import linkageDateTimePicker from '@/components/dateTimePicker/linkageDateTimePicker'
 export default {
   data(){
     return {
@@ -99,7 +107,11 @@ export default {
           {value:3,label:'黄金糕'},
           {value:4,label:'双皮奶'},
         ]
-      }
+      },
+      date:this.$utils.getTimestamp(),
+      linkDate:[1565193600000,1565280000000 ],
+      datetime:'',
+      datetimerange:[1565719322000,1565884800000 ]
 
     }
   },
@@ -154,7 +166,7 @@ export default {
       console.log(ids)
     },
     aa(){
-      console.log(this.checkBoxData.modelVal)
+      console.log(this.date)
     }
   },
   components:{
@@ -163,7 +175,11 @@ export default {
     ySelect,
     yArea,
     yRadioGroup,
-    yCheckBoxGroup
+    yCheckBoxGroup,
+    datePicker,
+    linkageDatePicker,
+    dateTimePicker,
+    linkageDateTimePicker
   }
 }
 </script>

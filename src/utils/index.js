@@ -15,5 +15,8 @@ export default {
       let info = JSON.parse(localStorage.getItem("info"))
       return info.token
     }
+  },
+  getTimestamp(){
+    return new Date().getTime()
   }
 }
