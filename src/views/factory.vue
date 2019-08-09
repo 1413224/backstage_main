@@ -3,6 +3,27 @@
     <div class="topTitle">标题</div>
     <div class="bg-gray">
 
+      <el-form :model="ruleForm" :rules="rules" ref="ruleForm" label-width="100px">
+        <div v-for="(item,index) in dataList.head" :key="index">
+          <el-row>
+            <el-col :span="item.width">
+              <el-form-item 
+                v-if="item.type=='input'" 
+                :label="item.name" 
+                :prop="item.field">
+                <!-- <el-input 
+                  :placeholder="item.placeholder" 
+                  @input="aa(item.field,$event)"
+                  :value="bb(item.field)"> -->
+                  <el-input 
+                  :placeholder="item.placeholder" 
+                  v-model="ruleForm[item.field]">
+                </el-input>
+              </el-form-item>
+            </el-col>
+          </el-row>
+        </div>
+      </el-form>
 
 
       <MyTable
@@ -59,9 +80,21 @@ import datePicker from '@/components/datePicker/datePicker'
 import linkageDatePicker from '@/components/datePicker/linkageDatePicker'
 import dateTimePicker from '@/components/dateTimePicker/dateTimePicker'
 import linkageDateTimePicker from '@/components/dateTimePicker/linkageDateTimePicker'
+
+import dataList from '@/config/data.js'
 export default {
   data(){
+    // let validatorPhone = (rule,value,callback)=>{
+    //   if(_this.$utils.testPhone(value)){
+    //     callback(new Error('手机号不正确'))
+    //   }else{
+    //     callback()
+    //   }
+    // }
     return {
+      ceshi:{
+        a : ''
+      },
       rowDrop:true,
       totalNums:0,
       pageSize:10,
@@ -118,14 +151,48 @@ export default {
       date:this.$utils.getTimestamp(),
       linkDate:[1565193600000,1565280000000 ],
       datetime:'',
-      datetimerange:[1565719322000,1565884800000 ]
+      datetimerange:[1565719322000,1565884800000 ],
 
+      ruleForm:{
+         
+      },
+      rules:{
+        
+      },
+      dataList:dataList,
+      dataAll:{}
     }
   },
   created(){
+    let _this = this
     this.getList()
+
+    _this.dataList.head.map((item,index)=>{
+      _this.dataAll[item.field] = item.defaultValue
+
+      _this.rules[item.field] = [
+        {required:item.require,message:item.message,trigger: 'blur'}
+      ]
+    })
+    
+    _this.ruleForm = JSON.parse(JSON.stringify(_this.dataAll))
+
+
+    //自定义验证
+      for(let i in _this.rules){
+      if(i=="keyword"){
+        _this.rules[i].push({validator:function(rule, value, callback){
+          if(_this.$utils.testPhone(value)){
+            callback(new Error('手机号不正确'))
+          }else{
+            callback()
+          }
+        }})
+      }
+    }
   },
   methods:{
+    
     getList(){
       let _this = this
       _this.$http.get('http://api.9yetech.com/apigw/plugin/projectManage/Issue/GetList',{
@@ -172,8 +239,12 @@ export default {
     dropOnEnd(ids){
       console.log(ids)
     },
-    aa(){
-      console.log(this.date)
+    aa(e,$event){
+      // console.log(e)
+      // this.ruleForm[e] = $event
+      // this.ceshi.a = $event
+      // return 'ruleForm.'+ e
+      console.log(this.ruleForm)
     }
   },
   components:{
