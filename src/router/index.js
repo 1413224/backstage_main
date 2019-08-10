@@ -84,6 +84,10 @@ export default new Router({
         {
           path:'/factory',
           component:() => import('@/views/factory')
+        },
+        {
+          path:'/commonlist',
+          component:() => import('@/views/commonlist/commonlist')
         }
       ]
     },

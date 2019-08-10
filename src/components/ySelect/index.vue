@@ -52,5 +52,7 @@ export default {
 }
 </script>
 <style lang="less" scoped>
-
+.el-select{
+  // width: 100%;
+}
 </style>

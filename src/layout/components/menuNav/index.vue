@@ -156,6 +156,13 @@ export default {
               //     path:'/setUp/classification/index'
               //   }
               // ]
+            },
+            {
+              id:11,
+              type:'item',
+              index:'moban',
+              lable:'模板',
+              path:'/commonlist'
             }
           ]
         }

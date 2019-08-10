@@ -62,6 +62,9 @@ export default {
     }
   },
   watch:{
+    value(val){
+      this.date = val
+    },
     date(val,oldVal){
       if(val!=oldVal){
         this.$emit('input',val)

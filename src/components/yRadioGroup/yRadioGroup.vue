@@ -31,6 +31,9 @@ export default {
     }
   },
   watch:{
+    value(val){
+      this.radio = val
+    },
     radio(val,oldVal){
       if(val!=oldVal){
         this.$emit('input',val)

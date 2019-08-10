@@ -4,25 +4,29 @@
     <div class="bg-gray">
 
       <el-form :model="ruleForm" :rules="rules" ref="ruleForm" label-width="100px">
-        <div v-for="(item,index) in dataList.head" :key="index">
-          <el-row>
+        <el-row>
+          <div v-for="(item,index) in dataList.head" :key="index">
             <el-col :span="item.width">
               <el-form-item 
                 v-if="item.type=='input'" 
                 :label="item.name" 
                 :prop="item.field">
-                <!-- <el-input 
-                  :placeholder="item.placeholder" 
-                  @input="aa(item.field,$event)"
-                  :value="bb(item.field)"> -->
                   <el-input 
                   :placeholder="item.placeholder" 
                   v-model="ruleForm[item.field]">
                 </el-input>
               </el-form-item>
             </el-col>
-          </el-row>
-        </div>
+            <el-col :span="item.width">
+              <ySelect 
+                v-if="item.type=='select'"
+                v-model="ruleForm[item.field]" 
+                :options="item.value"
+                placeholder="自定义提示">
+              </ySelect>
+            </el-col>
+          </div>
+        </el-row>
       </el-form>
 
 
@@ -82,15 +86,9 @@ import dateTimePicker from '@/components/dateTimePicker/dateTimePicker'
 import linkageDateTimePicker from '@/components/dateTimePicker/linkageDateTimePicker'
 
 import dataList from '@/config/data.js'
+import {getValid} from '@/utils/valid.js'
 export default {
   data(){
-    // let validatorPhone = (rule,value,callback)=>{
-    //   if(_this.$utils.testPhone(value)){
-    //     callback(new Error('手机号不正确'))
-    //   }else{
-    //     callback()
-    //   }
-    // }
     return {
       ceshi:{
         a : ''
@@ -169,7 +167,6 @@ export default {
 
     _this.dataList.head.map((item,index)=>{
       _this.dataAll[item.field] = item.defaultValue
-
       _this.rules[item.field] = [
         {required:item.require,message:item.message,trigger: 'blur'}
       ]
@@ -178,18 +175,19 @@ export default {
     _this.ruleForm = JSON.parse(JSON.stringify(_this.dataAll))
 
 
-    //自定义验证
-      for(let i in _this.rules){
-      if(i=="keyword"){
-        _this.rules[i].push({validator:function(rule, value, callback){
-          if(_this.$utils.testPhone(value)){
-            callback(new Error('手机号不正确'))
-          }else{
-            callback()
-          }
-        }})
-      }
-    }
+    //自定义公共验证
+    getValid(_this.rules)
+    //   for(let i in _this.rules){
+    //   if(i=="keyword"){
+    //     _this.rules[i].push({validator:function(rule, value, callback){
+    //       if(_this.$utils.testPhone(value)){
+    //         callback(new Error('手机号不正确'))
+    //       }else{
+    //         callback()
+    //       }
+    //     }})
+    //   }
+    // }
   },
   methods:{
     

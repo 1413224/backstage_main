@@ -30,6 +30,9 @@ export default {
 
   },
   watch:{
+    value(val){
+      this.checkList = val
+    },
     checkList(val,oldVal){
       if(val!=oldVal){
         this.$emit('input',val)

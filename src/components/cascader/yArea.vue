@@ -10,18 +10,18 @@
 import { resolve } from 'q';
 export default {
   name:'yArea',
-  model:{
-    prop:'areaArr',
-    event:'getAreaArr'
-  },
+  // model:{
+  //   prop:'areaArr',
+  //   event:'getAreaArr'
+  // },
   props:{
-    
+    value:[Array,String]
   },
   data(){
     let _this = this
     return {
       areaItem:[],
-      areaArr:[],
+      areaArr:_this.value,
       areaProps:{
         checkStrictly:true,
         lazy: true,
@@ -44,9 +44,12 @@ export default {
   mounted(){
   },
   watch:{
+    value(val){
+      this.areaArr = val
+    },
     areaArr(val,oldval){
       if(val!=oldval){
-        this.$emit('getAreaArr',val)
+        this.$emit('input',val)
       }
     }
   },
