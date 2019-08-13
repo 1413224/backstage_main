@@ -6,7 +6,8 @@
       placeholder="选择日期时间"
       value-format="timestamp"
       :align="align"
-      :picker-options="pickerOptions">
+      :picker-options="pickerOptions"
+      size="small">
     </el-date-picker>
   </div>
 </template>
@@ -67,5 +68,7 @@ export default {
 }
 </script>
 <style lang="less" scoped>
-
+.el-date-editor.el-input{
+  width: 100%;
+}
 </style>

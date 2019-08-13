@@ -1,71 +1,154 @@
 <template>
   <div class="search">
     <el-form :model="ruleForm" :rules="rules" ref="ruleForm" label-width="110px">
-      <el-row>
-        <div v-for="(item,index) in dataList.head" :key="index">
-          <el-col :span="item.width">
+
+        <div 
+          v-for="(item,index) in dataList.head" 
+          :key="index"
+          class="item clearfix"
+          :style="{float:item.float}">
             <el-form-item 
-              v-if="item.type=='input'" 
+              v-if="item.type=='input' || item.type=='textarea'" 
               :label="item.name" 
               :prop="item.field">
-                <el-input 
-                :placeholder="item.placeholder" 
-                v-model="ruleForm[item.field]">
-              </el-input>
+              <yInput
+                v-model="ruleForm[item.field]"
+                :style="{width:item.minWidth+'px'}"
+                :configs="item">
+              </yInput>
             </el-form-item>
-          </el-col>
-          <el-col :span="item.width">
+            <!-- <br/> -->
+
             <el-form-item
               v-if="item.type=='select'"
               :label="item.name"
               :prop="item.field">
               <ySelect
                 v-model="ruleForm[item.field]"
-                :options="item.value"
-                :placeholder="item.placeholder ? item.placeholder : '自定义提示'">
+                :options="item.options"
+                :placeholder="item.placeholder ? item.placeholder : '自定义提示'"
+                @change="bb"
+                :style="{width:item.minWidth+'px'}"
+                :configs="item">
               </ySelect>
             </el-form-item>
-          </el-col>
-          <el-col :span="item.width">
+
             <el-form-item
               v-if="item.type=='radio'"
               :label="item.name"
               :prop="item.field">
               <yRadioGroup 
                 v-model="ruleForm[item.field]"
-                :options="item.value"></yRadioGroup>
+                :options="item.options"
+                :configs="item"
+                :style="{width:item.minWidth+'px'}"></yRadioGroup>
             </el-form-item>
-          </el-col>
-          <el-col :span="item.width">
+
+            <el-form-item
+              v-if="item.type=='checkbox'"
+              :label="item.name"
+              :prop="item.field">
+              <yCheckBoxGroup 
+                v-model="ruleForm[item.field]"
+                :options="item.options"
+                :configs="item">
+              </yCheckBoxGroup>
+            </el-form-item>
+
+            <el-form-item
+              v-if="item.type=='inputNumber'"
+              :label="item.name"
+              :prop="item.field">
+              <yInputNumber 
+                v-model="ruleForm[item.field]"
+                :configs="item">
+              </yInputNumber>
+            </el-form-item>
+
+            <el-form-item 
+              v-if="item.type=='switch'"
+              :label="item.name">
+              <ySwitch 
+                v-model="ruleForm[item.field]"
+                :configs="item"></ySwitch>
+            </el-form-item>
+
             <el-form-item
               v-if="item.type=='diyAreaList'"
               :label="item.name"
               :prop="item.field">
-              <yArea v-model="ruleForm[item.field]"></yArea>
+              <yArea v-model="ruleForm[item.field]" :style="{width:item.minWidth+'px'}"></yArea>
             </el-form-item>
-          </el-col>
-          <el-col :span="item.width">
+
             <el-form-item
-              v-if="item.type=='diyDate'"
+              v-if="item.type=='datePicker'"
               :label="item.name"
               :prop="item.field">
-              <datePicker v-model="ruleForm[item.field]"></datePicker>
+              <datePicker 
+                v-model="ruleForm[item.field]" 
+                :style="{width:item.minWidth+'px'}"
+                :configs="item"></datePicker>
             </el-form-item>
-          </el-col>
-          <el-col :span="item.width">
+
             <el-form-item
+              v-if="item.type=='datePickerRange'"
+              :label="item.name"
+              :prop="item.field">
+              <linkageDatePicker
+                v-model="ruleForm[item.field]" 
+                :style="{width:item.minWidth+'px'}"
+                :configs="item"></linkageDatePicker>
+            </el-form-item>
+
+            <!-- <el-form-item
               v-if="item.type=='diyDateTime'"
               :label="item.name"
               :prop="item.field">
-              <dateTimePicker v-model="ruleForm[item.field]"></dateTimePicker>
+              <dateTimePicker v-model="ruleForm[item.field]" :style="{width:item.minWidth+'px'}"></dateTimePicker>
+            </el-form-item> -->
+
+            <el-form-item
+              v-if="item.type=='timePicker'"
+              :label="item.name"
+              :prop="item.field">
+              <timePicker 
+                v-model="ruleForm[item.field]"
+                :configs="item">
+              </timePicker>
             </el-form-item>
-          </el-col>
+            
+
+            <el-form-item
+              v-if="item.type=='timePickerRange'"
+              :label="item.name"
+              :prop="item.field">
+              <linkageTimePicker
+                v-model="ruleForm[item.field]"
+                :configs="item"></linkageTimePicker>
+            </el-form-item>
+
+            <el-form-item
+              v-if="item.type=='ueditor'"
+              :label="item.name"
+              :prop="item.field">
+              <yUeditor  ref="editor" v-model="ruleForm[item.field]"></yUeditor>
+            </el-form-item>
+
+            <yText 
+              v-if="item.type=='text'"
+              :configs="item">
+            </yText>
+
         </div>
-      </el-row>
-      <el-button type="primary" size="small">搜索</el-button>
-      <el-button size="small" @click="resetForm('ruleForm')">清空</el-button>
+        <el-button @click="aa">测试</el-button>
+        <themePicker></themePicker>
+        <ySkin></ySkin>
+      <div class="btnwrap">
+        <el-button type="primary" size="small" @click="searchSubmit('ruleForm')">搜索</el-button>
+        <el-button size="small" @click="resetForm('ruleForm')">清空</el-button>
+      </div>
     </el-form>
-    <el-button @click="aa">按钮</el-button>
+    <!-- <el-button @click="aa">按钮</el-button> -->
   </div>
 </template>
 <script>
@@ -86,9 +169,40 @@ const yArea = () => ({
 const datePicker = () => ({
   component:import("@/components/datePicker/datePicker")
 })
+const linkageDatePicker = () => ({
+  component:import("@/components/datePicker/linkageDatePicker")
+})
 const dateTimePicker = () => ({
   component:import("@/components/dateTimePicker/dateTimePicker")
 })
+const yInput = () => ({
+  component:import("@/components/yInput/yInput")
+})
+const yText = () => ({
+  component:import("@/components/yText/yText")
+})
+const yCheckBoxGroup = () => ({
+  component:import("@/components/yCheckBoxGroup/yCheckBoxGroup")
+})
+const yInputNumber = () => ({
+  component:import("@/components/yInputNumber/yInputNumber")
+})
+const ySwitch = () => ({
+  component:import("@/components/ySwitch/ySwitch")
+})
+const timePicker = () => ({
+  component:import("@/components/timePicker/timePicker")
+})
+const linkageTimePicker = () => ({
+  component:import("@/components/timePicker/linkageTimePicker")
+})
+const yUeditor = () =>({
+  component:import("@/components/yUeditor/yUeditor")
+})
+// import yUeditor from '@/components/yUeditor/yUeditor'
+import themePicker from '@/components/ThemePicker/ThemePicker'
+import ySkin from '@/components/ySkin/index' 
+import { getValid } from '@/utils/valid'
 import actions from './actions/search'
 export default {
   name:'search',
@@ -106,17 +220,21 @@ export default {
   created(){
     let _this = this
     _this.dataList.head.map((item,index)=>{
-      // _this.dataAll[item.field] = item.defaultValue
       _this.$set(_this.ruleForm,item.field,item.defaultValue)
-      _this.rules[item.field] = [
-        {required:item.require,message:item.message,trigger: 'blur'}
-      ]
+      if(item.require==true){
+        _this.rules[item.field] = [
+          {required:true,message:item.message,trigger: 'blur'}
+        ]
+      }
     })
-    // _this.ruleForm = JSON.parse(JSON.stringify(_this.dataAll))
+    getValid(_this.rules)
   },
   methods:{
     aa(){
       console.log(this.ruleForm)
+    },
+    bb(val){
+      console.log(val)
     },
     ...actions
   },
@@ -125,7 +243,18 @@ export default {
     yRadioGroup,
     yArea,
     datePicker,
-    dateTimePicker
+    dateTimePicker,
+    yInput,
+    yText,
+    yCheckBoxGroup,
+    yInputNumber,
+    ySwitch,
+    timePicker,
+    linkageTimePicker,
+    linkageDatePicker,
+    yUeditor,
+    themePicker,
+    ySkin
   }
 }
 </script>
@@ -134,7 +263,16 @@ export default {
   padding: 9px 20px;
 }
 .search /deep/ .el-form-item__content{
-  width: 60%;
+  // width: 60%;
+}
+.search{
+  .btnwrap{
+    padding-left: 20px;
+    margin-top: 20px;
+  }
+  .item{
+    display: inline-block;
+  }
 }
 </style>
 

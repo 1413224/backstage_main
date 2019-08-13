@@ -1,5 +1,10 @@
 <template>
-  <el-select v-model="yvalue" :placeholder="placeholder" @change="selChange">
+  <el-select 
+    v-model="yvalue" 
+    :placeholder="placeholder" 
+    size="small"
+    :clearable="yClearable"
+    :filterable="yFilterable ">
     <el-option 
       v-for="(item,index) in options"
       :key="index"
@@ -22,7 +27,8 @@ export default {
     placeholder:{
       type:String,
       default:'请选择'
-    }
+    },
+    configs:[Object]
   },
   data(){
     return {
@@ -30,14 +36,16 @@ export default {
     }
   },
   created(){
-
+  },
+  computed:{
+    yClearable(){
+      return this.configs.clearable
+    },
+    yFilterable(){
+      return this.configs.filterable
+    }
   },
   methods:{
-    // <input type="text" @input="message=$event.target.value" :value="message">
-    // <input type="text" v-model="message">
-    selChange(){
-      this.$emit('change',this.yvalue)
-    }
   },
   watch:{
     value(val){

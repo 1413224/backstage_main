@@ -3,7 +3,8 @@
     <el-cascader
       v-model="areaArr"
       :props="areaProps"
-      clearable></el-cascader>
+      clearable
+      size="small"></el-cascader>
   </div>
 </template>
 <script>
@@ -83,3 +84,8 @@ export default {
   }
 }
 </script>
+<style lang="less" scoped>
+.el-cascader{
+  width: 100%;
+}
+</style>

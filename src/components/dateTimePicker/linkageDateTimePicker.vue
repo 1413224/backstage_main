@@ -8,7 +8,8 @@
       end-placeholder="结束日期"
       :picker-options="pickerOptions"
       :align="align"
-      value-format="timestamp">
+      value-format="timestamp"
+      size="small">
     </el-date-picker>
   </div>
 </template>
@@ -74,5 +75,7 @@ export default {
 }
 </script>
 <style lang="less" scoped>
-
+.el-range-editor--small.el-input__inner{
+  width: 100%;
+}
 </style>

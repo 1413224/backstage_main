@@ -2,20 +2,26 @@
   <div>
     <el-date-picker
       v-model="date"
-      type="date"
-      placeholder="选择日期"
-      value-format="timestamp"
+      :type="showType"
+      :placeholder="yPlaceholder"
+      :format="showType == 'week' ? 'yyyy-WW':''"
+      :value-format="format"
       :picker-options="pickerOptions"
-      :align="align">
+      :align="align"
+      size="small">
     </el-date-picker>
+    <!-- :format="format" -->
+      <!-- value-format="timestamp" -->
+
   </div>
 </template>
 <script>
 export default {
   name:'datePicker',
   props:{
-    value:[String,Number,Function],
-    optionsBtn:Boolean
+    value:[String,Number,Date,Function,Array,Object],
+    optionsBtn:Boolean,
+    configs:[Object]
   },
   data(){
     return {
@@ -26,7 +32,7 @@ export default {
         //   return time.getTime() > Date.now();
         // }
       },
-      shortcuts:[
+      shortcutsDate:[
         {
           text: '今天',
           onClick(picker){
@@ -53,9 +59,42 @@ export default {
     }
   },
   created(){
-    if(this.optionsBtn){
-      this.pickerOptions.shortcuts = this.shortcuts
+    let shortcuts = this.configs.shortcuts
+    let showType = this.configs.showType
+    if(shortcuts){
+      if(showType=='date'){
+        this.pickerOptions.shortcuts = this.shortcutsDate
+      }
+      // if(showType=='date'){
+
+      // }
+
       this.align = 'right'
+    }
+  },
+  computed:{
+    showType(){
+      return this.configs.showType
+    },
+    yPlaceholder(){
+      return this.configs.placeholder
+    },
+    format(){
+      let showType = this.configs.showType
+      // console.log(showType)
+      switch(showType){
+        // case 'year':
+        //   return 'yyyy'
+        //   break;
+        // case 'month':
+        //   return 'yyyy-MM'
+        //   break;
+        case 'week':
+          return ''
+          break;
+        default:
+          return 'timestamp'
+      }
     }
   },
   watch:{
@@ -70,3 +109,8 @@ export default {
   }
 }
 </script>
+<style lang="less" scoped>
+.el-date-editor.el-input{
+  width: 100%;
+}
+</style>

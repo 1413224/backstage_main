@@ -11,6 +11,7 @@ import url from './api/api'
 import MD5 from 'js-md5'
 import utils from './utils/index'
 import './utils/fillter'
+import { loadSkin } from './skin/index'
 
 import './style/reset.css'
 import './style/global.less'
@@ -26,11 +27,21 @@ Vue.prototype.$utils = utils
 Vue.use(Vuex)
 Vue.use(ElementUI)
 
-
+if(localStorage.getItem('themeValue')){
+  loadSkin.changeTheme(localStorage.getItem('themeValue'))
+}else{
+  loadSkin.changeTheme('blue')
+}
 
 router.beforeEach(async(to, from, next)=>{
-  // next(`/login?redirect=${to.path}`)
   //请求权限路由
+
+  // let hasToken = Vue.prototype.$utils.getToken()
+  // if(!hasToken){
+  //   next(`/login?redirect=${to.path}`)
+  // }
+
+  // store.dispatch('aa')
 
   next({
 
