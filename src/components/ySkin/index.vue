@@ -2,7 +2,7 @@
   <div>
     <el-dropdown @command="handleCommandSkin" trigger="hover" class="eldropdown">
       <span class="el-dropdown-link">
-        下拉菜单<i class="el-icon-arrow-down el-icon--right"></i>
+        系统主题<i class="el-icon-arrow-down el-icon--right"></i>
       </span>
       <el-dropdown-menu slot="dropdown">
         <el-dropdown-item v-for="(item,index) in skins" :key="index" :command="item.name">{{item.label}}</el-dropdown-item>
@@ -27,7 +27,6 @@ export default {
   },
   methods:{
     handleCommandSkin(command){
-      console.log(command)
       loadSkin.changeTheme(command)
     }
   }

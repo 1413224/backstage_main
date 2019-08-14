@@ -31,6 +31,8 @@ let url = {
     AddCommonCategory:'control/setting/CommonCategory/Add',//总平台管理端新增通用分类信息接口
     EditCommonCategoryById:'control/setting/CommonCategory/EditById',//总平台管理端修改通用分类信息接口
     UpdateCommonCategoryDisplayOrderByIds:'control/setting/CommonCategory/UpdateDisplayOrderByIds',//总平台管理端统一修改所有通用分类排序接口
+    
+    GetDiyListPage:'control/temp/DiyPage/GetListPage',//control/temp/DiyPage/GetListPage
   }
 }
 

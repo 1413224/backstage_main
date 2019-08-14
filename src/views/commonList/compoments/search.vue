@@ -3,7 +3,7 @@
     <el-form :model="ruleForm" :rules="rules" ref="ruleForm" label-width="110px">
 
         <div 
-          v-for="(item,index) in dataList.head" 
+          v-for="(item,index) in headerConfigs.basic" 
           :key="index"
           class="item clearfix"
           :style="{float:item.float}">
@@ -141,8 +141,6 @@
 
         </div>
         <el-button @click="aa">测试</el-button>
-        <themePicker></themePicker>
-        <ySkin></ySkin>
       <div class="btnwrap">
         <el-button type="primary" size="small" @click="searchSubmit('ruleForm')">搜索</el-button>
         <el-button size="small" @click="resetForm('ruleForm')">清空</el-button>
@@ -152,7 +150,7 @@
   </div>
 </template>
 <script>
-import dataList from '@/config/data.js'
+// import dataList from '@/config/data.js'
 const ySelect = () => ({
   component:import("@/components/ySelect/index"),
   // loading:dateTimePicker,// loading时渲染
@@ -200,34 +198,42 @@ const yUeditor = () =>({
   component:import("@/components/yUeditor/yUeditor")
 })
 // import yUeditor from '@/components/yUeditor/yUeditor'
-import themePicker from '@/components/ThemePicker/ThemePicker'
-import ySkin from '@/components/ySkin/index' 
+// import themePicker from '@/components/ThemePicker/ThemePicker'
+import { mapState } from 'vuex'
 import { getValid } from '@/utils/valid'
 import actions from './actions/search'
 export default {
   name:'search',
   props:{
-
+    
   },
   data(){
     return {
-      dataList:dataList,
+      // dataList:dataList,
       dataAll:{},
       ruleForm:{},
       rules:{}
     }
   },
-  created(){
-    let _this = this
-    _this.dataList.head.map((item,index)=>{
-      _this.$set(_this.ruleForm,item.field,item.defaultValue)
-      if(item.require==true){
-        _this.rules[item.field] = [
-          {required:true,message:item.message,trigger: 'blur'}
-        ]
-      }
+  computed:{
+    ...mapState({
+      headerConfigs: state => state.diypage.headerData
     })
-    getValid(_this.rules)
+  },
+  created(){
+    console.log(this.headerConfigs)
+    // _this.dataList.head
+    let _this = this
+    _this.headerConfigs.basic.map((item,index)=>{
+      console.log(item)
+      // _this.$set(_this.ruleForm,item.field,item.defaultValue)
+      // if(item.require==true){
+      //   _this.rules[item.field] = [
+      //     {required:true,message:item.message,trigger: 'blur'}
+      //   ]
+      // }
+    })
+    // getValid(_this.rules)
   },
   methods:{
     aa(){
@@ -253,8 +259,8 @@ export default {
     linkageTimePicker,
     linkageDatePicker,
     yUeditor,
-    themePicker,
-    ySkin
+    // themePicker,
+    // ySkin
   }
 }
 </script>

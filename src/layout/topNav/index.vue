@@ -22,15 +22,20 @@
           </li>
         </ul> 
       </li>
+      <li><ySkin></ySkin></li>
     </ul>
   </div>
 </template>
 <script>
+import ySkin from '@/components/ySkin/index'
 export default {
   data(){
     return {
 
     }
+  },
+  components:{
+    ySkin
   },
   methods:{
     logout(){

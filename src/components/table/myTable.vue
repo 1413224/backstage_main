@@ -1,7 +1,14 @@
 <template>
   <div class="table-wrap">
     <el-row :class="rowDrop ? 'move' : ''">
-      <el-table :data="tableData" row-key="id">
+      <el-table 
+        :data="tableData" 
+        row-key="id"
+        @selection-change="handleSelectionChange">
+        <el-table-column
+          type="selection"
+          width="55">
+        </el-table-column>
         <el-table-column
           v-for="(column,index) in columns"
           :prop="column.prop"
@@ -18,7 +25,14 @@
               </span>
             </el-tag>
             <div v-else-if="column.actions">
-              <el-tooltip 
+              <template v-if="column.btnType=='textBtn'">
+                <el-button 
+                  type="text"
+                  v-for="(item,index) in column.actions"
+                  :key="index"
+                  @click="operation(scope.row.id,scope.row,item.operation)">{{item.label}}</el-button>
+              </template>
+              <el-tooltip v-else
                 v-for="(item,index) in column.actions"
                 :key="index"
                 class="item" effect="dark" :content="item.label" placement="top">
@@ -104,6 +118,14 @@ export default {
           _this.$emit('dropOnEnd',ids.toString())
         }
       })
+    },
+    handleSelectionChange(val){
+      // console.log(val)
+      let ids = []
+      val.map((item)=>{
+        ids.push(item.id)
+      })
+      console.log(ids.toString())
     }
     
 

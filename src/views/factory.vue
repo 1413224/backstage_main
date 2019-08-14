@@ -3,7 +3,7 @@
     <div class="topTitle">标题</div>
     <div class="bg-gray">
 
-      <el-form :model="ruleForm" :rules="rules" ref="ruleForm" label-width="100px">
+      <!-- <el-form :model="ruleForm" :rules="rules" ref="ruleForm" label-width="100px">
         <el-row>
           <div v-for="(item,index) in dataList.head" :key="index">
             <el-col :span="item.width">
@@ -27,7 +27,7 @@
             </el-col>
           </div>
         </el-row>
-      </el-form>
+      </el-form> -->
 
 
       <MyTable
@@ -49,19 +49,19 @@
         @sizeChange="sizeChange">
       </Pagination>
 
-      <ySelect 
+      <!-- <ySelect 
         v-model="selData.modelVal" 
         :options="selData.optionData"
-        placeholder="自定义提示"></ySelect>
+        placeholder="自定义提示"></ySelect> -->
       
       <yArea v-model="area"></yArea>
       <el-button @click="aa">测试关联</el-button>
-      <yRadioGroup v-model="radioData.modelVal" :options="radioData.optionData"></yRadioGroup>
+      <!-- <yRadioGroup v-model="radioData.modelVal" :options="radioData.optionData"></yRadioGroup>
       <yCheckBoxGroup v-model="checkBoxData.modelVal" :options="checkBoxData.optionData"></yCheckBoxGroup>
       <datePicker v-model="date" optionsBtn></datePicker>
       <linkageDatePicker v-model="linkDate"></linkageDatePicker>
       <dateTimePicker v-model="datetime"></dateTimePicker>
-      <linkageDateTimePicker v-model="datetimerange" optionsBtn></linkageDateTimePicker>
+      <linkageDateTimePicker v-model="datetimerange" optionsBtn></linkageDateTimePicker> -->
 
     </div>
   </div>
@@ -98,6 +98,10 @@ export default {
       pageSize:10,
       pageTotalNum:1,
       curPage:1,
+      
+      configs:{
+        type:'selection'
+      },
       columns:[
         { 
           prop: "logo", //与表格字段一致（接口字段）
@@ -112,8 +116,10 @@ export default {
         { prop: "status", label: "状态",status:true,isClick:false},//isClick不填，默认可点击
         { 
           label: "操作",
+          btnType:'textBtn',
           actions:[
-            {label:'编辑',icon:'el-icon-edit-outline',type:'primary',operation:'edit'},
+            {label:'编辑',icon:'el-icon-edit-outline',
+              type:'primary',operation:'edit',},
             {label:'删除',icon:'el-icon-delete',type:'danger',operation:'del'},
             {label:'详情',icon:'el-icon-document',type:'primary',operation:'detail'}
           ]

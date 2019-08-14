@@ -28,18 +28,43 @@ const MyTable = () => ({
 }) 
 import search from './compoments/search'
 import addModel from './compoments/addModel'
+import { mapState } from 'vuex'
 export default {
   name:'commonList',
   data(){
     return {
-      type:'list'
+      type:'list',
+      headerConfigs:{},
+      mainConfigs:{},
+      pageConfigs:{}
     }
   },
+  // beforeRouteEnter(to, from, next){
+  //   next(vm => {
+  //     console.log(999)
+  //   })
+  // },
   created(){
-
+    // this.getPageConfigs()
+    // console.log(8888)
   },
   methods:{
+    // getPageConfigs(){
+    //   let _this = this
+    //   _this.$store.dispatch('getConfigs').then((data)=>{
+    //     let diypageConfigs = _this.$store.state.diypage
 
+    //     _this.headerConfigs = diypageConfigs.headerData
+    //     _this.mainConfigs = diypageConfigs.mainData
+    //     _this.pageConfigs = diypageConfigs.pageData
+    //     // console.log(_this.$store.state.diypage)
+    //   })
+    // }
+  },
+  computed:{
+    // ...mapState({
+    //   configsData:state => state.diypage.configsData
+    // })
   },
   components:{
     search,

@@ -95,6 +95,9 @@ export default {
   },
   created(){
     var _this = this
+    if(localStorage.getItem("userName")){
+      _this.phone = localStorage.getItem("userName")
+    }
     document.onkeydown = function(e){
       let key = window.event.keyCode
       if(key==13){
@@ -148,6 +151,11 @@ export default {
       }).then((res)=>{
         if(res.data.ret==200){
           localStorage.setItem("info",JSON.stringify(res.data.data))
+          if(_this.rememberUserName==true){
+            localStorage.setItem("userName",_this.phone)
+          }else{
+            localStorage.removeItem("userName",_this.phone)
+          }
           if(_this.$route.query.redirect){
             _this.$router.replace({
               path:_this.$route.query.redirect

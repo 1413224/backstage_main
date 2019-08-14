@@ -87,7 +87,11 @@ export default new Router({
         },
         {
           path:'/commonlist',
-          component:() => import('@/views/commonlist/commonlist')
+          component:() => import('@/views/commonlist/commonlist'),
+          // beforeEnter:(to, from, next)=>{
+          //   console.log(777)
+          //   next()
+          // }
         }
       ]
     },

@@ -36,16 +36,21 @@ if(localStorage.getItem('themeValue')){
 router.beforeEach(async(to, from, next)=>{
   //请求权限路由
 
-  // let hasToken = Vue.prototype.$utils.getToken()
-  // if(!hasToken){
-  //   next(`/login?redirect=${to.path}`)
-  // }
-
-  // store.dispatch('aa')
-
-  next({
-
-  })
+  let hasToken = Vue.prototype.$utils.getToken()
+  if(!hasToken){
+    if(to.path=='/login'){
+      next()
+    }else{
+      next(`/login?redirect=${to.path}`)
+    }
+  }else{
+    store.dispatch('getConfigs').then(()=>{
+      next({})
+    },()=>{
+      next(`/login?redirect=${to.path}`)
+    })
+  }
+  
 })
 
 router.afterEach(()=>{
