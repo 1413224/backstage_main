@@ -31,28 +31,28 @@ export default new Router({
       component: () => import('@/layout'),
       children:[
         {
-          path:'/test1',
+          path:'/account/list',
           component: () => import('@/views/test1'),
           meta:{
-            parentsLabel:'店铺'
+            parentsLabel:'账户管理'
           }
         },
         {
-          path:'/test2',
+          path:'/account/positionList',
           component: () => import('@/views/test2'),
           meta:{
             parentsLabel:'店铺'
           }
         },
         {
-          path:'/test3',
+          path:'/project',
           component: () => import('@/views/test3'),
           meta:{
             parentsLabel:'店铺'
           }
         },
         {
-          path:'/useredit',
+          path:'/issue',
           component: () => import('@/views/user/useredit'),
           meta:{
             title:'账户信息'

@@ -1,10 +1,10 @@
 <template>
   <div class="app-wrapper">
     <!-- <sidebar></sidebar> -->
-    <menuNav></menuNav>
+    <menuNav @changeLeft="changeLeft"></menuNav>
     <topNav></topNav>
 
-    <div class="app-container container">
+    <div class="app-container container" :class="{paved:pavreLeft}">
       <div class="app">
         <div class="app-inner">
           <router-view></router-view>
@@ -27,20 +27,33 @@ export default {
   },
   data() {
     return {
-      
+      pavreLeft:false
+    }
+  },
+  methods:{
+    changeLeft(val){
+      console.log(val)
+      if(val){
+        this.pavreLeft = false
+      }else{
+        this.pavreLeft = true
+      }
     }
   }
 }
 </script>
 <style lang="less" scoped>
 .app-container{
-  margin-left: 224px;
+  margin-left: 252px;
   position: absolute;
-  top: 50px;
+  top: 56px;
   bottom: 0;
   left: 0;
   right: 0;
   // zoom: 1;
+}
+.paved{
+  margin-left: 120px;
 }
 .container{
   background: #f2f2f2;
@@ -57,9 +70,10 @@ export default {
     .app-inner{
       margin: 10px;
       padding: 15px;
-      height: 100%;
+      min-height: 100%;
       box-shadow: 0;
       background: #fff;
+      // overflow: auto;
       .app-init-container{
         height: 100%;
       }

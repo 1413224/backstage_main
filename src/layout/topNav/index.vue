@@ -40,10 +40,8 @@ export default {
   methods:{
     logout(){
       let _this = this,
-          info = JSON.parse(localStorage.getItem("info"));
+        info = JSON.parse(localStorage.getItem("info"));
         
-      // console.log(info)
-
       _this.$http.get(_this.url.user.Logout,{
         params:{
           token:info.token
@@ -53,7 +51,7 @@ export default {
           localStorage.removeItem('info')
           _this.$message('退出登录成功')
           _this.$router.replace({
-            path:'/login'
+            path:`/login?redirect=${_this.$route.fullPath}`
           })
         }
       })

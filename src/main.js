@@ -27,6 +27,19 @@ Vue.prototype.$utils = utils
 Vue.use(Vuex)
 Vue.use(ElementUI)
 
+Array.prototype.indexOf = function(val){
+  for(let i=0;i<this.length;i++){
+    if(this[i] == val) return i
+  }
+  return -1
+}
+Array.prototype.remove = function(val){
+  let index = this.indexOf(val)
+  if(index>-1){
+    this.splice(index,1)
+  }
+}
+
 if(localStorage.getItem('themeValue')){
   loadSkin.changeTheme(localStorage.getItem('themeValue'))
 }else{
@@ -44,11 +57,17 @@ router.beforeEach(async(to, from, next)=>{
       next(`/login?redirect=${to.path}`)
     }
   }else{
-    store.dispatch('getConfigs').then(()=>{
-      next({})
-    },()=>{
-      next(`/login?redirect=${to.path}`)
-    })
+    if(to.path!='/login'){
+
+      store.dispatch('getMenuList').then((res)=>{
+        store.dispatch('getConfigs').then(function(data){
+          next({})
+        })
+      })
+    }else{
+      next()
+    }
+    
   }
   
 })

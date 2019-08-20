@@ -21,21 +21,22 @@
 	</div> -->
   <div>
     <!-- :router="settings.router" -->
+    <!-- :default-active="activeMenu" -->
     <el-menu
       :background-color="settings.backgroundColor"
       :defaultOpeneds="settings.defaultOpeneds"
       :default-active="activeMenu">
       <template v-for="menuItem in menuList">
-        <template v-if="menuItem.type === 'item'">
-          <menu-item :menu="menuItem" :key="menuItem.id"></menu-item>
+        <template v-if="menuItem.menuType === 'menuPage'">
+          <menu-item :menu="menuItem" :key="menuItem.menuId"></menu-item>
         </template>
 
-        <template v-if="menuItem.type === 'submenu'">
-          <sub-menu :menu="menuItem" :key="menuItem.id"></sub-menu>
+        <template v-if="menuItem.menuType === 'menuLabel'">
+          <sub-menu :menu="menuItem" :key="menuItem.menuId"></sub-menu>
         </template>
 
-        <template v-if="menuItem.type === 'group'">
-          <menu-group :menu="menuItem" :key="menuItem.id"></menu-group>
+        <template v-if="menuItem.menuType === 'group'">
+          <menu-group :menu="menuItem" :key="menuItem.menuId"></menu-group>
         </template>
 
       </template>
@@ -63,12 +64,15 @@ export default {
   },
   created(){
     // console.log(this.$route)
+    // console.log(this.menuList)
   },
   computed:{
     activeMenu() {
+      // console.log(this.$route)
       let  route = this.$route
       let { path } = route
       return path
+      // return '/' + this.$route.path.split('/').reverse()[0]
     }
   },
   data(){

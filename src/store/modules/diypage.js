@@ -5,7 +5,11 @@ const diypage = {
   state:{
     pageData:{},
     headerData:{},
-    mainData:{},
+    mainData:[],
+    ruleForm:{},//搜索，参数
+    lineConfig:[],//tablelineConfigs
+    tableConfig:{},
+    listNum:0,//判断是否需要重新请求加载列表数据
   },
 
   mutations:{
@@ -13,6 +17,19 @@ const diypage = {
       state.pageData = configData.page
       state.headerData = configData.header
       state.mainData = configData.main
+
+      configData.main.map((item,index)=>{
+        if(item.type=="diyTable"){
+          state.lineConfig = item.line
+          state.tableConfig = item
+        }
+      })
+    },
+    setRuleForm(state,data){
+      state.ruleForm = data
+    },
+    changeList(state,data){
+      state.listNum += data
     }
   },
   actions:{
@@ -21,14 +38,13 @@ const diypage = {
         _this.$http.get(_this.url.control.GetDiyListPage,{
           params:{
             token:_this.$utils.getToken(),
-            num:1
+            path:'/account/list'
+            // path:1
           }
         }).then((res)=>{
           if(res.data.ret==200){
             commit('setConfigs',res.data.data)
             resolve(res.data.data)
-          }else{
-            reject(error)
           }
         })
       })

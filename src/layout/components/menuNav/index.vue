@@ -5,39 +5,47 @@
         <div class="team-logo" style="background-image: url(&quot;https://img.yzcdn.cn/public_files/2016/05/13/8f9c442de8666f82abaf7dd71574e997.png!60x60.jpg&quot;);">
         </div>
       </div>
-      <ul class="shared-first-sidebar-nav">
+      <ul class="shared-first-sidebar-nav" ref="firsrMenu">
         <li 
-          v-for="(item,index) in list" 
+          v-for="(item,index) in menuList" 
           :key="index" 
-          :class="{active:item.name==$route.meta.parentsLabel}"
+          :class="{active:item.path==$route.path || $route.meta.parentsLabel == item.name}"
+          @mouseenter="enter(item)"
           @click="toNavMenu(item,index,$event)">
-          <svg-icon :className="item.icon" icon-class="clipboard" /> 
+          <!-- <svg-icon :className="item.icon" icon-class="clipboard" />  -->
+          <i :class="item.icon"></i>
           {{item.name}}
         </li>
-        <!-- <router-link tag="li" to="">sdfgsa</router-link> -->
       </ul>
     </nav>
 
     <!-- 二级导航 -->
-    <nav id="shared-second-sidebar" class="shared-second-sidebar">
+    <nav id="shared-second-sidebar" class="shared-second-sidebar" v-show="showSecondSideBar">
       <h2 class="second-sidebar-title">客户中心</h2>
       <MenuList :menuList="subMenuData" :settings="menuSetting"></MenuList>
     </nav>
+
+    <!-- <div class="show-menu" v-show="showMenu" @mouseleave="sout">
+      <MenuList :menuList="subMenuDataMove" :settings="menuSetting"></MenuList>
+    </div> -->
 
   </div>
 </template>
 <script>
 import MenuList from './menuList'
+import { mapState } from 'vuex'
 export default {
   name:'menuNav',
   data() {
     return {
+      showMenu:false,
+      showSecondSideBar:false,
       idx:0,
       menuSetting: {
         // backgroundColor: '#333743',
         // textColor: '#909399',
         // activeTextColor: '#909399',
-        defaultOpeneds: ['news'],
+        defaultOpeneds: [],
         // uniqueOpened: true,
         // router: true,
         // collapseTransition: true
@@ -169,16 +177,27 @@ export default {
       ],
       subMenuData:[
         
-      ]
+      ],
+      subMenuDataMove:[]
     }
   },
   created(){
-    // console.log(this.filterMenuList)
     let _this = this
+    // console.log(this.$route)
+
+    // console.log(_this.menuList.some(_this.filter))
+    if(_this.menuList.some(_this.filter)){
+      _this.showSecondSideBar = false
+      _this.$emit('changeLeft',false)
+    }else{
+      _this.showSecondSideBar = true
+      _this.$emit('changeLeft',true)
+    }
+    
+
     _this.filterMenuList.map((item)=>{
-      // console.log(item)
       item.children.map(submenuItem=>{//设置默认展开项
-        _this.menuSetting.defaultOpeneds.push(submenuItem.index)
+        _this.menuSetting.defaultOpeneds.push(String(submenuItem.menuId))
       })
       if(item.name == _this.$route.meta.parentsLabel){
         _this.subMenuData = item.children
@@ -186,24 +205,84 @@ export default {
       }
     })
   },
+  mounted(){
+    // console.log(this.$refs)
+  },
   computed:{
+    ...mapState({
+      menuList:state => state.diymenu.menuList
+    }),
     filterMenuList(){
-      return this.list.filter(item => item.children.length !== 0)
+      // return this.menuList.filter(item => item.children.length !== 0)
+      let arr = []
+      this.menuList.map((item)=>{
+        if(item.children){
+          arr.push(item)
+        }
+      })
+      return arr
     }
   },
   methods:{
+    filter(list){
+      return list.path == this.$route.path
+    },
     toNavMenu(item,index,e) {
-      // console.log(this.$route)
-      this.idx = index
-      // console.log(e.target.innerText)
-      
+      let _this = this
+
+      if(item.children){
+        _this.showSecondSideBar = true
+        _this.$emit('changeLeft',true)
+      }else{
+        _this.showSecondSideBar = false
+        _this.$emit('changeLeft',false)
+      }
+
       //后续完善默认显示第一个路由
       if(!item.children){
-        this.$router.push({
+        _this.subMenuData = []
+        _this.$router.push({
           path:item.path
         })
+        return
       }
-      this.subMenuData = item.children
+      _this.getTheFirsrtRoute(item)
+      
+      _this.subMenuData = item.children
+
+    },
+    enter(item){//鼠标移入
+      // console.log(item)  如果有选中样式，则不加载数据
+      let _this = this
+      if(item.children){
+        // _this.openSubMenu(item)
+        _this.subMenuDataMove = item.children
+        _this.showMenu = true
+      }else{
+        _this.showMenu = false
+      }
+    },
+    sout(){
+      this.showMenu = false
+    },
+    openSubMenu(item){
+      // console.log(item.children[0].children[0])
+      let _this = this
+      item.children.map((item)=>{
+        _this.menuSetting.defaultOpeneds.push(String(item.menuId))
+      })
+    },
+    getTheFirsrtRoute(item){
+      let _this = this
+      if(item.children[0].menuType=="menuPage"){
+        _this.$router.push({
+          path:item.children[0].path
+        })
+      }else{
+        _this.$router.push({
+          path:item.children[0].children[0].path
+        })
+      }
     }
   },
   components:{
@@ -213,13 +292,13 @@ export default {
 </script>
 <style lang="less" scoped>
 .shared-sidebar{
-  width: 92px;
+  width: 120px;
   position: fixed;
   left: 0;
   top: 0;
   height: 100%;
   z-index: 11;
-  // border: 1px solid #333;
+  // border: 1px solid #f00;
   background: #273543;
 }
 .shared-first-sidebar{
@@ -243,7 +322,7 @@ export default {
 }
 .shared-first-sidebar-nav{
   li{
-    width: 74px;
+    // width: 74px;
     font-size: 14px;
     height: 40px;
     line-height: 40px;
@@ -262,7 +341,7 @@ export default {
 .shared-second-sidebar{
   width: 132px;
   height: 100%;
-  margin-left: 92px;
+  margin-left: 120px;
   background: #fff;
   border-right: 1px solid #ebedf0;
   z-index: 1;
@@ -281,6 +360,19 @@ export default {
     line-height: 56px;
     text-align: center;
   }
+}
+//移动显示导航栏
+.show-menu{
+  width: 130px;
+  // height: 100px;
+  // border: 1px solid #f00;
+  box-sizing: border-box;
+  position: absolute;
+  top: 56px;
+  left: 120px;
+  bottom: 0;
+  z-index: 2;
+  overflow-y: scroll;
 }
 </style>
 <style>

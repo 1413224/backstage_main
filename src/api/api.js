@@ -33,6 +33,7 @@ let url = {
     UpdateCommonCategoryDisplayOrderByIds:'control/setting/CommonCategory/UpdateDisplayOrderByIds',//总平台管理端统一修改所有通用分类排序接口
     
     GetDiyListPage:'control/temp/DiyPage/GetListPage',//control/temp/DiyPage/GetListPage
+    GetDiyPageMenu:'control/temp/DiyPage/GetMenu',//获取后台菜单栏目信息
   }
 }
 

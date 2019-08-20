@@ -3,9 +3,13 @@
     <el-row :class="rowDrop ? 'move' : ''">
       <el-table 
         :data="tableData" 
+        :stripe="yTableClass=='stripe' ? true : false"
+        :border="yTableClass=='border' ? true : false"
+        :max-height="yMaxHeight"
         row-key="id"
         @selection-change="handleSelectionChange">
         <el-table-column
+          v-if="yCanCheckBox"
           type="selection"
           width="55">
         </el-table-column>
@@ -64,7 +68,8 @@ export default {
     rowDrop:{
       type:Boolean,
       default:false
-    }
+    },
+    configs:[Object]
     
   },
   data(){
@@ -74,6 +79,11 @@ export default {
   },
   created(){
 
+  },
+  computed:{
+    yTableClass(){ return this.configs.tableClass },
+    yMaxHeight(){ return this.configs.height},
+    yCanCheckBox(){ return this.configs.canCheckBox}
   },
   mounted(){
     // console.log(this.rowDrop)

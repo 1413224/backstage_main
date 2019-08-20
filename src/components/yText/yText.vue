@@ -5,9 +5,9 @@
       :underline="false" 
       :style="styObject"
       :href="yHref"
-      :target="yBlank ? '_blank' : ''">主要链接</el-link>
+      :target="yBlank ? '_blank' : ''"><slot></slot></el-link>
 
-    <div class="text" v-else :style="styObject">{{configs.value}}</div>
+    <div class="text" v-else :style="styObject"><slot></slot></div>
   </div>
 </template>
 <script>
@@ -21,7 +21,8 @@ export default {
       styObject:{
         width:this.configs.width,
         color:this.configs.color,
-        fontWeight:this.configs.fontWeight
+        fontWeight:this.configs.fontWeight,
+        float:this.configs.float
       }
     }
   },

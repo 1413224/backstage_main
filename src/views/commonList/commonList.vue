@@ -1,17 +1,43 @@
 <template>
   <div class="wrapper">
     <div class="page-list" v-if="type=='list'">
-      <div class="head">头部标题</div>
+      <div class="head">
+        {{pageData.title}}
+        <span class="desc">--{{pageData.desc}}</span>
+        <div class="extends-info">
+          <div v-for="(item,index) in extendsInfo" :key="index">
+            <yText v-if="item.type=='text'" :configs="item"></yText>
+          </div>          
+        </div>
+      </div>
+      <!-- <router-view></router-view> -->
+      <!-- 或外层重新装一层 -->
       <div class="bg-gray content">
         <div class="search-wrap">
+          <!-- 提示信息开始 -->
+          <div class="toptip" v-if="pageData.comment">{{pageData.comment}}</div>
+          <!-- 提示信息end -->
           <search></search>
-          <!-- <el-input placeholder="请输入内容" v-model="input1">
-            <template slot="prepend">Http://</template>
-          </el-input> -->
         </div>
+        <!-- 展示数据开始 -->
+        <div class="bg-bule wrapper-md">
+          <div class="item" 
+            v-for="(item,index) in statInfo"
+            :key="index">{{item.name}}：
+            <span class="collect">{{statInfoData[item.field]}}</span>
+          </div>
+        </div>
+        <!-- 展示数据end -->
         <div class="table-wrap">
-          <MyTable></MyTable>
+          <!-- <diyTable :configs="tabaConfigs"></diyTable> -->
+          <component
+            :is="item.type" 
+            v-for="(item,index) in mainData" 
+            :key="index"
+            :configs="item"
+            :lists="item.type=='diyTable'?listData:''"></component>
         </div>
+        <!-- <yButton :configs="btnConfig"></yButton> -->
       </div>
     </div>
 
@@ -26,6 +52,12 @@
 const MyTable = () => ({
   component:import("@/components/table/myTable"),
 }) 
+const diyTable = () => ({
+  component:import("@/components/table/diyTable")
+})
+import yButton from '@/components/yButton/yButton'
+import yImage from '@/components/yImage/yImage'
+import yText from '@/components/yText/yText'
 import search from './compoments/search'
 import addModel from './compoments/addModel'
 import { mapState } from 'vuex'
@@ -36,54 +68,124 @@ export default {
       type:'list',
       headerConfigs:{},
       mainConfigs:{},
-      pageConfigs:{}
+      pageConfigs:{},
+      statInfo:[],//统计数据
+      statInfoData:{},//保存统计数据字段
+      listData:{},//页面接口getlist请求数据
+
     }
   },
-  // beforeRouteEnter(to, from, next){
-  //   next(vm => {
-  //     console.log(999)
-  //   })
-  // },
   created(){
-    // this.getPageConfigs()
-    // console.log(8888)
+    // console.log(this.pageData)
+    // console.log(this.headerData)
+    // console.log(this.mainData)
+    let _this = this
+      _this.statInfo = _this.pageData.statInfo //赋值统计数据
+
+      _this.$nextTick(()=>{
+        _this.setStatInfoData()
+        _this.getList()
+      })
   },
   methods:{
-    // getPageConfigs(){
-    //   let _this = this
-    //   _this.$store.dispatch('getConfigs').then((data)=>{
-    //     let diypageConfigs = _this.$store.state.diypage
+    setStatInfoData(){//统计数据字段赋值
+      let _this = this
+      _this.statInfo.map((item)=>{
+        // console.log(item)
+        _this.$set(_this.statInfoData,item.field,0)
+      })
+    },
+    getList(){
+      let _this = this
+      let token
+      if(_this.pageData.needLogin){
+        token = _this.$utils.getToken()
+      }
+      let params = Object.assign({},{token:token,status:-1},_this.ruleForm)
+      //apiService为空时，不需要请求
+      if(_this.pageData.apiService){
+        _this.$http.get(_this.pageData.apiService,{
+          params
+        }).then((res)=>{
+          if(res.data.ret==200){
+            let data = res.data.data
+            data.list.map((item)=>{
+              item.checkModel = false
+            })
+            _this.listData = data.list
+            // console.log(_this.listData)
 
-    //     _this.headerConfigs = diypageConfigs.headerData
-    //     _this.mainConfigs = diypageConfigs.mainData
-    //     _this.pageConfigs = diypageConfigs.pageData
-    //     // console.log(_this.$store.state.diypage)
-    //   })
-    // }
+            _this.statInfoData['total_nums'] = data.total_nums
+          }
+        })
+      }
+      
+    }
   },
   computed:{
-    // ...mapState({
-    //   configsData:state => state.diypage.configsData
-    // })
+    ...mapState({
+      pageData:state => state.diypage.pageData,
+      headerData:state => state.diypage.headerData,
+      mainData:state => state.diypage.mainData,
+      ruleForm:state => state.diypage.ruleForm,//search数据（入参）
+      listNum:state => state.diypage.listNum,
+    }),
+    extendsInfo(){
+      return this.pageData.extendsInfo
+    }
+  },
+  watch:{
+    listNum(val,oldVal){
+      if(val!=oldVal){
+        this.getList()
+      }
+    }
   },
   components:{
     search,
     MyTable,
-    addModel
+    addModel,
+    yText,
+    diyTable,
+    yImage,
+    yButton
   }
 }
 </script>
 <style lang="less" scoped>
+.desc{
+  font-size: 12px;
+}
 .content{
   padding: 10px;
   margin-top: 30px;
   .search-wrap{
     background: #fff;
     padding: 10px 10px 20px 10px;
+    .toptip{
+      width: calc(100% - 20px);
+      min-height: 50px;
+      border-radius: 5px;
+      border: 1px solid #ccc;
+      padding: 10px;
+      margin-bottom: 50px;
+      font-size: 12px;
+    }
   }
+  
   .table-wrap{
     // border: 1px solid #333;
     margin-top: 20px;
+  }
+  .wrapper-md{
+    padding: 20px;
+    font-size: 12px;
+    .item{
+      display: inline-block;
+    }
+    .collect{
+      color: #2589FF;
+    }
   }
 }
 </style>

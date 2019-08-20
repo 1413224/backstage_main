@@ -31,6 +31,7 @@
 
 
       <MyTable
+        :configs="tabaConfigs"
         :tableData="tableData"
         :columns="columns"
         :rowDrop="rowDrop"
@@ -98,7 +99,20 @@ export default {
       pageSize:10,
       pageTotalNum:1,
       curPage:1,
-      
+      tabaConfigs:{
+        tableClass:'border',
+        // height:200,
+        canCheckBox:true,
+        th:[
+          {
+            minWidth:'100',
+            float:'left',
+            label:[
+              { value:'头部标题' }
+            ]
+          }
+        ]
+      },
       configs:{
         type:'selection'
       },
