@@ -23,7 +23,9 @@
                   :configs="item">
                 </yInput>
               </el-form-item>
-              <!-- <br/> -->
+
+              <!-- <br v-if="item.type=='line-break'"/> -->
+              <div v-if="item.type=='line-break'" style="height:65px"></div>
 
               <el-form-item
                 v-if="item.type=='select'"
@@ -152,7 +154,7 @@
 
           </div>
         </div>
-      <el-button @click="aa" class="fl">测试</el-button>
+      <!-- <el-button @click="aa" class="fl">测试</el-button> -->
       <div class="btnwrap">
         <el-button size="small" @click="resetForm('ruleForm')">清空</el-button>
         <el-button type="primary" size="small" @click="searchSubmit('ruleForm')">搜索</el-button>
@@ -233,7 +235,7 @@ export default {
   computed:{
     ...mapState({
       headerConfigs: state => state.diypage.headerData,
-      // ruleFormData: state => state.diypage.ruleForm
+      ruleFormData: state => state.diypage.ruleForm
     })
   },
   // watch:{
@@ -305,7 +307,7 @@ export default {
     margin-top: 20px;
   }
   .item{
-    display: inline-block;
+    // display: inline-block;
   }
 }
 </style>

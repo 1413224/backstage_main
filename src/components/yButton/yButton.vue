@@ -59,9 +59,9 @@
 export default {
   name:'yButton',
   props:{
-    configs:[Object],
+    configs:[Object,Array],
     value:[Number,String],
-    listItem:[Object]
+    listItem:[Object,Array]
   },
   data(){
     return{
@@ -114,6 +114,8 @@ export default {
         case 'statusButton'://修改状态
           _this.changeStatus()
           break;
+        case 'editButton'://编辑按钮
+          _this.navigateToEdit()
         
       }
     },
@@ -149,11 +151,30 @@ export default {
       }
 
     },
+    navigateToEdit(){
+      let _this = this,
+          goUrl = _this.configs.url;
+
+      let params = {}
+      _this.configs.params.map((item,index)=>{
+        params[item.name] = _this.listItem[item.field]
+      })
+      // console.log(params)
+      // console.log(_this.listItem)
+      // console.log(_this.configs)
+
+      // return
+      _this.$router.push({
+        path:goUrl,
+        query:params
+      })
+    },
     addButton(){
 
     },
     availableButton(){
-
+      alert(9)
+      
     },
     unavailableButton(){
 
@@ -170,21 +191,32 @@ export default {
       })
 
       params = Object.assign(params,{token:token})
-      return;
       if(_this.configs.apiService){
-        _this.$http.get(_this.configs.apiService,{
-          params
-        }).then((res)=>{
-          if(res.data.ret==200){
-            _this.$message({
-              type: 'success',
-              message: '删除成功!'
-            })
-            _this.$store.commit('changeList',1)
-          }
+        _this.$confirm('此操作将永久删除该信息, 是否继续?','提示',{
+          confirmButtonText: '确定',
+          cancelButtonText: '取消',
+          type: 'warning'
+        }).then(()=>{
+          return;
+          _this.$http.get(_this.configs.apiService,{
+            params
+          }).then((res)=>{
+            if(res.data.ret==200){
+              _this.$message({
+                type: 'success',
+                message: '删除成功!'
+              })
+              _this.$store.commit('changeList',1)
+            }
+          })
+        }).catch(()=>{
+          _this.$message({
+            type: 'info',
+            message: '已取消删除'
+          })
         })
+        
       }
-
     }
   }
 }

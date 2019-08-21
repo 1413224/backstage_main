@@ -13,11 +13,12 @@
       <!-- <router-view></router-view> -->
       <!-- 或外层重新装一层 -->
       <div class="bg-gray content">
+        <!-- 提示信息开始 -->
+        <div class="toptip" v-if="pageData.comment">{{pageData.comment}}</div>
+        <!-- 提示信息end -->
         <div class="search-wrap">
-          <!-- 提示信息开始 -->
-          <div class="toptip" v-if="pageData.comment">{{pageData.comment}}</div>
-          <!-- 提示信息end -->
-          <search></search>
+          <!-- 搜索列表数据 -->
+          <search @changeList="changeList"></search>
         </div>
         <!-- 展示数据开始 -->
         <div class="bg-bule wrapper-md">
@@ -29,13 +30,25 @@
         </div>
         <!-- 展示数据end -->
         <div class="table-wrap">
-          <!-- <diyTable :configs="tabaConfigs"></diyTable> -->
-          <component
+          <div  v-for="(item,index) in mainData" :key="index">
+            <template v-if="item.type=='diyTable'">
+              <diyTable 
+                v-if="listData.length!=0"
+                :configs="item"
+                :lists="item.type=='diyTable'?listData:''"></diyTable>
+              <!-- <diyTable v-if="listData.length==0"
+                :configs="item"
+                :lists="item.type=='diyTable'?listData:''"></diyTable> -->
+            </template>
+          </div>
+          <!-- <div v-if="listData.length!=0">
+            <component
             :is="item.type" 
             v-for="(item,index) in mainData" 
             :key="index"
             :configs="item"
-            :lists="item.type=='diyTable'?listData:''"></component>
+            :lists="item.type=='diyTable'?listData:''"></component> 
+          </div>-->
         </div>
         <!-- <yButton :configs="btnConfig"></yButton> -->
       </div>
@@ -55,6 +68,7 @@ const MyTable = () => ({
 const diyTable = () => ({
   component:import("@/components/table/diyTable")
 })
+// import diyTable from '@/components/table/diyTable'
 import yButton from '@/components/yButton/yButton'
 import yImage from '@/components/yImage/yImage'
 import yText from '@/components/yText/yText'
@@ -71,7 +85,7 @@ export default {
       pageConfigs:{},
       statInfo:[],//统计数据
       statInfoData:{},//保存统计数据字段
-      listData:{},//页面接口getlist请求数据
+      listData:[],//页面接口getlist请求数据
 
     }
   },
@@ -81,11 +95,15 @@ export default {
     // console.log(this.mainData)
     let _this = this
       _this.statInfo = _this.pageData.statInfo //赋值统计数据
-
       _this.$nextTick(()=>{
         _this.setStatInfoData()
         _this.getList()
       })
+      
+  },
+  mounted(){
+    let _this = this
+      
   },
   methods:{
     setStatInfoData(){//统计数据字段赋值
@@ -112,13 +130,25 @@ export default {
             data.list.map((item)=>{
               item.checkModel = false
             })
+            // if(data.list.length==0){
+            //   _this.$store.commit('setTableList',0)
+            // }else{
+            //   _this.$store.commit('setTableList',1)
+            // }
+
             _this.listData = data.list
+
             // console.log(_this.listData)
 
             _this.statInfoData['total_nums'] = data.total_nums
           }
         })
       }
+    },
+    changeList(val){
+      // console.log(val)
+      this.listData = []
+      this.getList()
       
     }
   },
@@ -159,18 +189,19 @@ export default {
 .content{
   padding: 10px;
   margin-top: 30px;
+  .toptip{
+    width: calc(100% - 20px);
+    min-height: 50px;
+    border-radius: 5px;
+    // border: 1px solid #ccc;
+    padding: 10px;
+    margin-bottom: 10px;
+    font-size: 12px;
+    background: #fff;
+  }
   .search-wrap{
     background: #fff;
-    padding: 10px 10px 20px 10px;
-    .toptip{
-      width: calc(100% - 20px);
-      min-height: 50px;
-      border-radius: 5px;
-      border: 1px solid #ccc;
-      padding: 10px;
-      margin-bottom: 50px;
-      font-size: 12px;
-    }
+    padding: 20px 10px 20px 10px;
   }
   
   .table-wrap{

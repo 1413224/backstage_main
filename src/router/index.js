@@ -32,7 +32,7 @@ export default new Router({
       children:[
         {
           path:'/account/list',
-          component: () => import('@/views/test1'),
+          component: () => import('@/views/commonlist/commonlist'),
           meta:{
             parentsLabel:'账户管理'
           }
@@ -92,6 +92,10 @@ export default new Router({
           //   console.log(777)
           //   next()
           // }
+        },
+        {
+          path:'/account/Add',
+          component:() => import('@/views/commonEdit/commonEdit')
         }
       ]
     },

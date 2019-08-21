@@ -1,3 +1,5 @@
+import { _ } from "core-js";
+
 export default{
   resetForm(formName){
     this.$refs[formName].resetFields()
@@ -9,7 +11,10 @@ export default{
         return false
       }
       //业务逻辑操作
-      alert(9)
+      // alert(9)
+      // console.log(_this.ruleFormData)
+      _this.$emit('changeList',_this.ruleFormData)
+
     })
   }
 }

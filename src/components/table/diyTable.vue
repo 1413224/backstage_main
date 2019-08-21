@@ -70,6 +70,7 @@
           </div>
         </draggable>
       </div>
+      <!-- <div>暂无数据</div> -->
       <!-- 表格结束 -->
 
 
@@ -78,6 +79,7 @@
 </template>
 <script>
 // import Sortable from 'sortablejs'
+import actions from './actions/index'
 import draggable from 'vuedraggable'
 import yButton from '@/components/yButton/yButton'
 import yImage from '@/components/yImage/yImage'
@@ -86,7 +88,7 @@ import { mapState } from 'vuex'
 export default {
   name:'diyTable',
   props:{
-    configs:[Object],
+    configs:[Array,Object],
     lists:[Array,Object]
   },
   data(){
@@ -94,13 +96,15 @@ export default {
       checkAll:false,
       isIndeterminate:true,
       list:this.lists,
+      // list2:[],
       checkedList:[],//选中的行
     }
   },
   created(){
     // console.log(this.lineConfig)
-    // console.log(this.tableConfig)
+    // console.log(this.lists)
     // this.getCompoment()
+    // console.log(this.tableList)
   },
   mounted(){
     // this.rowDropMethod()
@@ -108,7 +112,9 @@ export default {
   computed:{
     ...mapState({
       lineConfig:state => state.diypage.lineConfig,
-      tableConfig:state => state.diypage.tableConfig
+      tableConfig:state => state.diypage.tableConfig,
+      // tableList:state => state.diypage.tableList,
+      
     }),
     
     yTableClass(){ return this.configs.tableClass },
@@ -121,60 +127,12 @@ export default {
     }
   },
   methods:{
-    handleCheckItemChange(checked,item){
-      let _this = this
-      if(checked==true){
-        _this.checkedList.push(item)
-        if(_this.checkedList.length == _this.list.length){
-          _this.checkAll = true
-          _this.isIndeterminate = false
-        }else{
-          _this.checkAll = false
-          _this.isIndeterminate = true
-        }
-      }else{
-        _this.checkAll = false
-        _this.isIndeterminate = true
-      }
-        console.log(_this.getIds())
-    },
-    handleCheckAllChange(val){
-      let _this = this
-      _this.list.map((item,index)=>{
-        item.checkModel = val
-      })
-        // console.log(_this.getIds())
-        // console.log(_this.list)
-
-    },
-    getIds(){
-      let _this = this
-      let idsArray=[]
-      let ids = ''
-      _this.list.map((item)=>{
-        if(item.checkModel==true){
-          idsArray.push(item.id)
-        }
-      })
-      ids = idsArray.toString()
-      return ids
-    },
-    getCompoment(){
-      let _this = this
-      // _this.lineConfig[0].column.map((item,index)=>{
-      //   console.log(item)
-      // })
-      _this.list.map((item,index)=>{
-        console.log(item)
-      })
-
-    },
-    onEnd(){
-      console.log(this.list)
-    }
+    ...actions
   },
   watch:{
-
+    // lists(val){
+    //   console.log(val)
+    // }
   },
   components:{
     yButton,
