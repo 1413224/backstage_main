@@ -32,13 +32,22 @@
         <div class="table-wrap">
           <div  v-for="(item,index) in mainData" :key="index">
             <template v-if="item.type=='diyTable'">
-              <diyTable 
-                v-if="listData.length!=0"
+              <diyTable
                 :configs="item"
-                :lists="item.type=='diyTable'?listData:''"></diyTable>
-              <!-- <diyTable v-if="listData.length==0"
-                :configs="item"
-                :lists="item.type=='diyTable'?listData:''"></diyTable> -->
+                v-model="listData">
+                  <el-pagination
+                    ref="paging" 
+                    @size-change="handleSize" 
+                    @current-change="handleCurrent"
+                    :page-sizes="[10, 20, 30, 50]"
+                    :current-page.sync="curPage"
+                    :page-size="pageSize" 
+                    :total="totalNums"
+                    layout="sizes, prev, slot, next"
+                    prev-text="上一页" next-text="下一页">
+                      <span style="text-align: center;">{{curPage}}/{{totalPages}}</span>
+                    </el-pagination>
+                </diyTable>
             </template>
           </div>
           <!-- <div v-if="listData.length!=0">
@@ -87,6 +96,11 @@ export default {
       statInfoData:{},//保存统计数据字段
       listData:[],//页面接口getlist请求数据
 
+      curPage:1,
+      pageSize:10,
+      totalPages:1,
+      totalNums:0
+
     }
   },
   created(){
@@ -119,7 +133,10 @@ export default {
       if(_this.pageData.needLogin){
         token = _this.$utils.getToken()
       }
-      let params = Object.assign({},{token:token,status:-1},_this.ruleForm)
+      let params = Object.assign({
+        page_num:_this.curPage,
+        page_size:_this.pageSize
+      },{token:token,status:-1},_this.ruleForm)
       //apiService为空时，不需要请求
       if(_this.pageData.apiService){
         _this.$http.get(_this.pageData.apiService,{
@@ -130,26 +147,31 @@ export default {
             data.list.map((item)=>{
               item.checkModel = false
             })
-            // if(data.list.length==0){
-            //   _this.$store.commit('setTableList',0)
-            // }else{
-            //   _this.$store.commit('setTableList',1)
-            // }
-
             _this.listData = data.list
-
             // console.log(_this.listData)
-
             _this.statInfoData['total_nums'] = data.total_nums
+            if(data.total_pages){
+              _this.totalPages = data.total_pages || 1
+            }
+            if(data.total_nums){
+              _this.totalNums = data.total_nums
+            }
           }
         })
       }
     },
     changeList(val){
-      // console.log(val)
       this.listData = []
       this.getList()
-      
+    },
+    handleSize(sizeVal){
+      this.pageSize = sizeVal
+      this.curPage = 1
+      this.getList()
+    },
+    handleCurrent(currentVal){
+      this.curPage = currentVal
+      this.getList()
     }
   },
   computed:{
@@ -208,6 +230,7 @@ export default {
     // border: 1px solid #333;
     margin-top: 20px;
   }
+  
   .wrapper-md{
     padding: 20px;
     font-size: 12px;
@@ -217,6 +240,12 @@ export default {
     .collect{
       color: #2589FF;
     }
+  }
+}
+@media screen and (max-width: 1200px){
+  .table-wrap{
+    max-width: 860px;
+    overflow-x: scroll;
   }
 }
 </style>

@@ -1,3 +1,5 @@
+import { _ } from "core-js";
+
 export default {
   handleCheckItemChange(checked,item){
     let _this = this
@@ -14,7 +16,9 @@ export default {
       _this.checkAll = false
       _this.isIndeterminate = true
     }
-      console.log(_this.getIds())
+      // console.log(_this.getIds())
+    _this.$store.commit('setIds',_this.getIds())
+    
     
   },
   handleCheckAllChange(val){
@@ -22,6 +26,14 @@ export default {
     _this.list.map((item,index)=>{
       item.checkModel = val
     })
+    if(val){
+      _this.checkAll = true
+      _this.isIndeterminate = false
+    }else{
+      _this.checkAll = false
+    }
+
+    _this.$store.commit('setIds',_this.getIds())
       // console.log(_this.getIds())
       // console.log(_this.list)
 
@@ -38,17 +50,27 @@ export default {
     ids = idsArray.toString()
     return ids
   },
-  getCompoment(){
-    let _this = this
-    // _this.lineConfig[0].column.map((item,index)=>{
-    //   console.log(item)
-    // })
-    _this.list.map((item,index)=>{
-      console.log(item)
-    })
-
-  },
   onEnd(){
-    console.log(this.list)
+    let _this = this,
+        idsArray = [],
+        ids = '';
+    let configs = _this.configs;
+
+    _this.list.map((item)=>{
+      idsArray.push(item.id)
+    })
+    ids = idsArray.toString()
+    if(configs.needPagebean==false && configs.sortApiService){
+      _this.$http.get(configs.sortApiService,{
+        params:{
+          token:_this.$utils.getToken(),
+          ids:ids
+        }
+      }).then((res)=>{
+        if(res.data.ret==200){
+          _this.$store.commit('changeList',1)
+        }
+      })
+    }
   }
 }

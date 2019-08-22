@@ -11,8 +11,6 @@ export default{
         return false
       }
       //业务逻辑操作
-      // alert(9)
-      // console.log(_this.ruleFormData)
       _this.$emit('changeList',_this.ruleFormData)
 
     })

@@ -3,7 +3,7 @@
     <div class="topTitle">标题</div>
     <div class="bg-gray">
 
-      <!-- <el-form :model="ruleForm" :rules="rules" ref="ruleForm" label-width="100px">
+      <el-form :model="ruleForm" :rules="rules" ref="ruleForm" label-width="100px">
         <el-row>
           <div v-for="(item,index) in dataList.head" :key="index">
             <el-col :span="item.width">
@@ -27,7 +27,7 @@
             </el-col>
           </div>
         </el-row>
-      </el-form> -->
+      </el-form>
 
 
       <MyTable
@@ -186,13 +186,16 @@ export default {
     this.getList()
 
     _this.dataList.head.map((item,index)=>{
-      _this.dataAll[item.field] = item.defaultValue
+
+      // _this.dataAll[item.field] = item.defaultValue
+      _this.$set(_this.ruleForm,item.field,item.defaultValue)
+
       _this.rules[item.field] = [
         {required:item.require,message:item.message,trigger: 'blur'}
       ]
     })
     
-    _this.ruleForm = JSON.parse(JSON.stringify(_this.dataAll))
+    // _this.ruleForm = JSON.parse(JSON.stringify(_this.dataAll))
 
 
     //自定义公共验证

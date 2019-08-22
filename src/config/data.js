@@ -89,25 +89,25 @@ export default {
       //   // "minWidth":"300",
 
       // },
-      // {
-      //   "type": "input",
-      //   "name": "关键字",
-      //   "field": "keyword",
-      //   "placeholder": "请输入用户的姓名/手机号",
-      //   "defaultValue": "",
-      //   // "width": 8,
-      //   "require": true,
-      //   "message": "请输入手机号",
-      //   "validate": "",
-      //   "minWidth":"300",
-      //   "suffixIcon":"el-icon-search"
-      //   // "maxlength":30
-      //   // "maxRows":5,
-      //   // "minRows":3
-      //   // "clearable":true,
-      //   // "showPassword":true
-      //   // "float":"right"
-      // },
+      {
+        "type": "input",
+        "name": "关键字",
+        "field": "keyword",
+        "placeholder": "请输入用户的姓名/手机号",
+        "defaultValue": "",
+        // "width": 8,
+        "require": true,
+        "message": "请输入手机号",
+        "validate": "",
+        "minWidth":"300",
+        "suffixIcon":"el-icon-search"
+        // "maxlength":30
+        // "maxRows":5,
+        // "minRows":3
+        // "clearable":true,
+        // "showPassword":true
+        // "float":"right"
+      },
       // {
       //   "type": "timePicker",
       //   "name": "时间",

@@ -11,7 +11,6 @@ const diypage = {
     tableConfig:{},
     listNum:0,//判断是否需要重新请求加载列表数据
     ids:'',//table列表的ids，其他按钮操作后必须重置
-    // tableList:1,//当数据为0时，修改table组件显示状态
   },
 
   mutations:{
@@ -36,9 +35,6 @@ const diypage = {
     setIds(state,data){
       state.ids = data
     },
-    // setTableList(state,data){
-    //   state.tableList = data
-    // }
   },
   actions:{
     getConfigs({ commit }){

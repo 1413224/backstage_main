@@ -8,12 +8,14 @@
       :clearable="yClearable"
       :show-password="yShowPassword"
       :autosize="{minRows:yMinRows,maxRows:yMaxRows}"
+      ></el-input>
+      <!-- 
+      
       :maxlength="yMaxlength"
       :minlength="yMinlength"
       :show-word-limit="yShowWordLimit"
       :prefix-icon="yPrefixIcon"
-      :suffix-icon="ySuffixIcon"
-      ></el-input>
+      :suffix-icon="ySuffixIcon" -->
   </div>
 </template>
 <script>
@@ -38,10 +40,10 @@ export default {
       return this.configs.clearable
     },
     yType(){
-      if(this.configs.type){
-        return 'text'
+      if(this.configs.type=="textarea"){
+        return 'textarea'
       }else{
-        return this.configs.type
+        return 'text'
       }
     },
     yShowPassword(){
@@ -58,7 +60,9 @@ export default {
       }
     },
     yMaxlength(){
-      return this.configs.maxlength
+      if(this.configs.maxlength!=0){
+        return this.configs.maxlength
+      }
     },
     yMinlength(){
       return this.configs.minlength
@@ -75,6 +79,7 @@ export default {
   },
   watch:{
     value(val){
+      // console.log(val)
       this.inputValue = val
     },
     inputValue(val,oldVal){

@@ -13,13 +13,14 @@
             :key="index"
             class="item"
             :style="{float:item.float}">
+
               <el-form-item 
                 v-if="item.type=='input' || item.type=='textarea'" 
+                :style="{width:item.minWidth+'px'}"
                 :label="item.name" 
                 :prop="item.field">
                 <yInput
                   v-model="ruleForm[item.field]"
-                  :style="{width:item.minWidth+'px'}"
                   :configs="item">
                 </yInput>
               </el-form-item>
@@ -147,18 +148,24 @@
                 :configs="item">
               </yText>
 
-              <yButton
-                v-if="item.type=='button'"
-                :configs="item">
-              </yButton>
+                <yButton
+                  v-if="item.type=='button'"
+                  :configs="item"
+                  :style="{width:item.minWidth+'px'}">
+                </yButton>
+
+              <div class="btnwrap" v-if="item.type=='search'">
+                <el-button v-if="item.clearable" size="small" @click="resetForm('ruleForm')">清空</el-button>
+                <el-button type="primary" size="small" @click="searchSubmit('ruleForm')">搜索</el-button>
+              </div>
 
           </div>
         </div>
-      <!-- <el-button @click="aa" class="fl">测试</el-button> -->
-      <div class="btnwrap">
+      <el-button @click="aa" class="fl">测试</el-button>
+      <!-- <div class="btnwrap">
         <el-button size="small" @click="resetForm('ruleForm')">清空</el-button>
         <el-button type="primary" size="small" @click="searchSubmit('ruleForm')">搜索</el-button>
-      </div>
+      </div> -->
     </el-form>
     <!-- <el-button @click="aa">按钮</el-button> -->
   </div>
@@ -267,7 +274,7 @@ export default {
   methods:{
     aa(){
       console.log(this.ruleForm)
-      console.log(this.$store.state.diypage.ruleForm)
+      // console.log(this.$store.state.diypage.ruleForm)
     },
     bb(val){
       console.log(val)

@@ -56,6 +56,7 @@
   </div>
 </template>
 <script>
+import { mapState } from 'vuex'
 export default {
   name:'yButton',
   props:{
@@ -70,6 +71,9 @@ export default {
     }
   },
   computed:{
+    ...mapState({
+      ids:state => state.diypage.ids
+    }),
     yButtonType(){ return this.configs.buttonType },
     yButtonName(){ return this.configs.buttonName },
     yType(){ return this.configs.buttonClass },
@@ -159,11 +163,6 @@ export default {
       _this.configs.params.map((item,index)=>{
         params[item.name] = _this.listItem[item.field]
       })
-      // console.log(params)
-      // console.log(_this.listItem)
-      // console.log(_this.configs)
-
-      // return
       _this.$router.push({
         path:goUrl,
         query:params
@@ -173,23 +172,104 @@ export default {
 
     },
     availableButton(){
-      alert(9)
-      
+      let _this = this,
+          params = {},
+          token = '';
+
+      if(_this.ids==''){
+        _this.$message({
+          message:'请选择需要修改的数据信息',
+          type: 'warning'
+        })
+        return false
+      }
+
+      if(_this.configs.needLogin){
+        token = _this.$utils.getToken()
+      }
+      //这里的传参可能需要修改
+      _this.configs.params.map((item,index)=>{
+        params[item.name] = _this.ids
+      })
+      params = Object.assign(params,{
+        token:token,
+        status:1
+      })
+
+      if(_this.configs.apiService){
+        _this.$http.get(_this.configs.apiService,{
+          params
+        }).then((res)=>{
+          if(res.data.ret==200){
+            _this.$store.commit('changeList',1)
+            _this.$store.commit('setIds','')
+          }
+        })
+      }
+
     },
     unavailableButton(){
+      let _this = this,
+          params = {},
+          token = '';
 
+      if(_this.ids==''){
+        _this.$message({
+          message:'请选择需要修改的数据信息',
+          type: 'warning'
+        })
+        return false
+      }
+
+      if(_this.configs.needLogin){
+        token = _this.$utils.getToken()
+      }
+      //这里的传参可能需要修改
+      _this.configs.params.map((item,index)=>{
+        params[item.name] = _this.ids
+      })
+      params = Object.assign(params,{
+        token:token,
+        status:0
+      })
+      if(_this.configs.apiService){
+        _this.$http.get(_this.configs.apiService,{
+          params
+        }).then((res)=>{
+          if(res.data.ret==200){
+            _this.$store.commit('changeList',1)
+            _this.$store.commit('setIds','')
+          }
+        })
+      }
     },
     deleteButton(){
       let _this = this,
+          del = 0,
           token = null;
       if(_this.configs.needLogin){
         token = _this.$utils.getToken()
       }
       let params = {}
-      _this.configs.params.map((item,index)=>{
-        params[item.name] = _this.listItem[item.field]
-      })
 
+      if(_this.listItem){
+        _this.configs.params.map((item,index)=>{
+          params[item.name] = _this.listItem[item.field]
+        })
+      }else{
+        if(_this.ids==''){
+          _this.$message({
+            message:'请选择需要修改的数据信息',
+            type: 'warning'
+          })
+          return false
+        }
+        _this.configs.params.map((item,index)=>{
+          params[item.name] = _this.ids
+        })
+        _this.del = 1
+      }
+      
       params = Object.assign(params,{token:token})
       if(_this.configs.apiService){
         _this.$confirm('此操作将永久删除该信息, 是否继续?','提示',{
@@ -207,6 +287,10 @@ export default {
                 message: '删除成功!'
               })
               _this.$store.commit('changeList',1)
+              if(_this.del==1){
+                _this.$store.commit('setIds','')
+                _this.del = 0
+              }
             }
           })
         }).catch(()=>{
