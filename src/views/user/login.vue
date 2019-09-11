@@ -77,6 +77,7 @@
   </div>
 </template>
 <script>
+
 export default {
   data(){
     return {
@@ -142,7 +143,7 @@ export default {
         this.$message('请输入正确的手机号码')
         return
       }
-      _this.$http.get(_this.url.user.Login,{
+      _this.$http.get(_this.baseUrl + _this.url.user.Login,{
         params:{
           account:_this.phone,
           password:_this.MD5(_this.password),
@@ -150,6 +151,7 @@ export default {
         }
       }).then((res)=>{
         if(res.data.ret==200){
+          // console.log(res)
           localStorage.setItem("info",JSON.stringify(res.data.data))
           if(_this.rememberUserName==true){
             localStorage.setItem("userName",_this.phone)
@@ -162,7 +164,7 @@ export default {
             })
           }else{
             _this.$router.replace({
-              path:'/test1'
+              path:'/menupage'
             })
           }
           

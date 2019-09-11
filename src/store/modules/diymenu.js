@@ -16,7 +16,7 @@ const diymenu = {
   actions:{
     getMenuList({ commit }){
       return new Promise((resolve,reject)=>{
-        _this.$http.get(_this.url.control.GetDiyPageMenu,{
+        _this.$http.get(_this.baseUrl + _this.url.control.GetDiyPageMenu,{
           params:{
             token:_this.$utils.getToken()
           }

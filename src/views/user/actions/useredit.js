@@ -7,9 +7,10 @@ export default {
   },
   getInfo(){
     let _this = this
-    _this.$http.get(_this.url.user.GetInfo,{
+    _this.$http.get(_this.baseUrl + _this.url.user.GetInfo,{
       params:{
-        token:_this.$utils.getToken()
+        token:_this.$utils.getToken(),
+        role_type: _this.url.role_type
       }
     }).then((res)=>{
       if(res.data.ret==200){
@@ -37,6 +38,7 @@ export default {
   changeInfo(){
     let _this = this
     let params = {
+      role_type: _this.url.role_type,
       token:_this.$utils.getToken(),
       nickname:_this.nickName,
       thumb:'',
@@ -54,14 +56,14 @@ export default {
       params.emergency = _this.emergency
       params.egmobile = _this.egmobile
     }
-    _this.$http.get(_this.url.user.ChangeInfo,{
+    _this.$http.get(_this.baseUrl + _this.url.user.ChangeInfo,{
       params
     }).then((res)=>{
       if(res.data.ret==200){
-        // console.log(res)
-        // _this.resetInfo()
-        // window.location.reload()
-        _this.$message(res.data.data.title)
+        _this.$message({
+          type: 'success',
+          message:res.data.data.title
+        })
       }
     })
   },
@@ -69,12 +71,14 @@ export default {
 
   },
   goChangePhone(){
-    this.showChangePhone = true    
+    this.showChangePhone = true  
+    this.activeName = 'third'
   },
   getYzmChangePhone(){
     let _this = this 
-    _this.$http.get(_this.url.user.GetLoginCode,{
+    _this.$http.get(_this.baseUrl + _this.url.user.GetLoginCode,{
       params:{
+        role_type:_this.url.role_type,
         token:_this.$utils.getToken(),
         mobile:_this.changePhoneForm.newPhone,
         type:3
@@ -87,8 +91,9 @@ export default {
   },
   getYzmByChangePass(){
     let _this = this
-    _this.$http.get(_this.url.user.GetLoginCode,{
+    _this.$http.get(_this.baseUrl + _this.url.user.GetLoginCode,{
       params:{
+        role_type:_this.url.role_type,
         token:_this.$utils.getToken(),
         type:1
       }
@@ -104,8 +109,9 @@ export default {
       if(!valid){
         return false
       }
-      _this.$http.get(_this.url.user.ChangeMobile,{
+      _this.$http.get(_this.baseUrl + _this.url.user.ChangeMobile,{
         params:{
+          role_type:_this.url.role_type,
           token:_this.$utils.getToken(),
           password:_this.MD5(_this.changePhoneForm.changePhonePassword),
           new_mobile:_this.changePhoneForm.newPhone,
@@ -115,6 +121,8 @@ export default {
         if(res.data.ret==200){
           _this.$message(res.data.data.title)
           _this.$refs[formName].resetFields()
+          _this.getInfo()
+          _this.showChangePhoneTime = true
         }
       })
 
@@ -128,16 +136,17 @@ export default {
       }
       let url
       let params={
+        role_type:_this.url.role_type,
         token:_this.$utils.getToken(),
         new_password:_this.MD5(_this.accountForm.password)
       }
       if(_this.chanPasswordStatus==0){//根据旧密码修改
         params.old_password = _this.MD5(_this.accountForm.oldPassword)
-        url = _this.url.user.ChangePasswordByOld
+        url = _this.baseUrl + _this.url.user.ChangePasswordByOld
       }
       if(_this.chanPasswordStatus==1){//根据验证码修改密码
         params.verification_code = _this.accountForm.yzm
-        url = _this.url.user.ChangePasswordByCode
+        url = _this.baseUrl + _this.url.user.ChangePasswordByCode
       }
 
       _this.$http.get(url,{
@@ -188,5 +197,14 @@ export default {
     // _this.accountForm.oldPassword = ''
     // _this.accountForm.yzm = ''
     _this.$refs[formName].resetFields()
+  },
+  changePassStatus(num){
+    if(num=='1'){
+      this.showYZM = false
+    }else{
+      this.showYZM = true
+    }
+    this.$refs['accountForm'].resetFields()
   }
+
 }

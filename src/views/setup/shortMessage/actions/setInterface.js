@@ -56,7 +56,7 @@ export default {
         yuntongxun_account_sid : _this.interfaceForm.yuntongxunAccountSID,
         yuntongxun_account_token : _this.interfaceForm.yuntongxunAccountToken
       }
-      _this.$http.get(_this.url.control.SmsSaveConfig,{
+      _this.$http.get(_this.baseUrl + _this.url.control.SmsSaveConfig,{
         params
       }).then((res)=>{
         if(res.data.ret==200){
@@ -70,7 +70,7 @@ export default {
   },
   getConfig(){
     let _this = this
-    _this.$http.get(_this.url.control.SmsGetConfig,{
+    _this.$http.get(_this.baseUrl + _this.url.control.SmsGetConfig,{
       params:{
         token:_this.$utils.getToken()
       }

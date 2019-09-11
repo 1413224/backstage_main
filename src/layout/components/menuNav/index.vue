@@ -13,7 +13,7 @@
           @mouseenter="enter(item)"
           @click="toNavMenu(item,index,$event)">
           <!-- <svg-icon :className="item.icon" icon-class="clipboard" />  -->
-          <i :class="item.icon"></i>
+          <i class="iconfont" :class="item.icon"></i>
           {{item.name}}
         </li>
       </ul>
@@ -32,6 +32,7 @@
   </div>
 </template>
 <script>
+import menuList from '@/config/menu.js'
 import MenuList from './menuList'
 import { mapState } from 'vuex'
 export default {
@@ -178,29 +179,30 @@ export default {
       subMenuData:[
         
       ],
-      subMenuDataMove:[]
+      subMenuDataMove:[],
+      menuList:menuList.menu
     }
   },
   created(){
     let _this = this
-    // console.log(this.$route)
 
-    // console.log(_this.menuList.some(_this.filter))
     if(_this.menuList.some(_this.filter)){
       _this.showSecondSideBar = false
       _this.$emit('changeLeft',false)
     }else{
-      _this.showSecondSideBar = true
-      _this.$emit('changeLeft',true)
+      _this.showSecondSideBar = true//等待修改
+      // _this.showSecondSideBar = false//等待修改
+      _this.$emit('changeLeft',true)//等待修改
+      // _this.$emit('changeLeft',false)
     }
-    
 
     _this.filterMenuList.map((item)=>{
       item.children.map(submenuItem=>{//设置默认展开项
         _this.menuSetting.defaultOpeneds.push(String(submenuItem.menuId))
       })
+      _this.subMenuData = item.children  //刷新侧边栏数据丢失
       if(item.name == _this.$route.meta.parentsLabel){
-        _this.subMenuData = item.children
+        // _this.subMenuData = item.children
         return false
       }
     })
@@ -210,7 +212,7 @@ export default {
   },
   computed:{
     ...mapState({
-      menuList:state => state.diymenu.menuList
+      // menuList:state => state.diymenu.menuList
     }),
     filterMenuList(){
       // return this.menuList.filter(item => item.children.length !== 0)
@@ -229,7 +231,7 @@ export default {
     },
     toNavMenu(item,index,e) {
       let _this = this
-
+      // console.log(item)
       if(item.children){
         _this.showSecondSideBar = true
         _this.$emit('changeLeft',true)

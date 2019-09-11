@@ -2,22 +2,26 @@
   <div class="zent-breadcrumb">
     <span>移动店铺</span>
     <ul class="navbar-right fr">
-      <li>套餐升级</li>
-      <li>客户消息</li>
+      <!-- <li>套餐升级</li>
+      <li>客户消息</li> -->
       <li class="sfc-solution-user">
-        <svg-icon icon-class="clipboard"/>
+        <!-- <svg-icon icon-class="clipboard"/> -->
+        <i class="iconfont icon-unorderedlist"></i>
         <ul class="acount-menu">
           <!-- 多视图 -->
           <li>
-            <svg-icon icon-class="clipboard"></svg-icon>
+            <!-- <svg-icon icon-class="clipboard"></svg-icon> -->
+            <i class="iconfont icon-shop"></i>
             <span class="lab">切换店铺</span>
           </li>
           <router-link tag="li" to="/useredit">
-            <svg-icon icon-class="clipboard"></svg-icon>
+            <!-- <svg-icon icon-class="clipboard"></svg-icon> -->
+            <i class="iconfont icon-user"></i>
             <span class="lab">账号信息</span>
           </router-link>
           <li tag="li" to="" @click="logout">
-            <svg-icon icon-class="clipboard"></svg-icon>
+            <!-- <svg-icon icon-class="clipboard"></svg-icon> -->
+            <i class="iconfont icon-poweroff"></i>
             <span class="lab">退出账号</span>
           </li>
         </ul> 
@@ -42,9 +46,10 @@ export default {
       let _this = this,
         info = JSON.parse(localStorage.getItem("info"));
         
-      _this.$http.get(_this.url.user.Logout,{
+      _this.$http.get(_this.baseUrl + _this.url.user.Logout,{
         params:{
-          token:info.token
+          token:info.token,
+          role_type:_this.url.role_type
         }
       }).then((res)=>{
         if(res.data.ret == 200){

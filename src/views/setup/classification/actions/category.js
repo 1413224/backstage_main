@@ -21,7 +21,7 @@ export default {
     if(item){
       params.parent_id = item.id
     }
-    _this.$http.get(_this.url.control.GetCommonCategoryList,{
+    _this.$http.get(_this.baseUrl + _this.url.control.GetCommonCategoryList,{
       params
     }).then((res)=>{
       if(res.data.ret==200){
@@ -64,7 +64,7 @@ export default {
       ids:ids.toString()
     }
     
-    _this.$http.get(_this.url.control.UpdateCommonCategoryDisplayOrderByIds,{
+    _this.$http.get(_this.baseUrl + _this.url.control.UpdateCommonCategoryDisplayOrderByIds,{
       params
     }).then((res)=>{
       if(res.data.ret==200){
@@ -131,9 +131,9 @@ export default {
       let url
       if(_this.editId){
         params.id = _this.editId
-        url = _this.url.control.EditCommonCategoryById
+        url = _this.baseUrl + _this.url.control.EditCommonCategoryById
       }else{
-        url = _this.url.control.AddCommonCategory
+        url = _this.baseUrl + _this.url.control.AddCommonCategory
       }
       _this.$http.get(url,{
         params
@@ -190,7 +190,7 @@ export default {
     }).then(()=>{
       _this.loadingArray[contentIndex].loading = true
 
-      _this.$http.get(_this.url.control.DelCommonCategoryByIds,{
+      _this.$http.get(_this.baseUrl + _this.url.control.DelCommonCategoryByIds,{
         params:{
           token:_this.$utils.getToken(),
           ids:id

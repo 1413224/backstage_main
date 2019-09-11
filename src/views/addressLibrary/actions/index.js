@@ -9,7 +9,7 @@ export default {
       }
 
     return new Promise((resolve,reject)=>{
-      _this.$http.get(_this.url.control.GetAreaList,{
+      _this.$http.get(_this.baseUrl + _this.url.control.GetAreaList,{
         params
       }).then((res)=>{
         if(res.data.ret==200){
@@ -28,7 +28,7 @@ export default {
       parent_id:id,
       status:-1
     }
-    _this.$http.get(_this.url.control.GetAreaList,{
+    _this.$http.get(_this.baseUrl + _this.url.control.GetAreaList,{
       params
     }).then((res)=>{
       if(res.data.ret==200){
@@ -111,7 +111,7 @@ export default {
         population:_this.dialogForm.population,
         status:_this.dialogForm.status
       }
-      _this.$http.get(_this.url.control.AddAres,{
+      _this.$http.get(_this.baseUrl + _this.url.control.AddAres,{
         params
       }).then((res)=>{
         if(res.data.ret == 200){
@@ -145,7 +145,7 @@ export default {
         population:_this.dialogForm.population,
         status:_this.dialogForm.status
       }
-      _this.$http.get(_this.url.control.EditAreaById,{
+      _this.$http.get(_this.baseUrl + _this.url.control.EditAreaById,{
         params
       }).then((res)=>{
         if(res.data.ret==200){
@@ -158,7 +158,7 @@ export default {
   GetAreaInfoById(id){
     let _this = this
     return new Promise((resolve,reject)=>{
-      _this.$http.get(_this.url.control.GetAreaInfoById,{
+      _this.$http.get(_this.baseUrl + _this.url.control.GetAreaInfoById,{
         params:{
           token:_this.$utils.getToken(),
           id:id
@@ -183,7 +183,7 @@ export default {
         token:_this.$utils.getToken(),
         ids:data.id
       }
-      _this.$http.get(_this.url.control.DelAreaByIds,{
+      _this.$http.get(_this.baseUrl + _this.url.control.DelAreaByIds,{
         params
       }).then((res)=>{
         if(res.data.ret==200){
@@ -221,7 +221,7 @@ export default {
   },
   changeStatusById(item,value){
     let _this = this
-    _this.$http.get(_this.url.control.ChangeStatusByIds,{
+    _this.$http.get(_this.baseUrl + _this.url.control.ChangeStatusByIds,{
       params:{
         token:_this.$utils.getToken(),
         ids:item.id,

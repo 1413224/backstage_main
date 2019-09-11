@@ -4,7 +4,10 @@
     :placeholder="placeholder" 
     size="small"
     :clearable="yClearable"
-    :filterable="yFilterable ">
+    :filterable="yFilterable"
+    @change="changeSel"
+    :disabled="configs.disabled"
+    :multiple="configs.multiple">
     <el-option 
       v-for="(item,index) in options"
       :key="index"
@@ -18,7 +21,7 @@ export default {
   name:'y-select',
   props:{
     value:{
-      type:[String,Number]
+      type:[String,Number,Array]
     },
     options:{
       type:Array,
@@ -36,16 +39,25 @@ export default {
     }
   },
   created(){
+    // console.log(this.options)
   },
   computed:{
     yClearable(){
-      return this.configs.clearable
+      if(this.configs.clearable){
+        return this.configs.clearable
+      }
     },
     yFilterable(){
-      return this.configs.filterable
-    }
+      if(this.configs.filterable){
+        return this.configs.filterable
+      }
+    },
+    
   },
   methods:{
+    changeSel(){
+      this.$emit('changeSel',this.yvalue)
+    }
   },
   watch:{
     value(val){

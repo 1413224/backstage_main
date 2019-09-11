@@ -108,7 +108,8 @@
 
 
         <el-tab-pane label="账号管理" name="second">
-          <div class="not-edit-all not-edit-all2" v-show="!showChangePhone">
+          <!-- v-show="!showChangePhone" -->
+          <div class="not-edit-all not-edit-all2">
             <p class="msg-title">微盟账号</p>
             <el-row class="item">
               <el-col :span="5" class="lab">手机号码</el-col>
@@ -118,23 +119,23 @@
               <el-col :span="8" class="lab-right"><span @click="goChangePhone">修改手机号</span></el-col>
             </el-row>
             <p class="msg-title">修改密码</p>
-            <el-row class="item">
+            <!-- <el-row class="item">
               <el-col>
                 <el-radio-group v-model="chanPasswordStatus" @change="changePassWordStatus('accountForm')">
                   <el-radio :label="0">根据旧密码修改</el-radio>
                   <el-radio :label="1">根据验证码修改</el-radio>
                 </el-radio-group>
               </el-col>
-            </el-row>
+            </el-row> -->
             <el-form :model="accountForm" :rules="rules" ref="accountForm" label-width="82px">
-              <el-row class="item" v-if="chanPasswordStatus==0">
+              <el-row class="item" v-if="showYZM">
                 <el-col>
                   <el-form-item label="旧密码" prop="oldPassword">
                     <el-input v-model="accountForm.oldPassword" type="password" autocomplete="off" placeholder="请填写旧密码"></el-input>
                   </el-form-item>
                 </el-col>
               </el-row>
-              <el-row class="item" v-if="chanPasswordStatus==1">
+              <el-row class="item" v-if="!showYZM">
                 <el-col :span="17">
                   <el-form-item label="短信验证码" prop="yzm">
                     <el-input v-model="accountForm.yzm" autocomplete="off" placeholder="请填写短信验证码"></el-input>
@@ -152,14 +153,23 @@
                   </el-form-item>
                 </el-col>
               </el-row>
+              <el-row class="">
+                <el-col v-show="!showYZM" style="text-align:right">
+                  <el-button @click="changePassStatus('0')" type="text">旧密码修改密码</el-button>
+                </el-col>
+                <el-col v-show="showYZM" style="text-align:right">
+                  <el-button @click="changePassStatus('1')" type="text">验证码修改密码</el-button>
+                </el-col>
+              </el-row>
               <el-button type="primary" class="submit" @click="ChangePasswordByCode('accountForm')">确认修改</el-button>            
             </el-form>
           </div>
+        </el-tab-pane>
 
-
+        <el-tab-pane label="修改手机号" name="third" v-if="showChangePhone">
           <!-- 修改手机号 -->
-          <div class="change-phone" v-show="showChangePhone">
-            <p class="tit"><span @click="showChangePhone = false">账号管理</span> - 修改手机号</p>
+          <div class="change-phone" >
+            <!-- <p class="tit"><span @click="showChangePhone = false">账号管理</span> - 修改手机号</p> -->
             <div class="not-edit-all">
               <el-row class="item">
                 <el-col :span="5" class="lab">旧手机号</el-col>
@@ -199,6 +209,7 @@
           </div>
           <!-- 修改手机号end -->
         </el-tab-pane>
+
       </el-tabs>
     </div>
   </div>
@@ -246,6 +257,7 @@ export default {
       }
     }
     return {
+      showYZM:true,
       showChangePhone:false,
       showChangePhoneTime:true,
       timesChangePhone:'',

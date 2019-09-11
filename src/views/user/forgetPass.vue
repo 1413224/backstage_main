@@ -53,7 +53,7 @@ export default {
   methods:{
     senYzm(){
       let _this = this
-      _this.$http.get(_this.url.user.GetPublicCode,{
+      _this.$http.get(_this.baseUrl + _this.url.user.GetPublicCode,{
         params:{
           role_type:0,
           mobile:_this.phone,
@@ -102,7 +102,7 @@ export default {
         this.$message('请输入正确的手机号码')
         return
       }
-      _this.$http.get(_this.url.user.ForgetPassword,{
+      _this.$http.get(_this.baseUrl + _this.url.user.ForgetPassword,{
         params:{
           role_type:_this.url.role_type,
           account:_this.phone,
