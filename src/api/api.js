@@ -48,6 +48,9 @@ let url = {
     DelByIds:'manageFactory/page/System/DelByIds',//批量删除系统页面信息接口
 
   },
+  File:{
+    AddImage:'basic/upload/File/AddImage',//后台账户上传图片通用接口
+  },
   common:{
     GetRoleType:'cloud/common/Code/GetRoleType',//获取角色类型码接口
   },

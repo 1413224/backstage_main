@@ -4,8 +4,7 @@
       :visible.sync="dialogPicture"
       width="1100px"
       class="uploadPicture"
-      :before-close="closeDialog"
-    >
+      :before-close="closeDialog">
       <div slot="title">
         <ul class="clearfix tit-tabs">
           <li
@@ -24,7 +23,14 @@
         <div class="item-wrap" v-show="tabsidx==0">
           <div class="btn-wrap">
             <el-button type="danger" size="small">删除</el-button>
-            <el-button type="primary" size="small">上传图片</el-button>
+            <el-upload
+              style="width:120px;display:inline"
+              :action="baseUrl + url.File.AddImage"
+              :show-file-list="false"
+              :before-upload="beforeAvatarUpload"
+              :http-request="imgRequest">
+              <el-button type="primary" size="small">上传图片</el-button>
+            </el-upload>
           </div>
 
           <div class="top-wrap">
@@ -136,7 +142,7 @@ export default {
       curPage: 1,
       pageSize: 10,
       totalPages:1,
-      tabsidx: 2,
+      tabsidx: 0,
       tabsBtn: [
         { text: "平台" },
         { text: "本地服务器" },
@@ -241,6 +247,71 @@ export default {
       this.pageSize = sizeVal
       this.curPage = 1
       // this.getList()
+    },
+    beforeAvatarUpload(file){
+      // console.log(file)
+      // const isJPG = file.type === 'image/jpeg/png'
+      // const isLt2M = file.size / 1024 / 1024 < 2
+      // if (!isJPG) {
+      //   this.$message.error('上传头像图片只能是 JPG 格式!')
+      // }
+      // if (!isLt2M) {
+      //   this.$message.error('上传头像图片大小不能超过 2MB!')
+      // }
+      // return isJPG && isLt2M
+    },
+    // imgRequest(obj){
+    //   // console.log(obj)
+    //   // return
+    //   let _this = this
+    //   let imgFile = obj.file
+
+    //   // let img = URL.createObjectURL(imgFile)
+    //   // console.log(img)
+    //   // return
+      
+    //   let params = {
+    //     token:_this.$utils.getToken(),
+    //     role_type:_this.url.role_type,
+    //     file:imgFile
+    //   }
+    //   console.log(params)
+    //   _this.$http.get(_this.baseUrl + _this.url.File.AddImage,{
+    //     params
+    //   }).then((res)=>{
+    //     if(res.data.ret==200){
+    //       console.log(res)
+    //     }
+    //   })
+    // },
+    imgRequest(obj){
+      let _this = this
+      let fileObj = obj.file
+      let form = new FormData()
+      form.append("file", fileObj)
+      form.append("token", _this.$utils.getToken())
+      form.append("role_type", _this.url.role_type)
+
+      _this.$http({
+          method:'post',
+          url:_this.baseUrl + _this.url.File.AddImage,
+          data:form,
+          headers:{
+            'Content-Type': 'multipart/form-data'
+          }
+        }).then((res)=>{
+        if(res.data.ret==200){
+
+        }
+      })
+      console.log(form.get('file'))
+    },
+    handleAvatarSuccess(res,file){
+      // this.imageUrl = URL.createObjectURL(file.raw)
+      let _this = this
+    },
+    handleAvatarError(err, file, fileList){
+      console.log(err)
     }
   },
   watch: {

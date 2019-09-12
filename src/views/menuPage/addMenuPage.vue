@@ -14,7 +14,7 @@
       <el-form-item label="布局：" prop="layout">
         <el-radio-group v-model="ruleForm.layout">
           <el-radio class="theme-raido" label="default">
-            <div class="wrap-item">
+            <div class="wrap-item" :class="{'border-blue-dashed':ruleForm.layout=='default'}">
               <div class="img">
                 <img src="../../assets/weimeng.png" alt="">
               </div>
@@ -22,7 +22,7 @@
             </div>
           </el-radio>
           <el-radio class="theme-raido" label="youzan">
-            <div class="wrap-item">
+            <div class="wrap-item" :class="{'border-blue-dashed':ruleForm.layout=='youzan'}">
               <div class="img">
                 <img src="../../assets/youzan.png" alt="">
               </div>
@@ -212,6 +212,7 @@ export default {
     height: 200px;
     border: 1px dashed #ccc;
     text-align: center;
+    padding: 10px;
     .img{
       width: 150px;
       height: 150px;

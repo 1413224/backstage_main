@@ -29,12 +29,18 @@
             label="标题">
           </el-table-column>
           <el-table-column
-            prop="layout"
             label="布局">
+            <template slot-scope="scope">
+              <div v-if="scope.row.layout=='default'">微盟布局</div>
+              <div v-if="scope.row.layout=='youzan'">有赞布局</div>
+            </template>
           </el-table-column>
           <el-table-column
-            prop="theme"
             label="主题">
+            <template slot-scope="scope">
+              <div v-if="scope.row.theme=='red'">胭脂红</div>
+              <div v-if="scope.row.theme=='blue'">天空蓝</div>
+            </template>
           </el-table-column>
           <el-table-column
             prop="rootFontSize"

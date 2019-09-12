@@ -130,8 +130,8 @@
         @size-change="handleSize" 
         @current-change="handleCurrent" 
         :current-page.sync="curPage" 
-        :page-sizes="[10, 20, 30, 50]" 
-        :page-size="pageSize" 
+        :page-sizes="[10, 20, 30, 50]"
+        :page-size="pageSize"
         layout="sizes, prev, slot, next" 
         prev-text="上一页" next-text="下一页" 
         :total="totalNums">
