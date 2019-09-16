@@ -28,7 +28,8 @@
               :action="baseUrl + url.File.AddImage"
               :show-file-list="false"
               :before-upload="beforeAvatarUpload"
-              :http-request="imgRequest">
+              :http-request="imgRequest"
+              multiple>
               <el-button type="primary" size="small">上传图片</el-button>
             </el-upload>
           </div>
@@ -41,7 +42,7 @@
               </div>
               <div class="group-list">
                 <div
-                  class="item"
+                  class="item default-item"
                   :class="{active:ptGroupIdx == index}"
                   v-for="(item,index) in ptGroupData"
                   :key="index"
@@ -103,11 +104,97 @@
 
         <!-- 本地服务开始 -->
         <div class="item-wrap" v-show="tabsidx==1">
+          <el-select v-model="year" size="small" style="margin-left:20px;">
+            <el-option :value="-1" label="不限年份"></el-option>
+            <el-option :value="2015" :label="2015"></el-option>
+          </el-select>
+          <el-select v-model="month" size="small">
+            <el-option :value="-1" label="不限月份"></el-option>
+            <el-option :value="10" :label="10"></el-option>
+          </el-select>
+          <el-button size="mini" type="primary" 
+            style="position:relative;top:2px;">
+            <i class="iconfont icon-search"></i>
+          </el-button>
           <div class="btn-wrap">
             <el-button type="danger" size="small">删除</el-button>
             <el-button type="primary" size="small">上传图片</el-button>
           </div>
-          sdg
+          <div class="top-wrap">
+            <div class="group-wrap">
+              <div class="top" @click="addGroup">
+                <i class="iconfont icon-plus-circle"></i>
+                <span class="add-group">添加分组</span>
+              </div>
+              <div class="group-list">
+                <div class="item default-item">
+                  <i class="iconfont icon-folder-add"></i>
+                  <span class="name">全部</span>
+                </div>
+                <div class="item default-item">
+                  <i class="iconfont icon-folder-add"></i>
+                  <span class="name">未分组</span>
+                </div>
+                <div
+                  class="item"
+                  :class="{active:ptGroupIdx == index}"
+                  v-for="(item,index) in bdGroupData"
+                  :key="index"
+                  @click="changeTab(item,index)">
+                  <div class="name-wrap">
+                    <i class="iconfont icon-folder-add"></i>
+                    <span v-show="!item.submitShow" class="name">{{item.text}}</span>
+                    <el-input 
+                      v-show="item.submitShow" 
+                      v-model="item.text"
+                      size="small"></el-input>
+                    <i class="iconfont icon-setting ico-set"
+                      @click.stop="settingGroup(item,index)"></i>
+                  </div>
+                  <div class="edit" v-show="item.editShow">
+                    <span v-show="!item.submitShow" class="color-default" 
+                      @click="editBtn(item,index)">
+                      <i class="iconfont icon-post"></i>编辑
+                    </span>
+                    <span v-show="!item.submitShow" class="color-red">
+                      <i class="iconfont icon-delete"></i>删除
+                    </span>
+                    <span v-show="item.submitShow" class="color-default">
+                      <i class="iconfont icon-check-circle"></i>确定
+                    </span>
+                    <span v-show="item.submitShow" class="color-red"
+                      @click="cancelBtn(item,index)">
+                      <i class="iconfont icon-close-circle"></i>取消
+                    </span>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <!-- 列表开始 -->
+            <div class="list-wrap">
+              <div
+                v-for="(item,index) in ptListData"
+                :key="index"
+                class="item"
+                :class="{active:item.active}"
+                :style="{backgroundImage:`url(${item.url})`}"
+                @click="selectImage(item)">
+                <div class="name ellipsis">{{item.name}}</div>
+                <div class="mask">
+                  <i class="iconfont icon-check"></i>
+                </div>
+                <!-- <div class="del">
+                    <i class="iconfont icon-delete"></i>
+                  </div> -->
+                <div class="del-border">
+                  <div class="del" @click.stop="ptDelImage(item)">
+                    <i class="iconfont icon-delete"></i>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <!-- 列表end -->
+          </div>
         </div>
         <!-- 本地服务end -->
 
@@ -130,7 +217,8 @@
   </div>
 </template>
 <script>
-import { mapState } from "vuex";
+import { mapState } from "vuex"
+import actions from './actions/uploadPicture'
 export default {
   props: {
     value: [Boolean]
@@ -142,7 +230,7 @@ export default {
       curPage: 1,
       pageSize: 10,
       totalPages:1,
-      tabsidx: 0,
+      tabsidx: 1,
       tabsBtn: [
         { text: "平台" },
         { text: "本地服务器" },
@@ -150,6 +238,7 @@ export default {
       ],
       ptGroupIdx: 0,
       ptGroupData: [{ text: "组名" }, { text: "组名" }, { text: "组名" }],
+      bdGroupData:[{ text: "组名1" }, { text: "组名" }, { text: "组名" }],
       cheakAll:false,
       ptListData: [
         {
@@ -193,27 +282,37 @@ export default {
           active: false
         },
       ],
-      picSrc:''
+      picSrc:'',
+      year:-1,
+      month:-1
     };
   },
-  created() {},
+  created() {
+    let _this = this
+    _this.bdGroupData.map((item)=>{
+      _this.$set(item,'editShow',false)
+      _this.$set(item,'submitShow',false)
+    })
+    // console.log(_this.bdGroupData)
+  },
   computed: {
     ...mapState({
       // dialogPicture:state => state.uploadPicture.dialogPicture
     })
   },
   methods: {
+    ...actions,
     handelTabs(idx) {
-      let _this = this;
-      _this.tabsidx = idx;
+      let _this = this
+      _this.tabsidx = idx
     },
     closeDialog(done) {
       done();
       // this.$store.commit('setDialogPicture',false)
     },
     changeTab(item, index) {
-      let _this = this;
-      _this.ptGroupIdx = index;
+      let _this = this
+      _this.ptGroupIdx = index
     },
     selectImage(item) {
       let _this = this
@@ -260,30 +359,6 @@ export default {
       // }
       // return isJPG && isLt2M
     },
-    // imgRequest(obj){
-    //   // console.log(obj)
-    //   // return
-    //   let _this = this
-    //   let imgFile = obj.file
-
-    //   // let img = URL.createObjectURL(imgFile)
-    //   // console.log(img)
-    //   // return
-      
-    //   let params = {
-    //     token:_this.$utils.getToken(),
-    //     role_type:_this.url.role_type,
-    //     file:imgFile
-    //   }
-    //   console.log(params)
-    //   _this.$http.get(_this.baseUrl + _this.url.File.AddImage,{
-    //     params
-    //   }).then((res)=>{
-    //     if(res.data.ret==200){
-    //       console.log(res)
-    //     }
-    //   })
-    // },
     imgRequest(obj){
       let _this = this
       let fileObj = obj.file

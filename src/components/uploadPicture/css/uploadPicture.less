@@ -9,6 +9,7 @@
     // border-top: 1px solid #eee;
     margin-top: 15px;
     // flex-wrap: wrap;
+    
     .top-wrap{
       display: flex;
     }
@@ -42,24 +43,73 @@
         right: 0;
         // border: 1px solid #f00;
         overflow: auto;
+        .default-item{
+          height: 45px;
+          line-height: 45px;
+          .iconfont{
+            font-size: 24px;
+            color: #EDCE86;
+            margin-left: 20px;
+          }
+        }
         .item{
           width: 100%;
-          height: 44px;
-          line-height: 44px;
-          display: flex;
-          justify-content: center;
+          position: relative;
+          .name-wrap,.edit{
+            height: 44px;
+            line-height: 44px;
+          }
+          .name-wrap{
+            border-bottom: 1px solid #eee;
+            display: flex;
+            justify-content: flex-start;
+            position: relative;
+            .el-input{
+              width: 53%;
+              margin-left: 3px;
+            }
+            .ico-set{
+              color: #3296fa !important;
+              position: absolute;
+              right: 6px;
+              display: none;
+            }
+            &:hover{
+              .ico-set{
+                display: block;
+              }
+            }
+            .iconfont{
+              font-size: 24px;
+              color: #EDCE86;
+              margin-left: 20px;
+            }
+          }
           &.active{
             background: #fff;
           }
           &:hover{
             cursor: pointer;
           }
-          .iconfont{
-            font-size: 24px;
-            color: #EDCE86;
-          }
           .name{
             margin-left: 10px;
+          }
+          .edit{
+            padding: 0 20px;
+            font-size: 12px;
+            .iconfont{
+              font-size: 14px;
+              // margin-right: 2px;
+            }
+            .color-default{
+              color: #3296fa;
+              margin: 0 5px;
+            }
+            .color-red{
+              color: #cf1010;
+              margin: 0 5px;
+
+            }
           }
         }
       }
