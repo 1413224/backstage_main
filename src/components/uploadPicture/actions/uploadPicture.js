@@ -1,4 +1,9 @@
 export default {
+  changeTab(e,item, index) {
+    let _this = this
+    _this.ptGroupIdx = index
+    console.log(e)
+  },
   addGroup(){
     let _this = this
   },

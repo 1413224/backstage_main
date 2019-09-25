@@ -20,10 +20,15 @@
       <div class="content">
 
         <!-- 平台开始 -->
+        <!-- :auto-upload="false" -->
+        <!-- :http-request="imgRequest" -->
+        <!-- :action="baseUrl + url.File.AddImage" -->
+
         <div class="item-wrap" v-show="tabsidx==0">
           <div class="btn-wrap">
             <el-button type="danger" size="small">删除</el-button>
             <el-upload
+              ref="uploada"
               style="width:120px;display:inline"
               :action="baseUrl + url.File.AddImage"
               :show-file-list="false"
@@ -127,7 +132,7 @@
                 <span class="add-group">添加分组</span>
               </div>
               <div class="group-list">
-                <div class="item default-item">
+                <div class="item default-item" @click="changeTab($event)">
                   <i class="iconfont icon-folder-add"></i>
                   <span class="name">全部</span>
                 </div>
@@ -140,7 +145,7 @@
                   :class="{active:ptGroupIdx == index}"
                   v-for="(item,index) in bdGroupData"
                   :key="index"
-                  @click="changeTab(item,index)">
+                  @click="changeTab($event,item,index)">
                   <div class="name-wrap">
                     <i class="iconfont icon-folder-add"></i>
                     <span v-show="!item.submitShow" class="name">{{item.text}}</span>
@@ -205,7 +210,7 @@
           </div>
           <div class="desc-tip">输入图片链接</div>
           <el-input class="pic-input" v-model="picSrc" size="small" placeholder="图片链接"></el-input>
-          <el-button class="zhbtn" size="small">转化</el-button>
+          <el-button class="zhbtn" size="small" @click="linkUpLoadPic">转化</el-button>
         </div>
         <!-- 提取网络照片end -->
       </div>
@@ -225,6 +230,7 @@ export default {
   },
   data() {
     return {
+      list:[],
       dialogPicture: this.value,
       totalNums:0,
       curPage: 1,
@@ -307,13 +313,10 @@ export default {
       _this.tabsidx = idx
     },
     closeDialog(done) {
-      done();
+      done()
       // this.$store.commit('setDialogPicture',false)
     },
-    changeTab(item, index) {
-      let _this = this
-      _this.ptGroupIdx = index
-    },
+    
     selectImage(item) {
       let _this = this
       if (item.active) {
@@ -349,6 +352,10 @@ export default {
     },
     beforeAvatarUpload(file){
       // console.log(file)
+      let _this = this
+      console.log(file)
+      // console.log(_this.$refs.uploada.uploadFiles)
+      // console.log(_this.list)
       // const isJPG = file.type === 'image/jpeg/png'
       // const isLt2M = file.size / 1024 / 1024 < 2
       // if (!isJPG) {
@@ -358,12 +365,20 @@ export default {
       //   this.$message.error('上传头像图片大小不能超过 2MB!')
       // }
       // return isJPG && isLt2M
+      // _this.imgRequest(file)
     },
     imgRequest(obj){
       let _this = this
       let fileObj = obj.file
+      // let fileObj = obj
       let form = new FormData()
+
+      // console.log(_this.$refs.uploada.uploadFiles)
+      // console.log(obj.file)
+      // return 
+
       form.append("file", fileObj)
+      // form.append("file",_this.$refs.uploada.uploadFiles)
       form.append("token", _this.$utils.getToken())
       form.append("role_type", _this.url.role_type)
 
@@ -376,10 +391,31 @@ export default {
           }
         }).then((res)=>{
         if(res.data.ret==200){
-
+          // _this.$message({
+          //   type: 'success',
+          //   message: '更改成功!'
+          // })
         }
       })
-      console.log(form.get('file'))
+      // console.log(form.get('file'))
+    },
+    linkUpLoadPic(){
+      let _this = this
+      _this.$http.get(_this.baseUrl + _this.url.File.AddImageByUrl,{
+        params:{
+          token:_this.$utils.getToken(),
+          role_type:_this.url.role_type,
+          url:_this.picSrc
+        }
+      }).then((res)=>{
+        if(res.data.ret==200){
+          _this.$message({
+            type: 'success',
+            message: '上传成功!'
+          })
+          _this.picSrc = ''
+        }
+      })
     },
     handleAvatarSuccess(res,file){
       // this.imageUrl = URL.createObjectURL(file.raw)
