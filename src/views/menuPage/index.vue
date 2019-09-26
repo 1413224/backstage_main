@@ -124,11 +124,9 @@ export default {
     GetRoleType(){
       return new Promise((resolve,reject)=>{
         let _this = this
-        _this.$http.get(_this.baseUrl + _this.url.common.GetRoleType,{
-          params:{
-            role_type:_this.url.role_type,
-            token:_this.$utils.getToken()
-          }
+        _this.$http.post(_this.baseUrl + _this.url.common.GetRoleType,{
+          role_type:_this.url.role_type,
+          token:_this.$utils.getToken()
         }).then((res)=>{
           if(res.data.ret==200){
             // console.log(res.data.data)
@@ -148,15 +146,13 @@ export default {
     },
     getList(roleType){
       let _this = this
-      console.log(_this.scene)
-      _this.$http.get(_this.baseUrl + _this.url.manageFactory.GetList,{
-        params:{
-          token:_this.$utils.getToken(),
-          role_type:roleType || roleType==0 ? roleType : _this.scene,
-          keyword:_this.keyword,
-          page_size:_this.pageSize,
-          page_num:_this.curPage
-        }
+      // console.log(_this.scene)
+      _this.$http.post(_this.baseUrl + _this.url.manageFactory.GetList,{
+        token:_this.$utils.getToken(),
+        role_type:roleType || roleType==0 ? roleType : _this.scene,
+        keyword:_this.keyword,
+        page_size:_this.pageSize,
+        page_num:_this.curPage
       }).then((res)=>{
         if(res.data.ret==200){
           // console.log(res.data.data)
@@ -174,12 +170,10 @@ export default {
       }else{
         status=1
       }
-      _this.$http.get(_this.baseUrl + _this.url.manageFactory.ChangeManageStatusById,{
-        params:{
-          token:_this.$utils.getToken(),
-          id:id,
-          status:status
-        }
+      _this.$http.post(_this.baseUrl + _this.url.manageFactory.ChangeManageStatusById,{
+        token:_this.$utils.getToken(),
+        id:id,
+        status:status
       }).then((res)=>{
         if(res.data.ret==200){
           _this.$message({
@@ -197,11 +191,9 @@ export default {
         cancelButtonText: '取消',
         type: 'warning'
       }).then(()=>{
-        _this.$http.get(_this.baseUrl + _this.url.manageFactory.DelManageById,{
-          params:{
-            token:_this.$utils.getToken(),
-            id:id
-          }
+        _this.$http.post(_this.baseUrl + _this.url.manageFactory.DelManageById,{
+          token:_this.$utils.getToken(),
+          id:id
         }).then((res)=>{
           if(res.data.ret==200){
             _this.$message({

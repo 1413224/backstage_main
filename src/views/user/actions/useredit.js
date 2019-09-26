@@ -7,11 +7,9 @@ export default {
   },
   getInfo(){
     let _this = this
-    _this.$http.get(_this.baseUrl + _this.url.user.GetInfo,{
-      params:{
-        token:_this.$utils.getToken(),
-        role_type: _this.url.role_type
-      }
+    _this.$http.post(_this.baseUrl + _this.url.user.GetInfo,{
+      token:_this.$utils.getToken(),
+      role_type: _this.url.role_type
     }).then((res)=>{
       if(res.data.ret==200){
         // console.log(res.data.data)
@@ -56,9 +54,7 @@ export default {
       params.emergency = _this.emergency
       params.egmobile = _this.egmobile
     }
-    _this.$http.get(_this.baseUrl + _this.url.user.ChangeInfo,{
-      params
-    }).then((res)=>{
+    _this.$http.post(_this.baseUrl + _this.url.user.ChangeInfo,params).then((res)=>{
       if(res.data.ret==200){
         _this.$message({
           type: 'success',
@@ -76,13 +72,11 @@ export default {
   },
   getYzmChangePhone(){
     let _this = this 
-    _this.$http.get(_this.baseUrl + _this.url.user.GetLoginCode,{
-      params:{
-        role_type:_this.url.role_type,
-        token:_this.$utils.getToken(),
-        mobile:_this.changePhoneForm.newPhone,
-        type:3
-      }
+    _this.$http.post(_this.baseUrl + _this.url.user.GetLoginCode,{
+      role_type:_this.url.role_type,
+      token:_this.$utils.getToken(),
+      mobile:_this.changePhoneForm.newPhone,
+      type:3
     }).then((res)=>{
       if(res.data.ret==200){
         _this.changePhoneCountDown()
@@ -91,12 +85,10 @@ export default {
   },
   getYzmByChangePass(){
     let _this = this
-    _this.$http.get(_this.baseUrl + _this.url.user.GetLoginCode,{
-      params:{
-        role_type:_this.url.role_type,
-        token:_this.$utils.getToken(),
-        type:1
-      }
+    _this.$http.post(_this.baseUrl + _this.url.user.GetLoginCode,{
+      role_type:_this.url.role_type,
+      token:_this.$utils.getToken(),
+      type:1
     }).then((res)=>{
       if(res.data.ret==200){
         _this.changePassCountDown()
@@ -109,14 +101,12 @@ export default {
       if(!valid){
         return false
       }
-      _this.$http.get(_this.baseUrl + _this.url.user.ChangeMobile,{
-        params:{
-          role_type:_this.url.role_type,
-          token:_this.$utils.getToken(),
-          password:_this.MD5(_this.changePhoneForm.changePhonePassword),
-          new_mobile:_this.changePhoneForm.newPhone,
-          verification_code:_this.changePhoneForm.changePhoneYzm
-        }
+      _this.$http.post(_this.baseUrl + _this.url.user.ChangeMobile,{
+        role_type:_this.url.role_type,
+        token:_this.$utils.getToken(),
+        password:_this.MD5(_this.changePhoneForm.changePhonePassword),
+        new_mobile:_this.changePhoneForm.newPhone,
+        verification_code:_this.changePhoneForm.changePhoneYzm
       }).then((res)=>{
         if(res.data.ret==200){
           _this.$message(res.data.data.title)
@@ -149,9 +139,7 @@ export default {
         url = _this.baseUrl + _this.url.user.ChangePasswordByCode
       }
 
-      _this.$http.get(url,{
-        params
-      }).then((res)=>{
+      _this.$http.post(url,params).then((res)=>{
         if(res.data.ret==200){
           localStorage.removeItem('info')
           _this.$message({

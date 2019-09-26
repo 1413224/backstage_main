@@ -401,12 +401,17 @@ export default {
     },
     linkUpLoadPic(){
       let _this = this
-      _this.$http.get(_this.baseUrl + _this.url.File.AddImageByUrl,{
-        params:{
-          token:_this.$utils.getToken(),
-          role_type:_this.url.role_type,
-          url:_this.picSrc
-        }
+      if(_this.picSrc==''){
+        _this.$message({
+          type: 'warning',
+          message: '请输入图片链接!'
+        })
+        return
+      }
+      _this.$http.post(_this.baseUrl + _this.url.File.AddImageByUrl,{
+        token:_this.$utils.getToken(),
+        role_type:_this.url.role_type,
+        url:_this.picSrc
       }).then((res)=>{
         if(res.data.ret==200){
           _this.$message({

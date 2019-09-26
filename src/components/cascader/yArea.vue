@@ -66,9 +66,7 @@ export default {
         parent_id:parantId
       }
       return new Promise(function(reso,rej){
-        _this.$http.get(_this.baseUrl + _this.url.control.GetAreaList,{
-          params
-        }).then(function(res){
+        _this.$http.post(_this.baseUrl + _this.url.control.GetAreaList,params).then(function(res){
           if(res.data.ret == 200){
             let list = res.data.data.list
             _this.areaItem = list.map(item => ({

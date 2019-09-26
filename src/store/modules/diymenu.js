@@ -16,10 +16,8 @@ const diymenu = {
   actions:{
     getMenuList({ commit }){
       return new Promise((resolve,reject)=>{
-        _this.$http.get(_this.baseUrl + _this.url.control.GetDiyPageMenu,{
-          params:{
-            token:_this.$utils.getToken()
-          }
+        _this.$http.post(_this.baseUrl + _this.url.control.GetDiyPageMenu,{
+          token:_this.$utils.getToken()
         }).then((res)=>{
           if(res.data.ret==200){
             // console.log(res.data.data.menu)

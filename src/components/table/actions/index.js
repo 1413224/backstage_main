@@ -61,11 +61,9 @@ export default {
     })
     ids = idsArray.toString()
     if(configs.needPagebean==false && configs.sortApiService){
-      _this.$http.get(configs.sortApiService,{
-        params:{
-          token:_this.$utils.getToken(),
-          ids:ids
-        }
+      _this.$http.post(configs.sortApiService,{
+        token:_this.$utils.getToken(),
+        ids:ids
       }).then((res)=>{
         if(res.data.ret==200){
           _this.$store.commit('changeList',1)

@@ -39,12 +39,10 @@ const diypage = {
   actions:{
     getConfigs({ commit }){
       return new Promise((resolve,reject)=>{
-        _this.$http.get(_this.baseUrl + _this.url.control.GetDiyListPage,{
-          params:{
-            token:_this.$utils.getToken(),
-            path:'/account/list'
-            // path:1
-          }
+        _this.$http.post(_this.baseUrl + _this.url.control.GetDiyListPage,{
+          token:_this.$utils.getToken(),
+          path:'/account/list'
+          // path:1
         }).then((res)=>{
           if(res.data.ret==200){
             commit('setConfigs',res.data.data)

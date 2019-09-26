@@ -139,9 +139,7 @@ export default {
       },{token:token,status:-1},_this.ruleForm)
       //apiService为空时，不需要请求
       if(_this.pageData.apiService){
-        _this.$http.get(_this.pageData.apiService,{
-          params
-        }).then((res)=>{
+        _this.$http.post(_this.pageData.apiService,params).then((res)=>{
           if(res.data.ret==200){
             let data = res.data.data
             data.list.map((item)=>{

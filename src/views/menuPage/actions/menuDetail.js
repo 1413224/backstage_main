@@ -3,12 +3,10 @@ export default {
     // console.log(tree)
     // console.log(treeNode)
     let _this = this
-    _this.$http.get(_this.baseUrl + _this.url.Menu.GetMenuList,{
-      params:{
-        token:_this.$utils.getToken(),
-        group_id:_this.$route.query.id,
-        parent_id:tree.id
-      }
+    _this.$http.post(_this.baseUrl + _this.url.Menu.GetMenuList,{
+      token:_this.$utils.getToken(),
+      group_id:_this.$route.query.id,
+      parent_id:tree.id
     }).then((res)=>{
       if(res.data.ret==200){
         let data = res.data.data
@@ -96,9 +94,7 @@ export default {
         params.id = _this.rowId
       }
 
-      _this.$http.get(url,{
-        params
-      }).then((res)=>{
+      _this.$http.post(url,params).then((res)=>{
         if(res.data.ret==200){
           _this.$message({
             type: 'success',
@@ -114,12 +110,10 @@ export default {
 
   getList(parentId){
     let _this = this
-    _this.$http.get(_this.baseUrl + _this.url.Menu.GetAllList,{
-      params:{
-        token:_this.$utils.getToken(),
-        group_id:_this.$route.query.id,
-        parent_id:parentId || 0
-      }
+    _this.$http.post(_this.baseUrl + _this.url.Menu.GetAllList,{
+      token:_this.$utils.getToken(),
+      group_id:_this.$route.query.id,
+      parent_id:parentId || 0
     }).then((res)=>{
       if(res.data.ret==200){
         let data = res.data.data
@@ -208,9 +202,7 @@ export default {
         params.id = _this.rowId     
       }
 
-      _this.$http.get(url,{
-        params
-      }).then((res)=>{
+      _this.$http.post(url,params).then((res)=>{
         if(res.data.ret==200){
           _this.$message({
             type: 'success',
@@ -233,11 +225,9 @@ export default {
       cancelButtonText: '取消',
       type: 'warning'
     }).then(()=>{
-      _this.$http.get(_this.baseUrl + _this.url.Menu.DelMenuByIds,{
-        params:{
-          token:_this.$utils.getToken(),
-          ids:row.id
-        }
+      _this.$http.post(_this.baseUrl + _this.url.Menu.DelMenuByIds,{
+        token:_this.$utils.getToken(),
+        ids:row.id
       }).then((res)=>{
         if(res.data.ret==200){
           _this.$message({
@@ -260,11 +250,9 @@ export default {
     console.log(row)
     let _this = this
     _this.rowId = row.id
-    _this.$http.get(_this.baseUrl + _this.url.Menu.GetInfoById,{
-      params:{
-        token:_this.$utils.getToken(),
-        id:row.id
-      }
+    _this.$http.post(_this.baseUrl + _this.url.Menu.GetInfoById,{
+      token:_this.$utils.getToken(),
+      id:row.id
     }).then((res)=>{
       if(res.data.ret==200){
         let data = res.data.data
@@ -360,9 +348,7 @@ export default {
         params.menuType = 'menuPage'
       }
 
-      _this.$http.get(url,{
-        params
-      }).then((res)=>{
+      _this.$http.post(url,params).then((res)=>{
         if(res.data.ret==200){
           _this.$message({
             type: 'success',
@@ -384,12 +370,10 @@ export default {
     }else{
       status=0
     }
-    _this.$http.get(_this.baseUrl + _this.url.Menu.ChangeStatusByIds,{
-      params:{
-        token:_this.$utils.getToken(),
-        ids:id,
-        status:status
-      }
+    _this.$http.post(_this.baseUrl + _this.url.Menu.ChangeStatusByIds,{
+      token:_this.$utils.getToken(),
+      ids:id,
+      status:status
     }).then((res)=>{
       if(res.data.ret==200){
         _this.$message({
@@ -404,12 +388,10 @@ export default {
   },
   umDisplayOrder(id,type){
     let _this = this
-    _this.$http.get(_this.baseUrl + _this.url.Menu.UpdateMenuDisplayOrder,{
-      params:{
-        token:_this.$utils.getToken(),
-        menu_id:id,
-        type:type
-      }
+    _this.$http.post(_this.baseUrl + _this.url.Menu.UpdateMenuDisplayOrder,{
+      token:_this.$utils.getToken(),
+      menu_id:id,
+      type:type
     }).then((res)=>{
       if(res.data.ret==200){
         _this.$message({
@@ -446,11 +428,9 @@ export default {
       cancelButtonText: '取消',
       type: 'warning'
     }).then(()=>{
-      _this.$http.get(_this.baseUrl + _this.url.Menu.DelMenuByIds,{
-        params:{
-          token:_this.$utils.getToken(),
-          ids:ids
-        }
+      _this.$http.post(_this.baseUrl + _this.url.Menu.DelMenuByIds,{
+        token:_this.$utils.getToken(),
+        ids:ids
       }).then((res)=>{
         if(res.data.ret=200){
           _this.$message({

@@ -7,11 +7,9 @@ export default {
   GetRoleType(){
     return new Promise((resolve,reject)=>{
       let _this = this
-      _this.$http.get(_this.baseUrl + _this.url.common.GetRoleType,{
-        params:{
-          role_type:_this.url.role_type,
-          token:_this.$utils.getToken()
-        }
+      _this.$http.post(_this.baseUrl + _this.url.common.GetRoleType,{
+        role_type:_this.url.role_type,
+        token:_this.$utils.getToken()
       }).then((res)=>{
         if(res.data.ret==200){
           // console.log(res.data.data)
@@ -52,18 +50,16 @@ export default {
   getList(roleType){
     //注意roletype为0
     let _this = this
-    _this.$http.get(_this.baseUrl + _this.url.System.GetList,{
-      params:{
-        token:_this.$utils.getToken(),
-        // role_type:roleType || roleType == 0 ? roleType : _this.searchForm.roleType,
-        // cate_id:_this.searchForm.pageType,
-        role_type:-1,
-        cate_id:_this.cateId,
-        status:_this.searchForm.status,
-        keyword:_this.searchForm.keyword,
-        page_size:_this.pageSize,
-        page_num:_this.curPage
-      }
+    _this.$http.post(_this.baseUrl + _this.url.System.GetList,{
+      token:_this.$utils.getToken(),
+      // role_type:roleType || roleType == 0 ? roleType : _this.searchForm.roleType,
+      // cate_id:_this.searchForm.pageType,
+      role_type:-1,
+      cate_id:_this.cateId,
+      status:_this.searchForm.status,
+      keyword:_this.searchForm.keyword,
+      page_size:_this.pageSize,
+      page_num:_this.curPage
     }).then((res)=>{
       if(res.data.ret==200){
         let data = res.data.data
@@ -106,9 +102,7 @@ export default {
         params.cate_id = _this.pageForm.pageCate
       }
 
-      _this.$http.get(url,{
-        params
-      }).then((res)=>{
+      _this.$http.post(url,params).then((res)=>{
         if(res.data.ret==200){
           _this.$message({
             type: 'success',
@@ -134,11 +128,9 @@ export default {
         _this.pageTypeOptions = []
         return false
       }
-      _this.$http.get(_this.baseUrl + _this.url.System.GetAllValidCateList,{
-        params:{
-          token:_this.$utils.getToken(),
-          role_type:roleType || roleType == 0 ? roleType : -1
-        }
+      _this.$http.post(_this.baseUrl + _this.url.System.GetAllValidCateList,{
+        token:_this.$utils.getToken(),
+        role_type:roleType || roleType == 0 ? roleType : -1
       }).then((res)=>{
         if(res.data.ret==200){
           let data = res.data.data
@@ -183,12 +175,10 @@ export default {
     }else{
       status = 0
     }
-    _this.$http.get(_this.baseUrl + _this.url.System.ChangeStatusByIds,{
-      params:{
-        token:_this.$utils.getToken(),
-        ids:id,
-        status:status
-      }
+    _this.$http.post(_this.baseUrl + _this.url.System.ChangeStatusByIds,{
+      token:_this.$utils.getToken(),
+      ids:id,
+      status:status
     }).then((res)=>{
       if(res.data.ret==200){
         _this.$message({
@@ -230,11 +220,9 @@ export default {
       cancelButtonText: '取消',
       type: 'warning'
     }).then(()=>{
-      _this.$http.get(_this.baseUrl + _this.url.System.DelByIds,{
-        params:{
-          token:_this.$utils.getToken(),
-          ids:id
-        }
+      _this.$http.post(_this.baseUrl + _this.url.System.DelByIds,{
+        token:_this.$utils.getToken(),
+        ids:id
       }).then((res)=>{
         if(res.data.ret==200){
           _this.$message({
@@ -282,11 +270,9 @@ export default {
       cancelButtonText: '取消',
       type: 'warning'
     }).then(()=>{
-      _this.$http.get(_this.baseUrl + _this.url.System.DelByIds,{
-        params:{
-          token:_this.$utils.getToken(),
-          ids:ids
-        }
+      _this.$http.post(_this.baseUrl + _this.url.System.DelByIds,{
+        token:_this.$utils.getToken(),
+        ids:ids
       }).then((res)=>{
         if(res.data.ret==200){
           _this.$message({

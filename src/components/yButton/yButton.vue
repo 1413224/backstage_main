@@ -142,9 +142,7 @@ export default {
       params = Object.assign(params,{token:token,status:_this.btnStatus})
 
       if(_this.configs.apiService){
-        _this.$http.get(_this.configs.apiService,{
-          params
-        }).then((res)=>{
+        _this.$http.post(_this.configs.apiService,params).then((res)=>{
           if(res.data.ret==200){
             _this.$message({
               type: 'success',
@@ -197,9 +195,7 @@ export default {
       })
 
       if(_this.configs.apiService){
-        _this.$http.get(_this.configs.apiService,{
-          params
-        }).then((res)=>{
+        _this.$http.post(_this.configs.apiService,params).then((res)=>{
           if(res.data.ret==200){
             _this.$store.commit('changeList',1)
             _this.$store.commit('setIds','')
@@ -233,9 +229,7 @@ export default {
         status:0
       })
       if(_this.configs.apiService){
-        _this.$http.get(_this.configs.apiService,{
-          params
-        }).then((res)=>{
+        _this.$http.post(_this.configs.apiService,params).then((res)=>{
           if(res.data.ret==200){
             _this.$store.commit('changeList',1)
             _this.$store.commit('setIds','')
@@ -278,9 +272,7 @@ export default {
           type: 'warning'
         }).then(()=>{
           return;
-          _this.$http.get(_this.configs.apiService,{
-            params
-          }).then((res)=>{
+          _this.$http.post(_this.configs.apiService,params).then((res)=>{
             if(res.data.ret==200){
               _this.$message({
                 type: 'success',

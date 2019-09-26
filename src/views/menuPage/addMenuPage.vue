@@ -138,9 +138,7 @@ export default {
           url = _this.baseUrl + _this.url.manageFactory.AddManage
         }
 
-        _this.$http.get(url,{
-          params
-        }).then((res)=>{
+        _this.$http.post(url,params).then((res)=>{
           if(res.data.ret==200){
             _this.$message({
               type: 'success',
@@ -154,11 +152,9 @@ export default {
     },
     getInfo(){
       let _this = this
-      _this.$http.get(_this.baseUrl + _this.url.manageFactory.GetManageInfoById,{
-        params:{
-          token:_this.$utils.getToken(),
-          id:_this.manageId
-        }
+      _this.$http.post(_this.baseUrl + _this.url.manageFactory.GetManageInfoById,{
+        token:_this.$utils.getToken(),
+        id:_this.manageId
       }).then((res)=>{
         if(res.data.ret==200){
           let data = res.data.data
@@ -173,11 +169,9 @@ export default {
     },
     getRoleType(){
       let _this = this
-      _this.$http.get(_this.baseUrl + _this.url.common.GetRoleType,{
-        params:{
-          role_type:0,
-          token:_this.$utils.getToken()
-        }
+      _this.$http.post(_this.baseUrl + _this.url.common.GetRoleType,{
+        role_type:0,
+        token:_this.$utils.getToken()
       }).then((res)=>{
         if(res.data.ret==200){
           // console.log(res.data.data)

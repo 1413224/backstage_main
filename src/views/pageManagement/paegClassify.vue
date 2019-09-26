@@ -167,11 +167,9 @@ export default {
     GetRoleType(){
       return new Promise((resolve,reject)=>{
         let _this = this
-        _this.$http.get(_this.baseUrl + _this.url.common.GetRoleType,{
-          params:{
-            role_type:_this.url.role_type,
-            token:_this.$utils.getToken()
-          }
+        _this.$http.post(_this.baseUrl + _this.url.common.GetRoleType,{
+          role_type:_this.url.role_type,
+          token:_this.$utils.getToken()
         }).then((res)=>{
           if(res.data.ret==200){
             // console.log(res.data.data)
@@ -199,15 +197,13 @@ export default {
     },
     getList(roleType){
       let _this = this
-      _this.$http.get(_this.baseUrl + _this.url.System.GetCateList,{
-        params:{
-          token:_this.$utils.getToken(),
-          role_type:roleType || roleType==0 ? roleType : _this.scene,
-          status:_this.status,
-          keyword:_this.keyword,
-          page_size:_this.pageSize,
-          page_num:_this.curPage
-        }
+      _this.$http.post(_this.baseUrl + _this.url.System.GetCateList,{
+        token:_this.$utils.getToken(),
+        role_type:roleType || roleType==0 ? roleType : _this.scene,
+        status:_this.status,
+        keyword:_this.keyword,
+        page_size:_this.pageSize,
+        page_num:_this.curPage
       }).then((res)=>{
         if(res.data.ret==200){
           let data = res.data.data
@@ -256,9 +252,7 @@ export default {
           params.id = _this.classifyId
         }
 
-        _this.$http.get(url,{
-          params
-        }).then((res)=>{
+        _this.$http.post(url,params).then((res)=>{
           if(res.data.ret==200){
              _this.$message({
               type: 'success',
@@ -293,12 +287,10 @@ export default {
       }else{
         status=1
       }
-      _this.$http.get(_this.baseUrl + _this.url.System.ChangeCateStatusByIds,{
-        params:{
-          token:_this.$utils.getToken(),
-          ids:id,
-          status:status
-        }
+      _this.$http.post(_this.baseUrl + _this.url.System.ChangeCateStatusByIds,{
+        token:_this.$utils.getToken(),
+        ids:id,
+        status:status
       }).then((res)=>{
         if(res.data.ret==200){
           _this.$message({
@@ -312,11 +304,9 @@ export default {
     editManage(id){
       let _this = this
       _this.classifyId = id
-      _this.$http.get(_this.baseUrl + _this.url.System.GetCateInfoById,{
-        params:{
-          id:id,
-          token:_this.$utils.getToken()
-        }
+      _this.$http.post(_this.baseUrl + _this.url.System.GetCateInfoById,{
+        id:id,
+        token:_this.$utils.getToken()
       }).then((res)=>{
         if(res.data.ret==200){
           let data = res.data.data
@@ -354,11 +344,9 @@ export default {
           cancelButtonText: '取消',
           type: 'warning'
        }).then(()=>{
-         _this.$http.get(_this.baseUrl + _this.url.System.DelCateByIds,{
-           params:{
-             token:_this.$utils.getToken(),
-             ids:id
-           }
+         _this.$http.post(_this.baseUrl + _this.url.System.DelCateByIds,{
+           token:_this.$utils.getToken(),
+            ids:id
          }).then((res)=>{
            if(res.data.ret==200){
               _this.$message({
@@ -400,11 +388,9 @@ export default {
         cancelButtonText: '取消',
         type: 'warning'
       }).then(()=>{
-        _this.$http.get(_this.baseUrl + _this.url.System.DelCateByIds,{
-          params:{
-            token:_this.$utils.getToken(),
-            ids:ids
-          }
+        _this.$http.post(_this.baseUrl + _this.url.System.DelCateByIds,{
+          token:_this.$utils.getToken(),
+          ids:ids
         }).then((res)=>{
           if(res.data.ret==200){
             _this.$message({

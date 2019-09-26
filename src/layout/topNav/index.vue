@@ -46,11 +46,9 @@ export default {
       let _this = this,
         info = JSON.parse(localStorage.getItem("info"));
         
-      _this.$http.get(_this.baseUrl + _this.url.user.Logout,{
-        params:{
-          token:info.token,
-          role_type:_this.url.role_type
-        }
+      _this.$http.post(_this.baseUrl + _this.url.user.Logout,{
+        token:info.token,
+        role_type:_this.url.role_type
       }).then((res)=>{
         if(res.data.ret == 200){
           localStorage.removeItem('info')
