@@ -119,18 +119,18 @@
             </el-radio-group>
           </el-form-item>
           <template v-if="ColumnGroup.menuType=='menuPage'">
-            <el-form-item :key="Math.random()" v-if="ColumnGroup.goType==0" label="路径：" prop="path">
+            <el-form-item v-if="ColumnGroup.goType==0" label="路径：" prop="path">
               <el-input size="small" class="item-input" v-model="ColumnGroup.pagePath" placeholder="请输入以'/'开头的路径"></el-input>
             </el-form-item>
 
-            <el-form-item :key="Math.random()" v-if="ColumnGroup.goType==1" label="请选择系统页面：">
+            <el-form-item v-if="ColumnGroup.goType==1" label="请选择系统页面：">
               <span>{{selectSrcName + ' ' + ColumnGroup.selectSrcPath}}</span>
               <el-button style="margin-left:10px;" size="small" @click="clickSrc">
                 <div>点击选择</div>
               </el-button>
             </el-form-item>
 
-            <el-form-item :key="Math.random()" v-if="ColumnGroup.goType==2" label="外部链接：">
+            <el-form-item v-if="ColumnGroup.goType==2" label="外部链接：">
               <el-input size="small" class="item-input" v-model="ColumnGroup.outSidePath" placeholder="请输入以http或https开头的路径"></el-input>              
             </el-form-item>
           </template>
@@ -198,18 +198,18 @@
           </el-form-item>
 
           <template>
-            <el-form-item :key="Math.random()" v-if="column.goType==0" label="路径：" prop="path">
+            <el-form-item v-if="column.goType==0" label="路径：" prop="path">
               <el-input size="small" class="item-input" v-model="column.path" placeholder="请输入以'/'开头的路径"></el-input>
             </el-form-item>
 
-            <el-form-item :key="Math.random()" v-if="column.goType==1" label="请选择系统页面：">
+            <el-form-item v-if="column.goType==1" label="请选择系统页面：">
               <span>{{selectSrcName + ' ' + column.selectSrcPath}}</span>
               <el-button style="margin-left:10px;" size="small" @click="clickSrc">
                 <div>点击选择</div>
               </el-button>
             </el-form-item>
 
-            <el-form-item :key="Math.random()" v-if="column.goType==2" label="外部链接：">
+            <el-form-item v-if="column.goType==2" label="外部链接：">
               <el-input size="small" class="item-input" v-model="column.outSidePath" placeholder="请输入以http或https开头的路径"></el-input>              
             </el-form-item>
           </template>
@@ -232,7 +232,7 @@
         :visible.sync="dialogPage"
         :before-close="closeDialogPage"
         width="30%">
-        <el-form :model="pageColumn" :rules="pageColumnRules" ref="pageColumn" label-width="110px">
+        <el-form :model="pageColumn" :rules="pageColumnRules" ref="pageColumn" label-width="120px">
           <el-form-item label="页面名称：" prop="pageName">
             <el-input size="small" class="item-input" v-model="pageColumn.pageName" placeholder="请输入名称"></el-input>
           </el-form-item>
@@ -252,18 +252,19 @@
           </el-form-item>
 
           <template>
-            <el-form-item :key="Math.random()" v-if="pageColumn.goType==0" label="路径：" prop="path">
+            <!-- :key="Math.random()" -->
+            <el-form-item v-if="pageColumn.goType==0" label="路径：" prop="path">
               <el-input size="small" class="item-input" v-model="pageColumn.path" placeholder="请输入以'/'开头的路径"></el-input>
             </el-form-item>
 
-            <el-form-item :key="Math.random()" v-if="pageColumn.goType==1" label="请选择系统页面：">
+            <el-form-item v-if="pageColumn.goType==1" label="请选择系统页面：">
               <span>{{selectSrcName + ' ' + pageColumn.selectSrcPath}}</span>
               <el-button style="margin-left:10px;" size="small" @click="clickSrc">
                 <div>点击选择</div>
               </el-button>
             </el-form-item>
 
-            <el-form-item :key="Math.random()" v-if="pageColumn.goType==2" label="外部链接：">
+            <el-form-item v-if="pageColumn.goType==2" label="外部链接：">
               <el-input size="small" class="item-input" v-model="pageColumn.outSidePath" placeholder="请输入以http或https开头的路径"></el-input>              
             </el-form-item>
           </template>
@@ -376,7 +377,8 @@ export default {
         pageName:'',
         path:'',
         isBlank:'1',
-        status:'1'
+        status:'1',
+        dd:''
       },
       pageColumnRules:{
         pageName:[

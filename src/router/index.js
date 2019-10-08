@@ -174,6 +174,18 @@ export default new Router({
               { name:'页面列表'},
             ]
           }
+        },
+        {
+          path:"/settings/attachmentConfig",
+          component:() => import('@/views/settings/attachmentConfig'),
+          meta:{
+            title:'远程附件',
+            parentsLabel:'设置',
+            breadList:[
+              { name:'首页',path:'/home' },
+              { name:'远程附件'}
+            ]
+          }
         }
       ]
     },

@@ -50,6 +50,21 @@ export default {
       menuType: "menuPage",
       name: "账户管理",
       path: "/issue"
+    },
+    {
+      icon: "icon-setting",
+      isBlank: false,
+      menuId: 11,
+      menuType: "menuPage",
+      name: "设置",
+      children:[
+        {
+          menuId:12,
+          menuType:"menuPage",
+          name:"远程附件",
+          path:'/settings/attachmentConfig'
+        },
+      ]
     }
   ]
 }

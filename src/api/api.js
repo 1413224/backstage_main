@@ -71,8 +71,30 @@ let url = {
     AddCommonCategory:'control/setting/CommonCategory/Add',//总平台管理端新增通用分类信息接口
     EditCommonCategoryById:'control/setting/CommonCategory/EditById',//总平台管理端修改通用分类信息接口
     UpdateCommonCategoryDisplayOrderByIds:'control/setting/CommonCategory/UpdateDisplayOrderByIds',//总平台管理端统一修改所有通用分类排序接口
-    
-
+  },
+  Attachment:{
+    GetSettingLabels:'common/role/CommonSetting/GetSettingLabels',//获取附件空间类型列表
+    GetInfo:'common/role/CommonSetting/GetInfo',//获取当前角色
+    ChangeInfo:'common/role/CommonSetting/ChangeInfo',//保存角色通用设置
+  },
+  Config:{
+    GetList:'common/attachment/Config/GetList',//获取附件空间类型对应的配置列表
+    Add:'common/attachment/Config/Add',//新增一个远程附件配置项
+    ChangeStatusById:'common/attachment/Config/ChangeStatusById',//根据附件配置ID修改远程附件配置状态
+    ChangeInfoById:'common/attachment/Config/ChangeInfoById',//根据附件配置ID修改远程附件配置信息
+    DelInfoById:'common/attachment/Config/DelInfoById',//根据附件配置ID删除远程附件配置信息
+  },
+  Group:{
+    GetList:'common/attachment/Group/GetList',//获取附件空间类型对应的分组列表
+    Add:'common/attachment/Group/Add',//新增一个远程附件分组
+    DelInfoById:'common/attachment/Group/DelInfoById',//根据附件分组ID删除远程附件分组信息
+    ChangeInfoById:'common/attachment/Group/ChangeInfoById',//根据附件分组ID修改远程附件分组信息
+  },
+  attachmentGroup:{
+    GetList:'cloud/common/attachment/Group/GetList',//获取平台可用的附件空间类型对应的分组列表
+  },
+  attachmentLog:{
+    GetList:'common/attachment/Log/GetList',//获取附件空间类型对应的配置列表
   }
 }
 

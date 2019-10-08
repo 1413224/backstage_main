@@ -110,10 +110,10 @@
         <el-tab-pane label="账号管理" name="second">
           <!-- v-show="!showChangePhone" -->
           <div class="not-edit-all not-edit-all2">
-            <p class="msg-title">微盟账号</p>
+            <p class="msg-title">乐享账号</p>
             <el-row class="item">
-              <el-col :span="5" class="lab">手机号码</el-col>
-              <el-col :span="11">
+              <el-col style="width:82px;" class="lab">手机号码</el-col>
+              <el-col :span="9">
                 <el-input v-model="phone" readonly=""></el-input>
               </el-col>
               <el-col :span="8" class="lab-right"><span @click="goChangePhone">修改手机号</span></el-col>
@@ -172,8 +172,8 @@
             <!-- <p class="tit"><span @click="showChangePhone = false">账号管理</span> - 修改手机号</p> -->
             <div class="not-edit-all">
               <el-row class="item">
-                <el-col :span="5" class="lab">旧手机号</el-col>
-                <el-col :span="19">
+                <el-col style="width:82px;" class="lab">旧手机号</el-col>
+                <el-col :span="15">
                   <el-input v-model="oldPhoneNum" readonly=""></el-input>
                 </el-col>
               </el-row>
@@ -335,7 +335,8 @@ export default {
     }
   }
   .el-form-item__label{
-    color: #9797a1;
+    // color: #9797a1;
+    color: #686A73;
     text-align: left;
   }
 }

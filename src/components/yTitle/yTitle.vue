@@ -1,5 +1,12 @@
 <template>
-  <div class="tit"><slot></slot></div>
+  <div class="d-flex a-center">
+    <div class="tit"> 
+      <slot></slot>    
+    </div>
+    <div class="desc ml-1">
+      <slot name="desc"></slot>
+    </div>
+  </div>
 </template>
 <script>
 export default {
