@@ -7,56 +7,68 @@
         :model="searchForm" 
         :rules="searchRules" 
         ref="searchForm" 
-        label-width="110px"
-        class="">
+        label-width="80px"
+        class="border-bottom">
         <el-row>
-          <el-col :span="6">
-            <el-form-item label="角色类型：" prop="roleType">
+          <el-col :span="9" class="d-flex">
+            <el-form-item label="页面分类" prop="roleType">
               <ySelect
                 v-model="searchForm.roleType" 
                 :options="options" :configs="configs"
                 @changeSel="changeSel"></ySelect>
             </el-form-item>
+            <el-form-item label="--" prop="pageType" class="merge">
+              <ySelect
+                v-model="searchForm.pageType" 
+                :options="pageTypeOptions" :configs="pageTypeConfigs"
+                @changeSel="changePageSel"
+                placeholder="请选择页面分类"></ySelect>
+            </el-form-item>
           </el-col>
-          <el-col :span="6">
+          <!-- <el-col :span="6">
             <el-form-item label="页面分类：" prop="pageType">
               <ySelect
                 v-model="searchForm.pageType" 
                 :options="pageTypeOptions" :configs="pageTypeConfigs"
-                @changeSel="changePageSel"></ySelect>
+                @changeSel="changePageSel"
+                placeholder="请选择页面分类"></ySelect>
             </el-form-item>
-          </el-col>
-          <el-col :span="6">
-            <el-form-item label="页面状态：" prop="status">
+          </el-col> -->
+          <el-col :span="5">
+            <el-form-item label="状态" prop="status">
               <ySelect
                 v-model="searchForm.status" 
                 :options="statusOptions" :configs="statusConfigs"
                 ></ySelect>
             </el-form-item>
           </el-col>
-          <el-col :span="6">
-            <el-form-item label="关键字：" prop="keyword">
-              <el-input size="small" v-model="searchForm.keyword" placeholder="请输入页面关键字"></el-input>
-            </el-form-item>
-          </el-col>
-          <!-- <el-col :span="6">
-            <el-form-item label="页面路径：" prop="pagePath">
-              <el-input size="small" v-model="searchForm.pagePath" placeholder="请输入页面路径"></el-input>
-            </el-form-item>
-          </el-col> -->
           <el-col :span="4">
-            <div class="btn-wrap">
-              <el-button style="margin-left:20px;" @click="addPage()" type="primary" plain size="small">新增页面</el-button>
-              <el-button @click="delPage()" type="danger" plain size="small">批量删除</el-button>
-            </div>
+            <el-form-item label="关键字" prop="keyword">
+              <el-input size="small" v-model="searchForm.keyword" placeholder="页面名称/页面路径"></el-input>
+            </el-form-item>
           </el-col>
-          <el-col :span="3" class="fr">
-            <el-button size="small" @click="resetForm('searchForm')">清空</el-button>
-            <el-button type="primary" size="small" @click="searchSubmit('searchForm')">搜索</el-button>
+          <el-col :span="4" class="pl-3 pt">
+            <el-button type="primary" size="mini" @click="searchSubmit('searchForm')">搜索</el-button>
+            <el-button size="mini" @click="resetForm('searchForm')">清空</el-button>
           </el-col>
         </el-row>
       </el-form>
+      <el-row class="mt-2">
+        <el-col :span="4">
+          <div class="btn-wrap">
+            <el-button style="margin-left:20px;" @click="addPage()" type="primary" size="mini">新增页面</el-button>
+            <el-button @click="delPage()" plain size="mini">批量删除</el-button>
+          </div>
+        </el-col>
+      </el-row>
     </div>
+
+    <numberTips>
+      <div class="items d-flex a-center mr-5">
+        <span class="tit">符合条件的页面总数：</span>
+        <span class="num">{{totalNums}}</span>
+      </div>
+    </numberTips>
 
     <div class="table-wrap">
       <el-table
@@ -79,7 +91,7 @@
           width="180">
         </el-table-column>
         <el-table-column
-          label="所属角色"
+          label="适用场景"
           width="180">
           <template slot-scope="scope">
             <div v-for="(item,index) in scope.row.role_type_list" :key="index">{{item.role_type_name}}</div>
@@ -87,7 +99,7 @@
         </el-table-column>
         <el-table-column
           prop="cate_name"
-          label="角色分类名称"
+          label="页面分类"
           width="180">
         </el-table-column>
         <el-table-column
@@ -96,18 +108,18 @@
           width="180">
           <template slot-scope="scope">
             <div @click="changeStatus(Number(scope.row.status),scope.row.id)">
-              <el-button v-if="scope.row.status==1" class="status" type="success" size="small">可用</el-button>
-              <el-button v-if="scope.row.status==0" class="status" type="danger" size="small">禁用</el-button>
+              <el-button v-if="scope.row.status==1" class="status" type="success" plain size="small">显示</el-button>
+              <el-button v-if="scope.row.status==0" class="status" plain size="small">隐藏</el-button>
             </div>
           </template>
         </el-table-column>
-        <el-table-column
+        <!-- <el-table-column
           label="创建时间"
           width="180">
           <template slot-scope="scope">
             <div>{{scope.row.create_time|formatDate}}</div>
           </template>
-        </el-table-column>
+        </el-table-column> -->
         <el-table-column
           label="更新时间"
           width="180">
@@ -145,30 +157,32 @@
     :before-close="closeDialogPage"
     width="40%">
       <el-form label-width="110px" :model="pageForm" :rules="pageRules" ref="pageForm">
-        <el-form-item label="页面分类：" v-show="showEdit || editBtn">
-          <span>{{showEditPageText}}</span>
-          <el-button v-show="!showEditBtnCate" style="margin-left:30px;" size="mini" @click="editBtnCate('edit')">修改</el-button>
-          <el-button v-show="showEditBtnCate" style="margin-left:30px;" size="mini" @click="editBtnCate()">取消</el-button>
-        </el-form-item>
-        <el-form-item 
-          v-show="showEdit==false"
-          label="适用场景：" prop="roleType">
-          <ySelect
-            v-model="pageForm.roleType" 
-            :options="pageRoleTypeOptions" :configs="pageRoleTypeConfigs"
-            @changeSel="changePageCateSel"></ySelect>
-        </el-form-item>
-        <el-form-item
-          v-show="showEdit==false"
-           label="页面分类：" prop="roleType">
-          <ySelect
-            v-show="pageOptions.length!=0"
-            v-model="pageForm.pageCate" 
-            :options="pageOptions" :configs="pageConfigs"
-            @changeSel="changeCate">
-          </ySelect>
-          <span style="color:#f00;" v-show="pageOptions.length==0">该适用场景暂无页面分类，请选择其他适用场景</span>
-        </el-form-item>
+        <div class="d-flex">
+          <el-form-item label="--" v-show="showEdit || editBtn">
+            <span>{{showEditPageText}}</span>
+            <el-button v-show="!showEditBtnCate" style="margin-left:30px;" size="mini" @click="editBtnCate('edit')">修改</el-button>
+            <el-button v-show="showEditBtnCate" style="margin-left:30px;" size="mini" @click="editBtnCate()">取消</el-button>
+          </el-form-item>
+          <el-form-item 
+            v-show="showEdit==false"
+            label="页面分类：" prop="roleType">
+            <ySelect
+              v-model="pageForm.roleType" 
+              :options="pageRoleTypeOptions" :configs="pageRoleTypeConfigs"
+              @changeSel="changePageCateSel"></ySelect>
+          </el-form-item>
+          <el-form-item
+            v-show="showEdit==false"
+            label="--" prop="roleType">
+            <ySelect
+              v-show="pageOptions.length!=0"
+              v-model="pageForm.pageCate" 
+              :options="pageOptions" :configs="pageConfigs"
+              @changeSel="changeCate">
+            </ySelect>
+            <span style="color:#f00;" v-show="pageOptions.length==0">该场景仍未有有效分类</span>
+          </el-form-item>
+        </div>
         <el-form-item label="页面名称：" prop="name">
           <el-input size="small" class="item-input" v-model="pageForm.name" placeholder="请输入页面名称"></el-input>
         </el-form-item>
@@ -177,14 +191,14 @@
         </el-form-item>
         <el-form-item label="状态：" prop="status">
           <el-radio-group v-model="pageForm.status">
-            <el-radio label="1">可用</el-radio>
-            <el-radio label="0">禁用</el-radio>
+            <el-radio label="1">显示</el-radio>
+            <el-radio label="0">隐藏</el-radio>
           </el-radio-group>
         </el-form-item>
       </el-form>
       <span slot="footer" class="dialog-footer">
-        <el-button size="small" @click="dialogPage = false">取 消</el-button>
-        <el-button size="small" type="primary" @click="submitEditPage('pageForm')">确 定</el-button>
+        <el-button size="mini" @click="dialogPage = false">取 消</el-button>
+        <el-button size="mini" type="primary" @click="submitEditPage('pageForm')">确 定</el-button>
       </span>
     </el-dialog>
 
@@ -193,6 +207,7 @@
 </template>
 <script>
 import ySelect from '@/components/ySelect/index'
+import numberTips from '@/components/numberTips/numberTips'
 import actions from './actions/systemPage'
 export default {
   data(){
@@ -274,7 +289,8 @@ export default {
     ...actions
   },
   components:{
-    ySelect
+    ySelect,
+    numberTips
   }
 }
 </script>
@@ -304,7 +320,7 @@ export default {
     border-radius: 10px;
     overflow: hidden;
     .status{
-      padding: 5px;
+      padding: 4px 12px;
     }
   }
   .pagination{
@@ -317,5 +333,15 @@ export default {
 <style lang="less">
 .item-input{
   width: 65%;
+}
+.merge{
+  .el-form-item__label{
+    width: 30px !important;
+    text-align: center;
+    padding: 0;
+  }
+  .el-form-item__content{
+    margin-left: 30px !important;
+  }
 }
 </style>

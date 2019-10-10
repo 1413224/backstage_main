@@ -1,7 +1,7 @@
 export default {
   "menu":[
     {
-      icon: "icon-shangpinguanli",
+      icon: "icon-home",
       isBlank: false,
       menuId: 1,
       menuType: "menuPage",
@@ -13,7 +13,7 @@ export default {
       isBlank: false,
       menuId: 2,
       menuType: "menupage",
-      name: "侧边栏管理",
+      name: "导航",
       path: "/menupage"
     },
     {
@@ -21,26 +21,42 @@ export default {
       isBlank:false,
       menuId:3,
       menuType:"menu",
-      name:'页面管理',
+      name:'页面',
       children:[
         {
-          menuId:4,
-          menuType:"menuPage",
-          name:"页面管理",
-          path:'/pageManagement'
+          menuId:'system',
+          menuType:'menuLabel',
+          name:'系统页面',
+          children:[
+            {
+              menuId:6,
+              menuType:"menuPage",
+              name:"页面列表",
+              path:'/pageManagement/systemPage'
+            },
+            {
+              menuId:5,
+              menuType:"menuPage",
+              name:"页面分类",
+              path:'/pageManagement/paegClassify'
+            },
+            
+          ]
         },
         {
-          menuId:5,
-          menuType:"menuPage",
-          name:"系统页面分类",
-          path:'/pageManagement/paegClassify'
-        },
-        {
-          menuId:6,
-          menuType:"menuPage",
-          name:"系统页面",
-          path:'/pageManagement/systemPage'
+          menuId:'currency',
+          menuType:'menuLabel',
+          name:'通用页面',
+          children:[
+            {
+              menuId:4,
+              menuType:"menuPage",
+              name:"页面列表",
+              path:'/pageManagement'
+            },
+          ]
         }
+        
       ]
     },
     {
@@ -48,7 +64,7 @@ export default {
       isBlank: false,
       menuId: 10,
       menuType: "menuPage",
-      name: "账户管理",
+      name: "账户",
       path: "/issue"
     },
     {

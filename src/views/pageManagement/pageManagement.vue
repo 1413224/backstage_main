@@ -1,7 +1,7 @@
 <template>
   <div>
     <yTitle>页面管理</yTitle>
-    <upLoadPicture v-model="dialogPicture"></upLoadPicture>
+    <!-- <upLoadPicture v-model="dialogPicture"></upLoadPicture> -->
     <div class="wrap">
       <div class="item">fsa</div>
       <div class="item">fsa</div>
