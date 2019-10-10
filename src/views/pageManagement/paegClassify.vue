@@ -3,29 +3,46 @@
     <yTitle>系统页面分类</yTitle>
 
     <div class="content bg-gray">
-      <div class="search clearfix">
-        <ySelect
-          v-if="options.length!=0" 
-          v-model="scene" 
-          :options="options" :configs="configs"
-          @changeSel="changeSel"></ySelect>
-        <span style="margin-left:20px;">状态：</span>
-        <!-- <el-radio-group v-model="status" @change="changeStatus">
-          <el-radio label="1">可用</el-radio>
-          <el-radio label="0">禁用</el-radio>
-        </el-radio-group> -->
-        <el-select size="small" v-model="status" @change="changeStatusSearch">
-          <el-option :value="Number(-1)" label="全部"></el-option>
-          <el-option :value="Number(1)" label="可用"></el-option>
-          <el-option :value="Number(0)" label="禁用"></el-option>
-        </el-select>
-        <el-button style="margin-left:20px;" @click="addClassify()" type="primary" plain size="small">新增分类</el-button>
-        <el-button @click="delBatch()" type="danger" plain size="small">批量删除</el-button>
+      <div class="search clearfix px-1 rounded">
+        <div class="py-2 border-bottom">
+          <span style="margin:0 10px 0 20px;font-size:14px;">适用场景</span>
+          <ySelect
+            v-if="options.length!=0" 
+            v-model="scene" 
+            :options="options" :configs="configs"></ySelect>
+            <!-- @changeSel="changeSel" -->
 
-        <el-input size="small" class="search-input fr" placeholder="请输入内容" v-model="keyword">
-          <el-button @click="getList()" slot="append" icon="el-icon-search"></el-button>
-        </el-input>
+          <span style="margin:0 10px 0 40px;font-size:14px;">状态</span>
+          <el-select size="small" v-model="status">
+            <el-option :value="Number(-1)" label="全部"></el-option>
+            <el-option :value="Number(1)" label="显示"></el-option>
+            <el-option :value="Number(0)" label="隐藏"></el-option>
+          </el-select>
+          <!-- @change="changeStatusSearch" -->
+
+          <span style="margin:0 10px 0 40px;font-size:14px;">关键字</span>
+          <el-input size="small" class="search-input" placeholder="分类名称" v-model="keyword">
+            <!-- <el-button @click="getList()" slot="append" icon="el-icon-search"></el-button> -->
+          </el-input>
+
+          <div style="display:inline-block;" class=" ml-4">
+            <el-button class="" type="primary" size="mini" @click="searchSubmit('searchForm')">搜索</el-button>
+            <el-button size="mini" @click="resetForm('searchForm')">清空</el-button>
+          </div>
+        </div>
+
+        <div class="py-2">
+          <el-button style="margin-left:20px;" @click="addClassify()" type="primary" size="mini">新增分类</el-button>
+          <el-button @click="delBatch()" size="mini">批量删除</el-button>
+        </div>
       </div>
+
+      <numberTips>
+        <div class="items d-flex a-center mr-5">
+          <span class="tit">符合条件的分类总数：</span>
+          <span class="num">{{totalNums}}</span>
+        </div>
+      </numberTips>
 
       <div class="table-wrap">
         <el-table
@@ -42,19 +59,29 @@
             label="分类名称">
           </el-table-column>
           <el-table-column
-            label="所属角色">
+            label="适用场景">
             <template slot-scope="scope">
               <div v-for="(item,index) in scope.row.role_type_list" :key="index">{{item.role_type_name}}</div>
             </template>
+          </el-table-column>
+          <el-table-column
+            label="页面数"
+            prop="">
           </el-table-column>
           <el-table-column
             prop="status"
             label="状态">
             <template slot-scope="scope">
               <div @click="changeStatus(Number(scope.row.status),scope.row.id)">
-                <el-button v-if="scope.row.status==1" class="status" type="success" size="small">可用</el-button>
-                <el-button v-if="scope.row.status==0" class="status" type="danger" size="small">禁用</el-button>
+                <el-button v-if="scope.row.status==1" class="status" type="success" plain size="small">显示</el-button>
+                <el-button v-if="scope.row.status==0" class="status" plain size="small">隐藏</el-button>
               </div>
+            </template>
+          </el-table-column>
+          <el-table-column
+            label="更新时间">
+            <template slot-scope="scope">
+              <div>{{scope.row.update_time|formatDate}}</div>
             </template>
           </el-table-column>
           <el-table-column
@@ -88,7 +115,11 @@
       width="30%"
       :before-close="handleClose">
       <el-form :model="classifyForm" :rules="classifyRules" ref="classify" label-width="100px">
-        <el-form-item label="所属角色：">
+        <el-form-item label="分类名称：" prop="name">
+          <el-input size="small" class="item-input" 
+            v-model="classifyForm.name" placeholder="请输入名称" maxlength='60' show-word-limit></el-input>
+        </el-form-item>
+        <el-form-item label="适用场景：">
           <el-radio-group v-model="changeAll" @change="chageRoleType">
             <el-radio label="1">全部</el-radio>
             <el-radio label="0">部分</el-radio>
@@ -103,9 +134,6 @@
               :label="item.value">{{item.label}}</el-checkbox>
           </el-checkbox-group>
         </el-form-item>
-        <el-form-item label="分类名称：" prop="name">
-          <el-input size="small" class="item-input" v-model="classifyForm.name" placeholder="请输入名称"></el-input>
-        </el-form-item>
         <el-form-item label="状态：" prop="status">
           <el-radio-group v-model="classifyForm.status">
             <el-radio label="1">可用</el-radio>
@@ -114,8 +142,8 @@
         </el-form-item>
       </el-form>
       <span slot="footer" class="dialog-footer">
-        <el-button size="small" @click="dialogClassify = false">取 消</el-button>
-        <el-button size="small" type="primary" @click="submitClassify('classify')">确 定</el-button>
+        <el-button size="mini" @click="dialogClassify = false">取 消</el-button>
+        <el-button size="mini" type="primary" @click="submitClassify('classify')">确 定</el-button>
       </span>
     </el-dialog>
 
@@ -123,7 +151,7 @@
 </template>
 <script>
 import ySelect from '@/components/ySelect/index'
-
+import numberTips from '@/components/numberTips/numberTips'
 export default {
   data(){
     return {
@@ -164,6 +192,15 @@ export default {
     })
   },
   methods:{
+    resetForm(){
+      let _this = this
+      _this.scene = -2
+      _this.status = -1
+      _this.keyword = ''
+    },
+    searchSubmit(){
+      this.getList()
+    },
     GetRoleType(){
       return new Promise((resolve,reject)=>{
         let _this = this
@@ -431,7 +468,8 @@ export default {
     },
   },
   components:{
-    ySelect
+    ySelect,
+    numberTips
   }
 }
 </script>
@@ -442,7 +480,7 @@ export default {
   border-radius: 5px;
   .search{
     background: #fff;
-    padding: 10px;
+    // padding: 10px;
     .search-input{
       width: 250px;
     }
@@ -469,6 +507,10 @@ export default {
 .role-wrap{
   .el-checkbox+.el-checkbox{
     margin-left: 0;
+  }
+  .el-form-item__content{
+    background: #F2F2F6;
+    padding-left: 10px;
   }
 }
 

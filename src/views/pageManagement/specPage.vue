@@ -8,7 +8,7 @@
         :rules="searchRules" 
         ref="searchForm" 
         label-width="110px"
-        class="">
+        class=" border-bottom">
         <el-row>
           <!-- <el-col :span="6">
             <el-form-item label="角色类型：" prop="roleType">
@@ -35,7 +35,7 @@
                 ></ySelect>
             </el-form-item>
           </el-col>
-          <el-col :span="6">
+          <el-col :span="5">
             <el-form-item label="关键字：" prop="keyword">
               <el-input size="small" v-model="searchForm.keyword" placeholder="请输入页面关键字"></el-input>
             </el-form-item>
@@ -45,20 +45,20 @@
               <el-input size="small" v-model="searchForm.pagePath" placeholder="请输入页面路径"></el-input>
             </el-form-item>
           </el-col> -->
-        </el-row>
-        <el-row>
-          <el-col :span="8">
-            <div class="btn-wrap">
-              <el-button style="margin-left:20px;" @click="addPage()" type="primary" plain size="small">新增页面</el-button>
-              <el-button @click="delPage()" type="danger" plain size="small">批量删除</el-button>
-            </div>
-          </el-col>
-          <el-col :span="3" class="fr">
-            <el-button size="small" @click="resetForm('searchForm')">清空</el-button>
-            <el-button type="primary" size="small" @click="searchSubmit('searchForm')">搜索</el-button>
+          <el-col :span="3" class=" mt ml-4">
+            <el-button type="primary" size="mini" @click="searchSubmit('searchForm')">搜索</el-button>
+            <el-button size="mini" @click="resetForm('searchForm')">清空</el-button>
           </el-col>
         </el-row>
       </el-form>
+      <el-row>
+        <el-col :span="8">
+          <div class="btn-wrap mt-2">
+            <el-button style="margin-left:20px;" @click="addPage()" type="primary" size="mini">新增页面</el-button>
+            <el-button @click="delPage()" size="mini">批量删除</el-button>
+          </div>
+        </el-col>
+      </el-row>
     </div>
 
     <div class="table-wrap">
@@ -99,8 +99,8 @@
           width="180">
           <template slot-scope="scope">
             <div @click="changeStatus(Number(scope.row.status),scope.row.id)">
-              <el-button v-if="scope.row.status==1" class="status" type="success" size="small">可用</el-button>
-              <el-button v-if="scope.row.status==0" class="status" type="danger" size="small">禁用</el-button>
+              <el-button v-if="scope.row.status==1" class="status" type="success" plain size="small">可用</el-button>
+              <el-button v-if="scope.row.status==0" class="status" plain size="small">禁用</el-button>
             </div>
           </template>
         </el-table-column>

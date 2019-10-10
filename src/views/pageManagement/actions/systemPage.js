@@ -188,7 +188,7 @@ export default {
     let _this = this
     _this.pageForm.pageCate = null
     _this.getPageCates().then(()=>{
-      console.log(row)
+      // console.log(row)
       _this.pageId = id
       _this.cateId = row.cate_id
       
