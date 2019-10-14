@@ -1,7 +1,7 @@
 <template>
   <div class="zent-breadcrumb">
     <!-- <span>移动店铺</span> -->
-    <breadCrumb></breadCrumb>
+    <breadCrumb class="breadCrumb fl"></breadCrumb>
     <ul class="navbar-right fr">
       <li class="sfc-solution-user">
         <i class="iconfont icon-unorderedlist"></i>
@@ -64,7 +64,8 @@ export default {
 </script>
 <style lang="less" scoped>
 .zent-breadcrumb{
-  position: relative;
+  position: fixed;
+  width: 100%;
   height: 56px;
   min-width: 750px;
   box-sizing: border-box;
