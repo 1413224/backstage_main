@@ -7,7 +7,7 @@
     <div class="app-container container" :class="{paved:pavreLeft}">
       <div class="app">
         <div class="app-inner">
-          <breadCrumb></breadCrumb>
+          <!-- <breadCrumb></breadCrumb> -->
           <router-view></router-view>
         </div>
       </div>
@@ -17,7 +17,7 @@
 </template>
 <script>
 // import sidebar from './components/sidebar'
-import breadCrumb from '@/components/breadcrumb/breadcrumb'
+// import breadCrumb from '@/components/breadcrumb/breadcrumb'
 import topNav from './topNav/index'
 import menuNav from './components/menuNav/index'
 export default {
@@ -26,7 +26,7 @@ export default {
     // sidebar
     menuNav,
     topNav,
-    breadCrumb
+    // breadCrumb
   },
   data() {
     return {

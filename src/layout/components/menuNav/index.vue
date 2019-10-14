@@ -1,34 +1,34 @@
 <template>
-  <div class="shared-sidebar">
-    <nav class="shared-first-sidebar">
-      <div class="shared-team-logo">
-        <div class="team-logo" style="background-image: url(&quot;https://img.yzcdn.cn/public_files/2016/05/13/8f9c442de8666f82abaf7dd71574e997.png!60x60.jpg&quot;);">
+  <div>
+    <div class="shared-sidebar">
+      <nav class="shared-first-sidebar">
+        <div class="shared-team-logo">
+          <div class="team-logo" style="background-image: url(&quot;https://img.yzcdn.cn/public_files/2016/05/13/8f9c442de8666f82abaf7dd71574e997.png!60x60.jpg&quot;);">
+          </div>
         </div>
-      </div>
-      <ul class="shared-first-sidebar-nav" ref="firsrMenu">
-        <li 
-          v-for="(item,index) in menuList" 
-          :key="index" 
-          :class="{active:item.path==$route.path || $route.meta.parentsLabel == item.name}"
-          @mouseenter="enter(item)"
-          @click="toNavMenu(item,index,$event)">
-          <!-- <svg-icon :className="item.icon" icon-class="clipboard" />  -->
-          <i class="iconfont" :class="item.icon"></i>
-          {{item.name}}
-        </li>
-      </ul>
-    </nav>
-
+        <ul class="shared-first-sidebar-nav" ref="firsrMenu">
+          <li 
+            v-for="(item,index) in menuList" 
+            :key="index" 
+            :class="{active:item.path==$route.path || $route.meta.parentsLabel == item.name}"
+            @mouseenter="enter(item)"
+            @click="toNavMenu(item,index,$event)">
+            <!-- <svg-icon :className="item.icon" icon-class="clipboard" />  -->
+            <i class="iconfont" :class="item.icon"></i>
+            {{item.name}}
+            <span class="xian" v-show="item.path==$route.path || $route.meta.parentsLabel == item.name"></span>
+          </li>
+        </ul>
+      </nav>
+      <!-- <div class="show-menu" v-show="showMenu" @mouseleave="sout">
+        <MenuList :menuList="subMenuDataMove" :settings="menuSetting"></MenuList>
+      </div> -->
+    </div>
     <!-- 二级导航 -->
     <nav id="shared-second-sidebar" class="shared-second-sidebar" v-show="showSecondSideBar">
-      <h2 class="second-sidebar-title">后台工厂</h2>
+      <!-- <h2 class="second-sidebar-title">后台工厂</h2> -->
       <MenuList :menuList="subMenuData" :settings="menuSetting"></MenuList>
     </nav>
-
-    <!-- <div class="show-menu" v-show="showMenu" @mouseleave="sout">
-      <MenuList :menuList="subMenuDataMove" :settings="menuSetting"></MenuList>
-    </div> -->
-
   </div>
 </template>
 <script>
@@ -299,7 +299,7 @@ export default {
   left: 0;
   top: 0;
   height: 100%;
-  z-index: 11;
+  z-index: 102;
   // border: 1px solid #f00;
   background: #273543;
 }
@@ -331,11 +331,23 @@ export default {
     color: #fff;
     padding-left: 18px;
     cursor: pointer;
+    position: relative;
+    .xian{
+      width: 4px;
+      height: 20px;
+      background: #2589FF;
+      display: inline-block;
+      border-radius: 4px;
+      position: absolute;
+      top: 11px;
+      right: 5px;
+    }
     &:hover{
       background: #434e6c;
     }
     &.active{
-      background: #38f;
+      // background: #38f;
+      color: #2589FF;
     }
   }
 }
@@ -344,13 +356,16 @@ export default {
   width: 132px;
   height: 100%;
   margin-left: 120px;
-  background: #fff;
-  border-right: 1px solid #ebedf0;
+  // background: #fff;
+  background: #fafafa;
+  // border-right: 1px solid #ebedf0;
   z-index: 1;
   position: fixed;
   top: 0;
   box-sizing: border-box;
   overflow: hidden;
+  padding-top: 56px;
+  z-index: 100;
   .second-sidebar-title{
     width: 100%;
     height: 56px;

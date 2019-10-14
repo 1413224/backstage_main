@@ -111,7 +111,7 @@
       </div>
     </div>
 
-    <el-pagination v-show="tableData.length > 0" 
+    <!-- <el-pagination v-show="tableData.length > 0" 
       ref="paging" 
       class="pagination mt-1"
       @size-change="handleSize" 
@@ -123,7 +123,7 @@
       prev-text="上一页" next-text="下一页" 
       :total="totalNums">
       <span style="text-align: center;">{{curPage}}/{{totalPages}}</span>
-    </el-pagination>
+    </el-pagination> -->
 
     <el-pagination
       ref="paging" 

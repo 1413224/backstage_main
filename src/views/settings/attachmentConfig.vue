@@ -93,7 +93,7 @@
       </div>
       <!-- 表格设置end -->
     </div>
-    <el-pagination v-show="tableData.length > 0" 
+    <!-- <el-pagination v-show="tableData.length > 0" 
       ref="paging" 
       class="pagination mt-2"
       @size-change="handleSize" 
@@ -105,6 +105,17 @@
       prev-text="上一页" next-text="下一页" 
       :total="totalNums">
       <span style="text-align: center;">{{curPage}}/{{totalPages}}</span>
+    </el-pagination> -->
+    <el-pagination
+      ref="paging" 
+      class="pagination mt-1"
+      @size-change="handleSize"
+      @current-change="handleCurrent"
+      :current-page="curPage"
+      :page-sizes="[10, 20, 30, 40]"
+      :page-size="pageSize"
+      layout="total, sizes, prev, pager, next, jumper"
+      :total="totalNums">
     </el-pagination>
     <!-- 弹框开始 -->
     <el-dialog

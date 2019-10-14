@@ -1,7 +1,7 @@
 <template>
   <div class="zent-breadcrumb">
     <!-- <span>移动店铺</span> -->
-    fgfdg
+    <breadCrumb></breadCrumb>
     <ul class="navbar-right fr">
       <li class="sfc-solution-user">
         <i class="iconfont icon-unorderedlist"></i>
@@ -30,6 +30,7 @@
 </template>
 <script>
 // import ySkin from '@/components/ySkin/index'
+import breadCrumb from '@/components/breadcrumb/breadcrumb'
 export default {
   data(){
     return {
@@ -37,7 +38,8 @@ export default {
     }
   },
   components:{
-    // ySkin
+    // ySkin,
+    breadCrumb
   },
   methods:{
     logout(){
@@ -71,6 +73,8 @@ export default {
   padding: 0 100px 0 5px;
   padding: 21px;
   font-size: 14px;
+  z-index: 101;
+  padding-left: 140px;
   .navbar-right{
     li{
       float:left;
