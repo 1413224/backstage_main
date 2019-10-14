@@ -14,7 +14,7 @@
     </nav>
     <!-- 二级导航 -->
     <nav id="shared-second-sidebar" class="shared-second-sidebar">
-      <h2 class="second-sidebar-title">客户中心</h2>
+      <h2 class="second-sidebar-title">后台工厂</h2>
       <el-menu>
         <sidebar-item 
           v-for="(route,index) in submenu.subItems" 

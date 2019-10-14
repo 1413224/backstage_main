@@ -21,7 +21,7 @@
 
     <!-- 二级导航 -->
     <nav id="shared-second-sidebar" class="shared-second-sidebar" v-show="showSecondSideBar">
-      <h2 class="second-sidebar-title">客户中心</h2>
+      <h2 class="second-sidebar-title">后台工厂</h2>
       <MenuList :menuList="subMenuData" :settings="menuSetting"></MenuList>
     </nav>
 
@@ -200,9 +200,9 @@ export default {
       item.children.map(submenuItem=>{//设置默认展开项
         _this.menuSetting.defaultOpeneds.push(String(submenuItem.menuId))
       })
-      _this.subMenuData = item.children  //刷新侧边栏数据丢失
+      // _this.subMenuData = item.children  //刷新侧边栏数据丢失
       if(item.name == _this.$route.meta.parentsLabel){
-        // _this.subMenuData = item.children
+        _this.subMenuData = item.children
         return false
       }
     })

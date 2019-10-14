@@ -52,7 +52,7 @@ export default {
               menuId:4,
               menuType:"menuPage",
               name:"页面列表",
-              path:'/pageManagement'
+              path:'/pageManagement/currencyPage/pageList'
             },
           ]
         }

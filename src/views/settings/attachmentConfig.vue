@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="bg-white py-2 px-1 rounded wrap">
     <yTitle>远程附件管理</yTitle>
     <div class="content bg-gray px-1 py-1 mt-2 rounded">
       <div class="head bg-white p-1 rounded">
@@ -88,25 +88,24 @@
               </template>
             </el-table-column>
           </el-table>
-
-          <el-pagination v-show="tableData.length > 0" 
-            ref="paging" 
-            class="pagination mt-2"
-            @size-change="handleSize" 
-            @current-change="handleCurrent" 
-            :current-page.sync="curPage" 
-            :page-sizes="[10, 20, 30, 50]"
-            :page-size="pageSize"
-            layout="sizes, prev, slot, next" 
-            prev-text="上一页" next-text="下一页" 
-            :total="totalNums">
-            <span style="text-align: center;">{{curPage}}/{{totalPages}}</span>
-          </el-pagination>
         </div>
         <!-- 表格end -->
       </div>
       <!-- 表格设置end -->
     </div>
+    <el-pagination v-show="tableData.length > 0" 
+      ref="paging" 
+      class="pagination mt-2"
+      @size-change="handleSize" 
+      @current-change="handleCurrent" 
+      :current-page.sync="curPage" 
+      :page-sizes="[10, 20, 30, 50]"
+      :page-size="pageSize"
+      layout="sizes, prev, slot, next" 
+      prev-text="上一页" next-text="下一页" 
+      :total="totalNums">
+      <span style="text-align: center;">{{curPage}}/{{totalPages}}</span>
+    </el-pagination>
     <!-- 弹框开始 -->
     <el-dialog
       :title="dialogPageText"
@@ -231,8 +230,11 @@ export default {
 }
 </script>
 <style lang="less" scoped>
+.wrap{
+  box-shadow:0px 0px 5px 0px rgba(34,36,47,0.1);
+}
 .pagination{
-  text-align: center;
+  text-align: right;
 }
 .item-input{
   width: 65%;

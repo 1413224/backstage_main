@@ -1,5 +1,5 @@
 <template>
-  <div class="wrapper">
+  <div class="wrapper bg-white">
     <div class="tab">
       <el-tabs v-model="activeName">
         <el-tab-pane label="个人信息" name="first">

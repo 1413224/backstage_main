@@ -1,8 +1,8 @@
 <template>
-<div>
-  <yTitle>系统页面</yTitle>
+<div class="bg-white py-2 px-1 rounded wrap">
+  <yTitle>页面列表</yTitle>
   <div class="content bg-gray">
-    <div class="search">
+    <div class="search rounded">
       <el-form
         :model="searchForm" 
         :rules="searchRules" 
@@ -53,8 +53,8 @@
           </el-col>
         </el-row>
       </el-form>
-      <el-row class="mt-2">
-        <el-col :span="4">
+      <el-row class="mt-2 pb-1">
+        <el-col :span="20">
           <div class="btn-wrap">
             <el-button style="margin-left:20px;" @click="addPage()" type="primary" size="mini">新增页面</el-button>
             <el-button @click="delPage()" plain size="mini">批量删除</el-button>
@@ -75,6 +75,8 @@
         :data="tableData"
         stripe
         @selection-change="selectionChange"
+        @sort-change="sortChange"
+        :default-sort = "{prop: 'update_time', order: 'descending'}"
         style="width: 100%">
         <el-table-column
           type="selection"
@@ -82,30 +84,28 @@
         </el-table-column>
         <el-table-column
           prop="name"
-          label="页面名称"
-          width="180">
+          label="页面名称">
         </el-table-column>
         <el-table-column
           prop="path"
-          label="页面路径"
-          width="180">
+          label="页面路径">
         </el-table-column>
         <el-table-column
-          label="适用场景"
-          width="180">
+          label="适用场景">
           <template slot-scope="scope">
-            <div v-for="(item,index) in scope.row.role_type_list" :key="index">{{item.role_type_name}}</div>
+            <!-- <div style="display:inline-block;" v-for="(item,index) in scope.row.role_type_list" :key="index">{{item.role_type_name}}/</div> -->
+            <el-breadcrumb separator="/" class="breadcrumb-tab">
+              <el-breadcrumb-item v-for="(item,index) in scope.row.role_type_list" :key="index">{{item.role_type_name}}</el-breadcrumb-item>
+            </el-breadcrumb>
           </template>
         </el-table-column>
         <el-table-column
           prop="cate_name"
-          label="页面分类"
-          width="180">
+          label="页面分类">
         </el-table-column>
         <el-table-column
           prop="status"
-          label="状态"
-          width="180">
+          label="状态">
           <template slot-scope="scope">
             <div @click="changeStatus(Number(scope.row.status),scope.row.id)">
               <el-button v-if="scope.row.status==1" class="status" type="success" plain size="small">显示</el-button>
@@ -122,7 +122,9 @@
         </el-table-column> -->
         <el-table-column
           label="更新时间"
-          width="180">
+          sortable="custom"
+          prop="update_time"
+          :sort-orders="['ascending', 'descending']">
           <template slot-scope="scope">
             <div>{{scope.row.update_time|formatDate}}</div>
           </template>
@@ -135,86 +137,84 @@
           </template>
         </el-table-column>
       </el-table>
-
-      <el-pagination v-show="tableData.length > 0" 
-        ref="paging" 
-        class="pagination"
-        @size-change="handleSize" 
-        @current-change="handleCurrent" 
-        :current-page.sync="curPage" 
-        :page-sizes="[10, 20, 30, 50]"
-        :page-size="pageSize"
-        layout="sizes, prev, slot, next" 
-        prev-text="上一页" next-text="下一页" 
-        :total="totalNums">
-        <span style="text-align: center;">{{curPage}}/{{totalPages}}</span>
-      </el-pagination>
     </div>
-
-    <el-dialog
+  </div>
+  <el-pagination v-show="tableData.length > 0" 
+    ref="paging" 
+    class="pagination mt-1"
+    @size-change="handleSize" 
+    @current-change="handleCurrent" 
+    :current-page.sync="curPage" 
+    :page-sizes="[10, 20, 30, 50]"
+    :page-size="pageSize"
+    layout="sizes, prev, slot, next" 
+    prev-text="上一页" next-text="下一页" 
+    :total="totalNums">
+    <span style="text-align: center;">{{curPage}}/{{totalPages}}</span>
+  </el-pagination>
+  <el-dialog
     :title="dialogPageText"
     :visible.sync="dialogPage"
     :before-close="closeDialogPage"
     width="40%">
-      <el-form label-width="110px" :model="pageForm" :rules="pageRules" ref="pageForm">
-        <div class="d-flex">
-          <el-form-item 
-            v-show="showEdit==false"
-            label="页面分类" prop="roleType">
-            <ySelect
-              v-model="pageForm.roleType" 
-              :options="pageRoleTypeOptions" :configs="pageRoleTypeConfigs"
-              @changeSel="changePageCateSel"></ySelect>
+    <el-form label-width="110px" 
+      :model="pageForm" :rules="pageRules" ref="pageForm" class="pl-7">
+      <div class="d-flex">
+        <el-form-item 
+          v-show="showEdit==false"
+          label="页面分类" prop="roleType" style="width:40%;" required>
+          <ySelect
+            v-model="pageForm.roleType" 
+            :options="pageRoleTypeOptions" :configs="pageRoleTypeConfigs"
+            @changeSel="changePageCateSel"></ySelect>
+        </el-form-item>
+        <el-form-item
+          v-show="showEdit==false"
+          label="--" prop="roleType"
+          class="merge" style="width:30%;">
+          <ySelect
+            v-show="pageOptions.length!=0"
+            v-model="pageForm.pageCate" 
+            :options="pageOptions" :configs="pageConfigs"
+            @changeSel="changeCate"
+            placeholder="选择页面分类">
+          </ySelect>
+          <span style="color:#f00;" v-show="pageOptions.length==0">该场景仍未有有效分类</span>
+        </el-form-item>
+        <div class="edit d-flex" v-show="editBtn">
+          <el-form-item label="当前页面分类" v-show="!showEditBtnCate">
+            <span style="font-weight:bold;">{{showEditPageText}}</span>
           </el-form-item>
-          <el-form-item
-            v-show="showEdit==false"
-            label="--" prop="roleType"
-            class="merge">
-            <ySelect
-              v-show="pageOptions.length!=0"
-              v-model="pageForm.pageCate" 
-              :options="pageOptions" :configs="pageConfigs"
-              @changeSel="changeCate"
-              placeholder="选择页面分类">
-            </ySelect>
-            <span style="color:#f00;" v-show="pageOptions.length==0">该场景仍未有有效分类</span>
-          </el-form-item>
-          <div class="edit d-flex" v-show="editBtn">
-            <el-form-item label="当前页面分类" v-show="!showEditBtnCate">
-              <span style="font-weight:bold;">{{showEditPageText}}</span>
-            </el-form-item>
-            <el-button v-show="!showEditBtnCate" 
-              style="margin-left:30px;margin-top:-25px;" 
-              size="mini" 
-              type="text"
-              @click="editBtnCate('edit')">修改</el-button>
-            <el-button v-show="showEditBtnCate" 
-              style="margin-left:30px;margin-top:-25px;" 
-              size="mini"
-              type="text"
-              @click="editBtnCate()">取消</el-button>
-          </div>
+          <el-button v-show="!showEditBtnCate" 
+            style="margin-left:30px;margin-top:-25px;" 
+            size="mini" 
+            type="text"
+            @click="editBtnCate('edit')">修改</el-button>
+          <el-button v-show="showEditBtnCate" 
+            style="margin-left:30px;margin-top:-25px;" 
+            size="mini"
+            type="text"
+            @click="editBtnCate()">取消</el-button>
         </div>
-        <el-form-item label="页面名称" prop="name">
-          <el-input size="small" class="item-input" v-model="pageForm.name" placeholder="请输入页面名称"></el-input>
-        </el-form-item>
-        <el-form-item label="页面路径" prop="path">
-          <el-input size="small" class="item-input" v-model="pageForm.path" placeholder="请输入页面路径"></el-input>
-        </el-form-item>
-        <el-form-item label="状态" prop="status">
-          <el-radio-group v-model="pageForm.status">
-            <el-radio label="1">显示</el-radio>
-            <el-radio label="0">隐藏</el-radio>
-          </el-radio-group>
-        </el-form-item>
-      </el-form>
-      <span slot="footer" class="dialog-footer">
-        <el-button size="mini" @click="dialogPage = false">取 消</el-button>
-        <el-button size="mini" type="primary" @click="submitEditPage('pageForm')">确 定</el-button>
-      </span>
-    </el-dialog>
-
-  </div>
+      </div>
+      <el-form-item label="页面名称" prop="name">
+        <el-input size="small" class="item-input" v-model="pageForm.name" placeholder="请输入页面名称"></el-input>
+      </el-form-item>
+      <el-form-item label="页面路径" prop="path">
+        <el-input size="small" class="item-input" v-model="pageForm.path" placeholder="请输入页面路径"></el-input>
+      </el-form-item>
+      <el-form-item label="状态" prop="status">
+        <el-radio-group v-model="pageForm.status">
+          <el-radio label="1">显示</el-radio>
+          <el-radio label="0">隐藏</el-radio>
+        </el-radio-group>
+      </el-form-item>
+    </el-form>
+    <span slot="footer" class="dialog-footer">
+      <el-button size="mini" @click="dialogPage = false">取 消</el-button>
+      <el-button size="mini" type="primary" @click="submitEditPage('pageForm')">确 定</el-button>
+    </span>
+  </el-dialog>
 </div>
 </template>
 <script>
@@ -298,6 +298,16 @@ export default {
         this.getList()
       })
     },
+    sortChange(column){
+      // console.log(column)
+      let _this = this
+      if(column.order=='descending'){
+        _this.getList(null,2)
+      }
+      if(column.order=='ascending'){
+        _this.getList(null,1)
+      }
+    },
     ...actions
   },
   components:{
@@ -307,6 +317,9 @@ export default {
 }
 </script>
 <style lang="less" scoped>
+.wrap{
+  box-shadow:0px 0px 5px 0px rgba(34,36,47,0.1);
+}
 .content{
   margin-top: 20px;
   padding: 10px;
@@ -318,7 +331,7 @@ export default {
   // }
   .search{
     background: #fff;
-    padding: 10px;
+    padding: 20px 10px 10px 10px;
     .search-input{
       width: 250px;
     }
@@ -335,16 +348,15 @@ export default {
       padding: 4px 12px;
     }
   }
-  .pagination{
-    text-align: center;
-    margin: 30px 0;
-  }
-
+}
+.pagination{
+  text-align: right;
+  // margin: 30px 0;
 }
 </style>
 <style lang="less">
 .item-input{
-  width: 65%;
+  width: 65% !important;
 }
 
 </style>

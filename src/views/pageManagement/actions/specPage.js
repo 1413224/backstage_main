@@ -85,21 +85,24 @@ export default {
       }
 
       if(_this.dialogPageText=='新增'){
-        // if(_this.pageForm.pageCate==null || _this.pageForm.pageCate==''){
-        //   _this.$message({
-        //     type: 'warning',
-        //     message: '请选择页面分类!'
-        //   })
-        //   return false
-        // }
-        // params.cate_id = _this.pageForm.pageCate,
         params.cate_id = _this.cateId,
         url = _this.baseUrl + _this.url.System.Add
       }else if(_this.dialogPageText=='编辑'){
         url = _this.baseUrl + _this.url.System.EditById
         params.id = _this.pageId
         // params.cate_id = _this.cateId
-        params.cate_id = _this.pageForm.pageCate
+        if(!_this.pageForm.pageCate && !_this.showEdit){
+          _this.$message({
+            type: 'warning',
+            message: '请选择页面分类!'
+          })
+          return
+        }
+        if(!_this.showEdit){
+          params.cate_id = _this.pageForm.pageCate
+        }else{
+          params.cate_id = _this.cateId
+        }
       }
 
       _this.$http.post(url,params).then((res)=>{

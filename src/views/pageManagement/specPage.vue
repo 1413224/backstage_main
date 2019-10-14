@@ -1,8 +1,19 @@
 <template>
-<div>
-  <yTitle>分类页面列表</yTitle>
+<div class="bg-white py-2 px-1 rounded wrap">
+  <yTitle>页面列表</yTitle>
   <div class="content bg-gray">
-    <div class="search">
+    <div class="bg-white rounded mb-2 p-2">
+      <p style="font-size:14px;color:#333;font-weight:bold;">{{specName}}页面</p>
+      <p style="font-size:12px;color:#686A73;" class="mt-1 d-flex">
+        <span style="font-size:12px;">适用场景：</span>
+        <el-breadcrumb separator="/" class="bread">
+          <el-breadcrumb-item 
+            v-for="(item,index) in specRoleList"
+            :key="index">{{item.role_type_name}}</el-breadcrumb-item>
+        </el-breadcrumb>
+      </p>
+    </div>
+    <div class="search rounded">
       <el-form
         :model="searchForm" 
         :rules="searchRules" 
@@ -53,7 +64,7 @@
       </el-form>
       <el-row>
         <el-col :span="8">
-          <div class="btn-wrap mt-2">
+          <div class="btn-wrap mt-2 pb-1">
             <el-button style="margin-left:20px;" @click="addPage()" type="primary" size="mini">新增页面</el-button>
             <el-button @click="delPage()" size="mini">批量删除</el-button>
           </div>
@@ -126,38 +137,32 @@
           </template>
         </el-table-column>
       </el-table>
-
-      <el-pagination v-show="tableData.length > 0" 
-        ref="paging" 
-        class="pagination"
-        @size-change="handleSize" 
-        @current-change="handleCurrent" 
-        :current-page.sync="curPage" 
-        :page-sizes="[10, 20, 30, 50]" 
-        :page-size="pageSize" 
-        layout="sizes, prev, slot, next" 
-        prev-text="上一页" next-text="下一页" 
-        :total="totalNums">
-        <span style="text-align: center;">{{curPage}}/{{totalPages}}</span>
-      </el-pagination>
     </div>
-
-    <el-dialog
+  </div>
+  <el-pagination v-show="tableData.length > 0" 
+    ref="paging" 
+    class="pagination"
+    @size-change="handleSize" 
+    @current-change="handleCurrent" 
+    :current-page.sync="curPage" 
+    :page-sizes="[10, 20, 30, 50]" 
+    :page-size="pageSize" 
+    layout="sizes, prev, slot, next" 
+    prev-text="上一页" next-text="下一页" 
+    :total="totalNums">
+    <span style="text-align: center;">{{curPage}}/{{totalPages}}</span>
+  </el-pagination>
+  <el-dialog
     :title="dialogPageText"
     :visible.sync="dialogPage"
     :before-close="closeDialogPage"
     width="40%">
-      <el-form label-width="110px" :model="pageForm" :rules="pageRules" ref="pageForm">
-        <el-form-item label="页面分类：" v-show="editBtn">
-          <span>{{showEditPageText}}</span>
-          <el-button v-show="!showEditBtnCate" style="margin-left:30px;" 
-            type="primary" size="mini" @click="editBtnCate('edit')">修改</el-button>
-          <el-button v-show="showEditBtnCate" style="margin-left:30px;" 
-            type="primary" size="mini" @click="editBtnCate()">取消</el-button>
-        </el-form-item>
+    <el-form label-width="110px" 
+      :model="pageForm" :rules="pageRules" ref="pageForm" class="pl-7">
+      <div class="d-flex">
         <el-form-item 
           v-show="showEdit==false"
-          label="适用场景：" prop="roleType">
+          label="页面分类：" prop="roleType" style="width:40%;" required>
           <ySelect
             v-model="pageForm.roleType" 
             :options="pageRoleTypeOptions" :configs="pageRoleTypeConfigs"
@@ -165,35 +170,45 @@
         </el-form-item>
         <el-form-item
           v-show="showEdit==false"
-           label="页面分类：" prop="roleType">
+          label="--" prop="pageCate"
+          class="merge" style="width:30%;">
           <ySelect
             v-show="pageOptions.length!=0"
             v-model="pageForm.pageCate" 
             :options="pageOptions" :configs="pageConfigs"
-            @changeSel="changeCate">
+            @changeSel="changeCate"
+            placeholder="选择页面分类">
           </ySelect>
-          <span style="color:#f00;" v-show="pageOptions.length==0">该适用场景暂无页面分类，请选择其他适用场景</span>
+          <span style="color:#f00;" v-show="pageOptions.length==0">该场景仍未有有效分类</span>
         </el-form-item>
-        <el-form-item label="页面名称：" prop="name">
-          <el-input size="small" class="item-input" v-model="pageForm.name" placeholder="请输入页面名称"></el-input>
-        </el-form-item>
-        <el-form-item label="页面路径：" prop="path">
-          <el-input size="small" class="item-input" v-model="pageForm.path" placeholder="请输入页面路径"></el-input>
-        </el-form-item>
-        <el-form-item label="状态：" prop="status">
-          <el-radio-group v-model="pageForm.status">
-            <el-radio label="1">可用</el-radio>
-            <el-radio label="0">禁用</el-radio>
-          </el-radio-group>
-        </el-form-item>
-      </el-form>
-      <span slot="footer" class="dialog-footer">
-        <el-button size="small" @click="dialogPage = false">取 消</el-button>
-        <el-button size="small" type="primary" @click="submitEditPage('pageForm')">确 定</el-button>
-      </span>
-    </el-dialog>
-
-  </div>
+        <div class="edit d-flex" v-show="editBtn">
+          <el-form-item label="当前页面分类：" v-show="!showEditBtnCate">
+            <span style="font-weight:bold;">{{showEditPageText}}</span>
+          </el-form-item>
+          <el-button v-show="!showEditBtnCate" style="margin-left:30px;margin-top:-25px;" 
+            type="text" size="mini" @click="editBtnCate('edit')">修改</el-button>
+          <el-button v-show="showEditBtnCate" style="margin-left:30px;margin-top:-25px;" 
+            type="text" size="mini" @click="editBtnCate()">取消</el-button>
+        </div>
+      </div>
+      <el-form-item label="页面名称：" prop="name">
+        <el-input size="small" class="item-input" v-model="pageForm.name" placeholder="请输入页面名称"></el-input>
+      </el-form-item>
+      <el-form-item label="页面路径：" prop="path">
+        <el-input size="small" class="item-input" v-model="pageForm.path" placeholder="请输入页面路径"></el-input>
+      </el-form-item>
+      <el-form-item label="状态：" prop="status">
+        <el-radio-group v-model="pageForm.status">
+          <el-radio label="1">可用</el-radio>
+          <el-radio label="0">禁用</el-radio>
+        </el-radio-group>
+      </el-form-item>
+    </el-form>
+    <span slot="footer" class="dialog-footer">
+      <el-button size="small" @click="dialogPage = false">取 消</el-button>
+      <el-button size="small" type="primary" @click="submitEditPage('pageForm')">确 定</el-button>
+    </span>
+  </el-dialog>
 </div>
 </template>
 <script>
@@ -202,6 +217,8 @@ import actions from './actions/specPage'
 export default {
   data(){
     return {
+      specName:'',
+      specRoleList:[],
       showEditBtnCate:false,
       selection:[],
       totalNums:0,
@@ -251,7 +268,10 @@ export default {
         ],
         path:[
           {required: true, message: '请输入页面路径',trigger:'blur'}
-        ]
+        ],
+        // pageCate:[
+        //   {required: true, message: '请选择页面分类',trigger:'blur'}
+        // ]
       },
       showEdit:false,
       editBtn:false,
@@ -265,6 +285,7 @@ export default {
       this.getList()
       // this.getPageCates()
     })
+    this.getSpecDetail()
   },
   methods:{
     resetForm(formName){
@@ -278,6 +299,20 @@ export default {
         this.getList()
       })
     },
+    getSpecDetail(){
+      let _this = this
+      _this.$http.post(_this.baseUrl + _this.url.System.GetCateInfoById,{
+        id:_this.cateId,
+        token:_this.$utils.getToken()
+      }).then((res)=>{
+        if(res.data.ret==200){
+          let data = res.data.data
+          // console.log(data)
+          _this.specRoleList = data.role_type_list
+          _this.specName = data.name
+        }
+      })
+    },
     ...actions
   },
   components:{
@@ -286,6 +321,9 @@ export default {
 }
 </script>
 <style lang="less" scoped>
+.wrap{
+  box-shadow:0px 0px 5px 0px rgba(34,36,47,0.1);
+}
 .content{
   margin-top: 20px;
   padding: 10px;
@@ -297,7 +335,7 @@ export default {
   // }
   .search{
     background: #fff;
-    padding: 10px;
+    padding: 20px 10px 10px 10px;
     .search-input{
       width: 250px;
     }
@@ -314,15 +352,16 @@ export default {
       padding: 5px;
     }
   }
-  .pagination{
-    text-align: center;
-    margin: 30px 0;
-  }
-
+}
+.pagination{
+  text-align: right;
 }
 </style>
 <style lang="less">
 .item-input{
   width: 65%;
+}
+.bread{
+  font-size: 12px !important;
 }
 </style>

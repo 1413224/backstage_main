@@ -1,19 +1,17 @@
 <template>
   <div class="zent-breadcrumb">
-    <span>移动店铺</span>
+    <!-- <span>移动店铺</span> -->
+    fgfdg
     <ul class="navbar-right fr">
-      <!-- <li>套餐升级</li>
-      <li>客户消息</li> -->
       <li class="sfc-solution-user">
-        <!-- <svg-icon icon-class="clipboard"/> -->
         <i class="iconfont icon-unorderedlist"></i>
         <ul class="acount-menu">
           <!-- 多视图 -->
-          <li>
-            <!-- <svg-icon icon-class="clipboard"></svg-icon> -->
+          <!--<li>
+             <svg-icon icon-class="clipboard"></svg-icon> 
             <i class="iconfont icon-shop"></i>
             <span class="lab">切换店铺</span>
-          </li>
+          </li>-->
           <router-link tag="li" to="/useredit">
             <!-- <svg-icon icon-class="clipboard"></svg-icon> -->
             <i class="iconfont icon-user"></i>
@@ -26,12 +24,12 @@
           </li>
         </ul> 
       </li>
-      <li><ySkin></ySkin></li>
+      <!-- <li><ySkin></ySkin></li> -->
     </ul>
   </div>
 </template>
 <script>
-import ySkin from '@/components/ySkin/index'
+// import ySkin from '@/components/ySkin/index'
 export default {
   data(){
     return {
@@ -39,7 +37,7 @@ export default {
     }
   },
   components:{
-    ySkin
+    // ySkin
   },
   methods:{
     logout(){

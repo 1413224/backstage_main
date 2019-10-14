@@ -59,26 +59,28 @@ export default {
   margin-left: 120px;
 }
 .container{
-  background: #f2f2f2;
-  padding-bottom: 50px;
-  
+  // background: #f2f2f2;
+  background: #fafafa;
+  // padding-bottom: 50px;
+  min-height: 100%;
+  height: auto;
   .app{
-    position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    width: auto !important;
-    bottom: 0;
-    height: auto;
+    // position: absolute;
+    // top: 0;
+    // left: 0;
+    // right: 0;
+    // width: auto !important;
+    // bottom: 0;
+    // height: auto;
     .app-inner{
       margin: 10px;
-      padding: 15px;
+      // padding: 15px;
       min-height: 100%;
       box-shadow: 0;
-      background: #fff;
+      // background: #fff;
       // overflow: auto;
       .app-init-container{
-        height: 100%;
+        // height: 100%;
       }
     }
   }

@@ -1,17 +1,13 @@
 import Vue from 'vue'
 import Router from 'vue-router'
-import HelloWorld from '@/components/HelloWorld'
+// import HelloWorld from '@/components/HelloWorld'
 // import { resolve } from 'dns';
 
 Vue.use(Router)
 
 export default new Router({
   routes: [
-    {
-      path: '/ss',
-      name: 'HelloWorld',
-      component: HelloWorld
-    },
+    
     {
       path:'/login',
       name:'login',
@@ -51,6 +47,14 @@ export default new Router({
         //     parentsLabel:'店铺'
         //   }
         // },
+        {
+          path: '/index',
+          name: 'index',
+          component: () => import('@/views/index'),
+          meta:{
+            title:'首页'
+          }
+        },
         {
           path:'/issue',
           component: () => import('@/views/user/useredit'),
@@ -143,10 +147,11 @@ export default new Router({
           path:"/pageManagement/paegClassify",
           component:() => import('@/views/pageManagement/paegClassify'),
           meta:{
-            title:'系统页面分类',
+            title:'页面分类',
+            parentsLabel:'页面',
             breadList:[
               { name:'首页',path:'/home' },
-              { name:'系统页面分类'},
+              { name:'页面分类'},
             ]
           }
         },
@@ -154,11 +159,11 @@ export default new Router({
           path:"/pageManagement/systemPage",
           component:() => import('@/views/pageManagement/systemPage'),
           meta:{
-            title:'系统页面',
-            parentsLabel:'页面管理',
+            title:'页面列表',
+            parentsLabel:'页面',
             breadList:[
               { name:'首页',path:'/home' },
-              { name:'系统页面'},
+              { name:'页面列表'},
             ]
           }
         },
@@ -167,11 +172,36 @@ export default new Router({
           component:() => import('@/views/pageManagement/specPage'),
           meta:{
             title:'所属分类页面列表',
-            parentsLabel:'页面管理',
+            parentsLabel:'页面',
             breadList:[
               { name:'首页',path:'/home' },
               { name:'系统页面分类',path:'/pageManagement/paegClassify' },
               { name:'页面列表'},
+            ]
+          }
+        },
+        {
+          path:"/pageManagement/currencyPage/pageList",
+          component:() => import('@/views/pageManagement/currencyPage/pageList'),
+          meta:{
+            title:'通用页面列表',
+            parentsLabel:'页面',
+            breadList:[
+              { name:'首页',path:'/home' },
+              { name:'页面列表'},
+            ]
+          }
+        },
+        {
+          path:"/pageManagement/currencyPage/addPageList",
+          component:() => import('@/views/pageManagement/currencyPage/addPageList'),
+          meta:{
+            title:'新增通用页面列表',
+            parentsLabel:'页面',
+            breadList:[
+              { name:'首页',path:'/home' },
+              { name:'页面列表',path:'/pageManagement/currencyPage/pageList'},
+              { name:'新增列表' }
             ]
           }
         },

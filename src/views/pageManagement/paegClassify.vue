@@ -1,6 +1,6 @@
 <template>
-  <div>
-    <yTitle>系统页面分类</yTitle>
+  <div class="bg-white py-2 px-1 rounded wrap">
+    <yTitle>页面分类</yTitle>
 
     <div class="content bg-gray">
       <div class="search clearfix px-1 rounded">
@@ -49,6 +49,8 @@
           :data="tableData"
           stripe
           @selection-change="selectionChange"
+          @sort-change="sortChange"
+          :default-sort = "{prop: 'update_time', order: 'descending'}"
           style="width: 100%">
           <el-table-column
             type="selection"
@@ -61,25 +63,38 @@
           <el-table-column
             label="适用场景">
             <template slot-scope="scope">
-              <div v-for="(item,index) in scope.row.role_type_list" :key="index">{{item.role_type_name}}</div>
+              <!-- <div v-for="(item,index) in scope.row.role_type_list" :key="index">{{item.role_type_name}}</div> -->
+              <el-breadcrumb separator="/" class="breadcrumb-tab">
+                <el-breadcrumb-item v-for="(item,index) in scope.row.role_type_list" :key="index">{{item.role_type_name}}</el-breadcrumb-item>
+              </el-breadcrumb>
             </template>
           </el-table-column>
           <el-table-column
             label="页面数"
-            prop="">
+            prop="page_nums">
+            <template slot-scope="scope">
+              <span class="pagenums" @click="goPage(scope.row)">{{scope.row.page_nums}}</span>
+            </template>
           </el-table-column>
           <el-table-column
             prop="status"
             label="状态">
             <template slot-scope="scope">
-              <div @click="changeStatus(Number(scope.row.status),scope.row.id)">
-                <el-button v-if="scope.row.status==1" class="status" type="success" plain size="small">显示</el-button>
-                <el-button v-if="scope.row.status==0" class="status" plain size="small">隐藏</el-button>
+              <div>
+                <el-button v-if="scope.row.status==1"
+                 class="status" type="success" plain size="small"
+                 @click="changeStatus(Number(scope.row.status),scope.row.id)">显示</el-button>
+                <el-button v-if="scope.row.status==0" 
+                  class="status" plain size="small"
+                  @click="changeStatus(Number(scope.row.status),scope.row.id)">隐藏</el-button>
               </div>
             </template>
           </el-table-column>
           <el-table-column
-            label="更新时间">
+            label="更新时间"
+            sortable="custom"
+            prop="update_time"
+            :sort-orders="['ascending', 'descending']">
             <template slot-scope="scope">
               <div>{{scope.row.update_time|formatDate}}</div>
             </template>
@@ -89,32 +104,47 @@
             <template slot-scope="scope">
               <el-button @click="editManage(scope.row.id)" type="text" size="small">编辑</el-button>
               <el-button @click="delManage(scope.row.id)" type="text" size="small">删除</el-button>
-              <el-button @click="goPage(scope.row)" type="text" size="small">分类页面</el-button>
+              <!-- <el-button @click="goPage(scope.row)" type="text" size="small">分类页面</el-button> -->
             </template>
           </el-table-column>
         </el-table>
-        <el-pagination v-show="tableData.length > 0" 
-          ref="paging" 
-          class="pagination"
-          @size-change="handleSize" 
-          @current-change="handleCurrent" 
-          :current-page.sync="curPage" 
-          :page-sizes="[10, 20, 30, 50]" 
-          :page-size="pageSize" 
-          layout="sizes, prev, slot, next" 
-          prev-text="上一页" next-text="下一页" 
-          :total="totalNums">
-          <span style="text-align: center;">{{curPage}}/{{totalPages}}</span>
-        </el-pagination>
       </div>
     </div>
+
+    <el-pagination v-show="tableData.length > 0" 
+      ref="paging" 
+      class="pagination mt-1"
+      @size-change="handleSize" 
+      @current-change="handleCurrent" 
+      :current-page.sync="curPage" 
+      :page-sizes="[10, 20, 30, 50]" 
+      :page-size="pageSize" 
+      layout="sizes, prev, slot, next" 
+      prev-text="上一页" next-text="下一页" 
+      :total="totalNums">
+      <span style="text-align: center;">{{curPage}}/{{totalPages}}</span>
+    </el-pagination>
+
+    <el-pagination
+      ref="paging" 
+      class="pagination mt-1"
+      @size-change="handleSize"
+      @current-change="handleCurrent"
+      :current-page="curPage"
+      :page-sizes="[10, 20, 30, 40]"
+      :page-size="pageSize"
+      layout="total, sizes, prev, pager, next, jumper"
+      :total="totalNums">
+    </el-pagination>
 
     <el-dialog
       :title="dialogClassifyText"
       :visible.sync="dialogClassify"
-      width="30%"
+      width="40%"
       :before-close="handleClose">
-      <el-form :model="classifyForm" :rules="classifyRules" ref="classify" label-width="100px">
+      <el-form :model="classifyForm" 
+        :rules="classifyRules" ref="classify" 
+        label-width="100px" class="pl-7">
         <el-form-item label="分类名称：" prop="name">
           <el-input size="small" class="item-input" 
             v-model="classifyForm.name" placeholder="请输入名称" maxlength='60' show-word-limit></el-input>
@@ -192,6 +222,16 @@ export default {
     })
   },
   methods:{
+    sortChange(column){
+      // console.log(column)
+      let _this = this
+      if(column.order=='descending'){
+        _this.getList(null,2)
+      }
+      if(column.order=='ascending'){
+        _this.getList(null,1)
+      }
+    },
     resetForm(){
       let _this = this
       _this.scene = -2
@@ -226,19 +266,20 @@ export default {
               }
             })
            _this.options.unshift({label:'全部适用',value:-1})
-           _this.options.unshift({label:'全部分类信息',value:-2})
+           _this.options.unshift({label:'选择适用场景',value:-2})
             resolve()
           }
         })
       })
     },
-    getList(roleType){
+    getList(roleType,sort){
       let _this = this
       _this.$http.post(_this.baseUrl + _this.url.System.GetCateList,{
         token:_this.$utils.getToken(),
         role_type:roleType || roleType==0 ? roleType : _this.scene,
         status:_this.status,
         keyword:_this.keyword,
+        sort:sort ? sort : 2,
         page_size:_this.pageSize,
         page_num:_this.curPage
       }).then((res)=>{
@@ -445,7 +486,7 @@ export default {
       })
     },
     goPage(row){
-      console.log(row)
+      // console.log(row)
       this.$router.push({
         path:'/pageManagement/specPage',
         query:{
@@ -474,6 +515,9 @@ export default {
 }
 </script>
 <style lang="less" scoped>
+.wrap{
+  box-shadow:0px 0px 5px 0px rgba(34,36,47,0.1);
+}
 .content{
   margin-top: 20px;
   padding: 10px;
@@ -493,18 +537,24 @@ export default {
     .status{
       padding: 5px;
     }
+    .pagenums{
+      &:hover{
+        cursor: pointer;
+        color: #2589FF;
+      }
+    }
   }
-  .pagination{
-    text-align: center;
-    margin: 30px 0;
-  }
+}
+.pagination{
+  text-align: right;
 }
 </style>
 <style lang="less">
 .item-input{
-  width: 65%;
+  width: 65% !important;
 }
 .role-wrap{
+  width: 82%;
   .el-checkbox+.el-checkbox{
     margin-left: 0;
   }

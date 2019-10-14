@@ -31,7 +31,12 @@ export default {
       type:String,
       default:'请选择'
     },
-    configs:[Object]
+    configs:{
+      type:[Object],
+      default:function(){
+        return {}
+      }
+    }
   },
   data(){
     return {

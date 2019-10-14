@@ -37,7 +37,7 @@ export default {
           })
          _this.options.unshift({label:'全部适用',value:-1})
          _this.pageRoleTypeOptions.unshift({label:'全部',value:-1})
-         _this.options.unshift({label:'全部分类信息',value:-2})
+         _this.options.unshift({label:'选择适用场景',value:-2})
           resolve()
         }
       })
@@ -47,7 +47,7 @@ export default {
     // this.searchForm.pageType = value
     // this.getList()
   },
-  getList(roleType){
+  getList(roleType,sort){
     //注意roletype为0
     let _this = this
     _this.$http.post(_this.baseUrl + _this.url.System.GetList,{
@@ -56,6 +56,7 @@ export default {
       cate_id:_this.searchForm.pageType,
       status:_this.searchForm.status,
       keyword:_this.searchForm.keyword,
+      sort:sort ? sort : 2,
       page_size:_this.pageSize,
       page_num:_this.curPage
     }).then((res)=>{
@@ -95,8 +96,20 @@ export default {
       }else if(_this.dialogPageText=='编辑'){
         url = _this.baseUrl + _this.url.System.EditById
         params.id = _this.pageId
-        // params.cate_id = _this.cateId
-        params.cate_id = _this.pageForm.pageCate
+        
+        if(!_this.pageForm.pageCate && !_this.showEdit){
+          _this.$message({
+            type: 'warning',
+            message: '请选择页面分类!'
+          })
+          return
+        }
+
+        if(!_this.showEdit){
+          params.cate_id = _this.pageForm.pageCate
+        }else{
+          params.cate_id = _this.cateId
+        }
       }
 
       _this.$http.post(url,params).then((res)=>{

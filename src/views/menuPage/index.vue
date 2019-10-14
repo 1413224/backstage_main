@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="bg-white py-2 px-1 rounded wrap">
     <!-- <div class="tit">侧边栏管理</div> -->
     <yTitle>侧边栏管理</yTitle>
 
@@ -66,23 +66,21 @@
             </template>
           </el-table-column>
         </el-table>
-
-        <el-pagination v-show="tableData.length > 0" 
-          ref="paging" 
-          class="pagination"
-          @size-change="handleSize" 
-          @current-change="handleCurrent" 
-          :current-page.sync="curPage" 
-          :page-sizes="[10, 20, 30, 50]" 
-          :page-size="pageSize" 
-          layout="sizes, prev, slot, next" 
-          prev-text="上一页" next-text="下一页" 
-          :total="totalNums">
-          <span style="text-align: center;">{{curPage}}/{{totalPages}}</span>
-        </el-pagination>
-
       </div>
     </div>
+    <el-pagination v-show="tableData.length > 0" 
+      ref="paging" 
+      class="pagination mt-1"
+      @size-change="handleSize" 
+      @current-change="handleCurrent" 
+      :current-page.sync="curPage" 
+      :page-sizes="[10, 20, 30, 50]" 
+      :page-size="pageSize" 
+      layout="sizes, prev, slot, next" 
+      prev-text="上一页" next-text="下一页" 
+      :total="totalNums">
+      <span style="text-align: center;">{{curPage}}/{{totalPages}}</span>
+    </el-pagination>
   </div>
 </template>
 <script>
@@ -245,6 +243,9 @@ export default {
 }
 </script>
 <style lang="less" scoped>
+.wrap{
+  box-shadow:0px 0px 5px 0px rgba(34,36,47,0.1);
+}
 .breadcrumb{
   margin-top: 20px;
 }
@@ -268,10 +269,9 @@ export default {
       padding: 5px;
     }
   }
-  .pagination{
-    text-align: center;
-    margin: 30px 0;
-  }
+}
+.pagination{
+  text-align: right;
 }
 </style>
 <style lang="less">
