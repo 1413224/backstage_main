@@ -34,7 +34,12 @@ export default {
   name:'linkageTimePicker',
   props:{
     value:[String,Date,Array,Number],
-    configs:[Object]
+    configs:{
+      type:[Object],
+      default:function(){
+        return {}
+      }
+    }
   },
   data(){
     return {

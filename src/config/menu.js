@@ -54,6 +54,12 @@ export default {
               name:"页面列表",
               path:'/pageManagement/currencyPage/pageList'
             },
+            {
+              menuId:7,
+              menuType:"menuPage",
+              name:"页面分类",
+              path:'/pageManagement/currencyPage/paegClassify'
+            }
           ]
         }
         

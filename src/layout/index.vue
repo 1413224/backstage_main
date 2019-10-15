@@ -8,7 +8,7 @@
       <div class="app">
         <div class="app-inner">
           <!-- <breadCrumb></breadCrumb> -->
-          <router-view></router-view>
+          <router-view @changeViewLeft="changeLeft"></router-view>
         </div>
       </div>
 

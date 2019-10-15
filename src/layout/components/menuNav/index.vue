@@ -25,7 +25,8 @@
       </div> -->
     </div>
     <!-- 二级导航 -->
-    <nav id="shared-second-sidebar" class="shared-second-sidebar" v-show="showSecondSideBar">
+    <nav id="shared-second-sidebar" class="shared-second-sidebar" 
+      v-show="showSecondSideBar && stateShowSecondSideBar">
       <!-- <h2 class="second-sidebar-title">后台工厂</h2> -->
       <MenuList :menuList="subMenuData" :settings="menuSetting"></MenuList>
     </nav>
@@ -213,6 +214,7 @@ export default {
   computed:{
     ...mapState({
       // menuList:state => state.diymenu.menuList
+      stateShowSecondSideBar:state => state.diymenu.showSecondSideBar
     }),
     filterMenuList(){
       // return this.menuList.filter(item => item.children.length !== 0)

@@ -12,7 +12,7 @@
             <i class="iconfont icon-shop"></i>
             <span class="lab">切换店铺</span>
           </li>-->
-          <router-link tag="li" to="/useredit">
+          <router-link tag="li" to="/issue">
             <!-- <svg-icon icon-class="clipboard"></svg-icon> -->
             <i class="iconfont icon-user"></i>
             <span class="lab">账号信息</span>
@@ -24,7 +24,7 @@
           </li>
         </ul> 
       </li>
-      <!-- <li><ySkin></ySkin></li> -->
+      <!-- <li><ySkin>ysdsf</ySkin></li> -->
     </ul>
   </div>
 </template>

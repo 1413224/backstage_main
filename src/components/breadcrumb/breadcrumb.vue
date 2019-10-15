@@ -28,7 +28,7 @@ export default {
   },
   methods:{
     getBreadcrumb(){
-      console.log(this.$route.matched)
+      // console.log(this.$route.matched)
       let matched = this.$route.matched
       const first = matched[0]
       if(first && first.name !== '首页'){

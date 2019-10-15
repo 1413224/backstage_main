@@ -49,5 +49,9 @@ export default {
       yearList.push(thisYear)
     }
     return yearList
-  }
+  },
+  // findComponentUpward(context, componentName){
+  //   let parent = context.$parent;
+  //   let name = parent.$options.name;
+  // }
 }

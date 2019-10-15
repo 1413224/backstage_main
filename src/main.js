@@ -21,7 +21,7 @@ import './icons/index'
 
 Vue.config.productionTip = false
 Vue.prototype.baseUrl = '//dev.9yetech.com/apigw/'
-Vue.prototype.cloudUrl = ''
+Vue.prototype.cloudUrl = '//dev.9yetech.com/apigw/'
 Vue.prototype.url = url
 Vue.prototype.$http = axios
 Vue.prototype.MD5 = MD5

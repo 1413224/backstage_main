@@ -3,7 +3,8 @@ let _this = Vue.prototype
 const diymenu = {
   state:{
     menuList:[],
-    setting:{}
+    setting:{},
+    showSecondSideBar:true,
   },
   mutations:{
     setMenuList(state,data){
@@ -11,6 +12,9 @@ const diymenu = {
     },
     setSetting(state,data){
       state.setting = data
+    },
+    setShowSecondSideBar(state,data){
+      state.showSecondSideBar = data
     }
   },
   actions:{

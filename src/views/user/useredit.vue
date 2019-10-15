@@ -1,6 +1,6 @@
 <template>
   <div class="wrapper bg-white">
-    <div class="tab">
+    <div class="tab pl-1">
       <el-tabs v-model="activeName">
         <el-tab-pane label="个人信息" name="first">
           <div class="not-edit-all">
@@ -263,7 +263,7 @@ export default {
       timesChangePhone:'',
       showChangePassByYzm:true,
       timesChangePass:'',
-      activeName:'second',
+      activeName:'first',
       imageUrl:'',
       nickName:'',
       qqNumber:'',
@@ -315,9 +315,14 @@ export default {
   },
   created(){
     this.getInfo()
+    this.$store.commit('setShowSecondSideBar',false)
+    this.$emit('changeViewLeft',false)
   },
   methods:{
     ...actions
+  },
+  beforeDestroy(){
+    this.$store.commit('setShowSecondSideBar',true)
   }
 }
 </script>

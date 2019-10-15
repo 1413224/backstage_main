@@ -1,31 +1,36 @@
 <template>
-  <div class="bg-white py-2 px-1 rounded wrap">
+  <div class="bg-white py-2 px-1 rounded wrap box-shadow-page">
     <yTitle>页面列表</yTitle>
-    <div class="content bg-gray rounded mt-2 p-1">
+    <div class="content bg-gray mt-2 p-1 rounded">
+      <div class="bg-white rounded mb-2 p-2">
+        <p style="font-size:14px;color:#333;font-weight:bold;">{{specName}}页面</p>
+        <p style="font-size:12px;color:#686A73;" class="mt-1 d-flex">
+          <span style="font-size:12px;">适用场景：</span>
+          <el-breadcrumb separator="/" class="bread">
+            <el-breadcrumb-item 
+              v-for="(item,index) in specRoleList"
+              :key="index">{{item.role_type_name}}</el-breadcrumb-item>
+          </el-breadcrumb>
+        </p>
+      </div>
       <div class="search rounded bg-white pt-2 p-1">
         <el-form
           :model="searchForm" 
+          :rules="searchRules" 
           ref="searchForm" 
-          label-width="80px"
-          class="border-bottom">
+          label-width="110px"
+          class=" border-bottom">
           <el-row>
-            <el-col :span="9" class="d-flex">
-              <el-form-item label="页面分类" prop="roleType">
+            <el-col :span="6">
+              <el-form-item label="页面类型：" prop="type">
                 <ySelect
-                  v-model="searchForm.roleType" 
-                  :options="options"
-                  @changeSel="changeSel"></ySelect>
-              </el-form-item>
-              <el-form-item label="--" prop="pageType" class="merge">
-                <ySelect
-                  v-model="searchForm.pageType" 
-                  :options="pageTypeOptions"
-                  placeholder="选择页面分类"></ySelect>
+                  v-model="searchForm.type" 
+                  :options="typeOptions" placeholder="请选择页面类型"></ySelect>
               </el-form-item>
             </el-col>
             <el-col :span="5">
-              <el-form-item label="关键字" prop="keyword">
-                <el-input size="small" v-model="searchForm.keyword" placeholder="页面名称/页面路径"></el-input>
+              <el-form-item label="关键字：" prop="keyword">
+                <el-input size="small" v-model="searchForm.keyword" placeholder="请输入页面关键字"></el-input>
               </el-form-item>
             </el-col>
             <el-col :span="5">
@@ -33,15 +38,6 @@
                 <ySelect
                   v-model="searchForm.status" 
                   :options="statusOptions"></ySelect>
-              </el-form-item>
-            </el-col>
-          </el-row>
-          <el-row>
-            <el-col :span="5">
-              <el-form-item label="页面类型" prop="status">
-                <ySelect
-                  v-model="searchForm.type" 
-                  :options="typeOptions"></ySelect>
               </el-form-item>
             </el-col>
             <el-col :span="4" class="pl-3 pt">
@@ -55,7 +51,6 @@
             <div class="btn-wrap">
               <el-button style="margin-left:20px;" @click="addPage()" type="primary" size="mini">新增页面</el-button>
               <el-button @click="delPage()" plain size="mini">批量删除</el-button>
-              <!-- <linkageTimePicker></linkageTimePicker> -->
             </div>
           </el-col>
         </el-row>
@@ -82,19 +77,15 @@
           </el-table-column>
           <el-table-column
             prop="name"
-            label="标题">
+            label="页面名称">
+          </el-table-column>
+          <el-table-column
+            prop="type"
+            label="页面类型">
           </el-table-column>
           <el-table-column
             prop="path"
             label="页面路径">
-          </el-table-column>
-          <el-table-column
-            prop="cate_name"
-            label="页面分类">
-          </el-table-column>
-          <el-table-column
-            prop="type_name"
-            label="页面类型">
           </el-table-column>
           <el-table-column
             prop="status"
@@ -131,7 +122,7 @@
     </div>
     <el-pagination
       ref="paging" 
-      class="pagination mt-2"
+      class="pagination mt-1"
       @size-change="handleSize"
       @current-change="handleCurrent"
       :current-page="curPage"
@@ -145,28 +136,29 @@
 <script>
 import ySelect from '@/components/ySelect/index'
 import numberTips from '@/components/numberTips/numberTips'
-// import linkageTimePicker from '@/components/timePicker/linkageTimePicker'
-import actions from './actions/pageList'
 export default {
   data(){
     return {
+      specName:'待修改',
+      specRoleList:[
+        {role_type_name:'待修改'}
+      ],
       searchForm:{
-        keyword:'',
-        status:'-1',
         type:'-1',
-        roleType:-2,
-        pageType:''
+        keyword:'',
+        status:'-1'
       },
+      searchRules:{
+
+      },
+      typeOptions:[
+        {label:'全部',value:'-1'}
+      ],
       statusOptions:[
         { label:'全部',value:'-1' },
         { label:'可用',value:'1' },
         { label:'禁用',value:'0' },
       ],
-      typeOptions:[
-        { label:'全部',value:'-1' },
-      ],
-      options:[],
-      pageTypeOptions:[],
       tableData:[],
       totalNums:0,
       curPage: 1,
@@ -175,27 +167,15 @@ export default {
       selection:[],
     }
   },
-  created(){
-    this.GetRoleType().then(()=>{
-      this.getList()
-      // this.getPageCates()
-    })
-  },
   methods:{
+    searchSubmit(){
+      this.getList()
+    },
     resetForm(formName){
       this.$refs[formName].resetFields()
     },
-    searchSubmit(formName){
-      this.getList()
-    },
-    handleSize(sizeVal){
-      this.pageSize = sizeVal
-      this.curPage = 1
-      this.getList()
-    },
-    handleCurrent(currentVal){
-      this.curPage = currentVal
-      this.getList()
+    selectionChange(selection){
+      this.selection = selection
     },
     sortChange(column){
       // console.log(column)
@@ -207,24 +187,31 @@ export default {
         _this.getList(null,1)
       }
     },
-    ...actions
+    handleSize(sizeVal){
+      this.pageSize = sizeVal
+      this.curPage = 1
+      this.getList()
+    },
+    handleCurrent(currentVal){
+      this.curPage = currentVal
+      this.getList()
+    },
+    addPage(){
+      this.$router.push({
+        path:'/pageManagement/currencyPage/addSpecPage'
+      })
+    },
+    getList(){
+
+    }
   },
   components:{
     ySelect,
-    numberTips,
-    // linkageTimePicker
+    numberTips
   }
 }
 </script>
 <style lang="less" scoped>
-.table-wrap{
-  .status{
-    padding: 4px 12px;
-  }
-}
-.wrap{
-  box-shadow:0px 0px 5px 0px rgba(34,36,47,0.1);
-}
 .pagination{
   text-align: right;
 }

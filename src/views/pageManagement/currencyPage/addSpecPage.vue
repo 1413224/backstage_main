@@ -1,28 +1,47 @@
 <template>
-  <div class="bg-white py-2 px-1 rounded wrap box-shadow-page">
-    <yTitle>新增页面</yTitle>
-    <div class="content bg-gray rounded mt-2 p-1">
-      <div class="form-wrap bg-white pt-3">
-        <el-form :model="ruleForm" :rules="rules" ref="ruleForm" label-width="150px">
-          <div class="d-flex">
-            <el-form-item label="页面分类" prop="roleType" required>
-              <ySelect
-              v-model="ruleForm.roleType" 
-              :options="ruleRoleTypeOptions"
-              @changeSel="changePageCateSel" placeholder="选择适用场景"></ySelect>
-            </el-form-item>
-            <el-form-item label="--" prop="pageType" class="merge">
-              <ySelect
-                v-model="ruleForm.pageType" 
-                :options="pageTypeOptions"
-                @changeSel="changePageSel"
-                placeholder="选择页面分类"></ySelect>
+  <div class="bg-white py-2 px-1 rounded wrap box-shadow-page pb-5">
+    <yTitle>新增页面</yTitle>    
+    <div class="content bg-gray mt-2 p-1 rounded">
+      <!-- form开始 -->
+      <div class="form-wrap bg-white pt-3 rounded">
+        <el-form :model="ruleForm" :rules="rules" 
+          ref="ruleForm" label-width="150px" class=" pb-3">
+          <!-- 新增 -->
+          <div v-if="isEdit==false">
+            <el-form-item label="当前页面分类" prop="specType" required>
+              <span>{{ruleForm.specType}}</span>
             </el-form-item>
           </div>
-          
-          <el-form-item label="页面标题" prop="name">
+          <!-- 新增end -->
+          <!-- 编辑 -->
+          <div class="d-flex" v-if="isEdit==true">
+            <el-form-item label="当前页面分类" prop="specType" required v-show="!editSpec">
+              <span>{{ruleForm.specType}}</span>
+            </el-form-item>
+            <div class="d-flex" v-show="editSpec">
+              <el-form-item label="页面分类" prop="roleType" required>
+                <ySelect
+                v-model="ruleForm.roleType" 
+                :options="ruleRoleTypeOptions"
+                @changeSel="changePageCateSel" placeholder="选择适用场景"></ySelect>
+              </el-form-item>
+              <el-form-item label="--" prop="pageType" class="merge">
+                <ySelect
+                  v-model="ruleForm.pageType" 
+                  :options="pageTypeOptions"
+                  @changeSel="changePageSel"
+                  placeholder="选择页面分类"></ySelect>
+              </el-form-item>
+            </div>
+            <div class="btn-wrap">
+              <el-button type="text" v-show="!editSpec" @click="editSpecFun()">修改</el-button>
+              <el-button type="text" v-show="editSpec" @click="cancelSpec()">取消</el-button>
+            </div>
+          </div>
+          <!-- 编辑end -->
+          <el-form-item label="页面名称" prop="name" style="width:40%;">
             <el-input size="small" class="item" 
-              v-model="ruleForm.name" placeholder="请输入标题"
+              v-model="ruleForm.name" placeholder="请输入页面名称"
               maxlength="60" show-word-limit></el-input>
           </el-form-item>
           <el-form-item label="页面类型" prop="type" class="hideradio">
@@ -57,7 +76,7 @@
             <el-input size="small" class="item" 
               v-model="ruleForm.pageUrl" placeholder="请输入页面路径"></el-input>
           </el-form-item>
-          <el-form-item label="Apiurl" prop="Apiurl">
+          <el-form-item label="Apiurl" prop="Apiurl" style="width:40%;">
             <el-input size="small" class="item" 
               v-model="ruleForm.Apiurl" placeholder="请输入Apiurl"></el-input>
           </el-form-item>
@@ -67,14 +86,9 @@
               <el-radio label="0">隐藏</el-radio>
             </el-radio-group>
           </el-form-item>
-          <!-- <el-form-item label="申请信息" prop="info">
-            <el-input size="small" class="item" 
-              v-model="ruleForm.info" placeholder="请输入..." 
-              type="textarea"
-              :rows="4"></el-input>
-          </el-form-item> -->
         </el-form>
       </div>
+      <!-- form end -->
     </div>
     <div class="footer py-2 bg-white">
       <el-button size="mini" style="padding:7px 35px;">取消</el-button>
@@ -84,45 +98,45 @@
 </template>
 <script>
 import ySelect from '@/components/ySelect/index'
+
 export default {
   data(){
     return {
+      isEdit:true,
+      editSpec:false,
       ruleForm:{
+        specType:'',//用于展示数据
+        pageType:'',//用于编辑
         name:'',
+        type:'1',
         Apiurl:'',
         pageUrl:'',
-        // info:'',
         status:'1',
-        type:1,
-        roleType:null,
-        pageType:null
+        roleType:''
       },
+      ruleRoleTypeOptions:[],
+      pageTypeOptions:[],
       rules:{
         name:[
-          {required: true, message: '请输入页面标题'}
+          {required: true, message: '请输入页面名称'}
+        ],
+        type:[
+          {required: true, message: '请选择页面类型'}
         ],
         Apiurl:[
           {required: true, message: '请输入Apiurl'}
         ],
         pageUrl:[
-          {required: true, message: '请输入页面路径'}
-        ],
-        // info:[
-        //   {required: true, message: '请输入申请信息'}
-        // ],
-        type:[
-          {required: true, message: '请选择页面类型'}
+          {required: true, message: '请输入Apiurl'}
         ],
         status:[
           {required: true, message: '请选择页面状态'}
-        ]
-      },
-      ruleRoleTypeOptions:[],
-      pageTypeOptions:[]
+        ],
+      }
     }
   },
   created(){
-
+    // this.isEdit = true
   },
   methods:{
     changePageCateSel(){
@@ -130,6 +144,12 @@ export default {
     },
     changePageSel(){
 
+    },
+    editSpecFun(){
+      this.editSpec = true
+    },
+    cancelSpec(){
+      this.editSpec = false
     }
   },
   components:{
@@ -138,12 +158,6 @@ export default {
 }
 </script>
 <style lang="less" scoped>
-.item{
-  width: 40%;
-}
-.form-wrap{
-  padding-bottom: 100px;
-}
 .wrap-item{
   border: 1px solid transparent;
   .img{
@@ -179,5 +193,4 @@ export default {
     }
   }
 }
-
 </style>

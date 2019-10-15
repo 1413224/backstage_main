@@ -46,6 +46,15 @@ let url = {
     ChangeStatusByIds:'manageFactory/page/System/ChangeStatusByIds',//批量修改系统页面可用状态接口
     EditById:'manageFactory/page/System/EditById',//修改系统页面信息接口
     DelByIds:'manageFactory/page/System/DelByIds',//批量删除系统页面信息接口
+  },
+  Common:{
+    AddCate:'manageFactory/page/Common/AddCate',//新增通用页面分类信息接口
+    ChangeCateStatusByIds:'manageFactory/page/Common/ChangeCateStatusByIds',//批量修改通用页面分类可用状态接口
+    DelCateByIds:'manageFactory/page/Common/DelCateByIds',//批量删除通用页面分类信息接口
+    EditCateById:'manageFactory/page/Common/EditCateById',//修改通用页面分类信息接口
+    GetAllValidCateList:'manageFactory/page/Common/GetAllValidCateList',//获取指定场景下所有可用通用页面分类列表信息接口
+    GetCateInfoById:'manageFactory/page/Common/GetCateInfoById',//获取通用页面分类详情信息接口
+    GetCateList:'manageFactory/page/Common/GetCateList',//获取通用页面分类列表信息接口
 
   },
   File:{

@@ -113,6 +113,7 @@ export default new Router({
           component:() => import('@/views/menuPage/addMenuPage'),
           meta:{
             title:'新增侧边栏',
+            parentsLabel:'导航',
             breadList:[
               { name:'首页',path:'/home' },
               { name:'侧边栏管理',path:'/menupage' },
@@ -201,7 +202,45 @@ export default new Router({
             breadList:[
               { name:'首页',path:'/home' },
               { name:'页面列表',path:'/pageManagement/currencyPage/pageList'},
-              { name:'新增列表' }
+              { name:'新增页面' }
+            ]
+          }
+        },
+        {
+          path:"/pageManagement/currencyPage/paegClassify",
+          component:() => import('@/views/pageManagement/currencyPage/paegClassify'),
+          meta:{
+            title:'通用页面页面分类',
+            parentsLabel:'页面',
+            breadList:[
+              { name:'首页',path:'/home' },
+              { name:'页面分类'},
+            ]
+          }
+        },
+        {
+          path:"/pageManagement/currencyPage/addSpecPage",
+          component:() => import('@/views/pageManagement/currencyPage/addSpecPage'),
+          meta:{
+            title:'新增/编辑通用页面分类新增分类页面',
+            parentsLabel:'页面',
+            breadList:[
+              { name:'通用页面',path:'/pageManagement/currencyPage/pageList' },
+              { name:'页面分类',path:'/pageManagement/currencyPage/paegClassify'},
+              { name:'新增页面' }
+            ]
+          }
+        },
+        {
+          path:'/pageManagement/currencyPage/addSpecPageList',
+          component:() => import('@/views/pageManagement/currencyPage/addSpecPageList'),
+          meta:{
+            title:'通用页面分类新增分类页面列表',
+            parentsLabel:'页面',
+            breadList:[
+              { name:'通用页面',path:'/pageManagement/currencyPage/pageList' },
+              { name:'页面分类',path:'/pageManagement/currencyPage/paegClassify'},
+              { name:'页面列表' }
             ]
           }
         },
