@@ -1,6 +1,6 @@
 
 let url = {
-  role_type:0,
+  role_type:90,
   user:{
     Login:'common/role/Account/Login',
     Logout:'common/role/Account/Logout',
@@ -18,10 +18,10 @@ let url = {
   manageFactory:{
     GetList:'manageFactory/navbar/Manage/GetList',//获取侧边栏列表信息接口
     AddManage:'manageFactory/navbar/Manage/Add',//新增侧边栏组
-    ChangeManageStatusById:'manageFactory/navbar/Manage/ChangeStatusById',//批量修改栏目组可用状态接口
+    ChangeManageStatusById:'manageFactory/navbar/Manage/ChangeStatusById',//批量修改栏目组显示状态接口
     GetManageInfoById:'manageFactory/navbar/Manage/GetInfoById',//获取侧边栏详情信息接口
     EditManageById:'manageFactory/navbar/Manage/EditById',//修改侧边栏组信息接口
-    DelManageById:'manageFactory/navbar/Manage/DelById',//删除栏目组接口
+    DelManageByIds:'manageFactory/navbar/Manage/DelByIds',//删除栏目组接口
   },
   Menu:{
     AddMenu:'manageFactory/navbar/Menu/Add',//新增栏目，页面
@@ -29,33 +29,36 @@ let url = {
     DelMenuByIds:'manageFactory/navbar/Menu/DelByIds',//批量删除栏目信息接口
     GetInfoById:'manageFactory/navbar/Menu/GetInfoById',//获取侧边栏栏目的详情信息接口
     EditById:'manageFactory/navbar/Menu/EditById',//修改侧边栏组信息接口
-    ChangeStatusByIds:'manageFactory/navbar/Menu/ChangeStatusByIds',//批量修改栏目可用状态接口
+    ChangeStatusByIds:'manageFactory/navbar/Menu/ChangeStatusByIds',//批量修改栏目显示状态接口
     GetAllList:'manageFactory/navbar/Menu/GetAllList',//一次性获取侧边栏组所有的栏目列表信息接口
     UpdateMenuDisplayOrder:'manageFactory/navbar/Menu/UpdateMenuDisplayOrder',//更新栏目排序信息接口
   },
   System:{
     AddCate:'manageFactory/page/System/AddCate',//新增系统页面分类信息接口
     GetCateList:'manageFactory/page/System/GetCateList',//获取系统页面分类列表信息接口
-    ChangeCateStatusByIds:'manageFactory/page/System/ChangeCateStatusByIds',//批量修改系统页面分类可用状态接口
+    ChangeCateStatusByIds:'manageFactory/page/System/ChangeCateStatusByIds',//批量修改系统页面分类显示状态接口
     GetCateInfoById:'manageFactory/page/System/GetCateInfoById',//获取系统页面分类详情
     DelCateByIds:'manageFactory/page/System/DelCateByIds',//批量删除系统页面分类信息接口
     EditCateById:'manageFactory/page/System/EditCateById',//修改系统页面分类信息接口
-    GetAllValidCateList:'manageFactory/page/System/GetAllValidCateList',//获取指定场景下所有可用系统页面分类列表信息接口
+    GetAllValidCateList:'manageFactory/page/System/GetAllValidCateList',//获取指定场景下所有显示系统页面分类列表信息接口
     Add:'manageFactory/page/System/Add',//新增系统页面信息接口
     GetList:'manageFactory/page/System/GetList',//获取系统页面列表信息接口
-    ChangeStatusByIds:'manageFactory/page/System/ChangeStatusByIds',//批量修改系统页面可用状态接口
+    ChangeStatusByIds:'manageFactory/page/System/ChangeStatusByIds',//批量修改系统页面显示状态接口
     EditById:'manageFactory/page/System/EditById',//修改系统页面信息接口
     DelByIds:'manageFactory/page/System/DelByIds',//批量删除系统页面信息接口
   },
   Common:{
     AddCate:'manageFactory/page/Common/AddCate',//新增通用页面分类信息接口
-    ChangeCateStatusByIds:'manageFactory/page/Common/ChangeCateStatusByIds',//批量修改通用页面分类可用状态接口
+    ChangeCateStatusByIds:'manageFactory/page/Common/ChangeCateStatusByIds',//批量修改通用页面分类显示状态接口
     DelCateByIds:'manageFactory/page/Common/DelCateByIds',//批量删除通用页面分类信息接口
     EditCateById:'manageFactory/page/Common/EditCateById',//修改通用页面分类信息接口
-    GetAllValidCateList:'manageFactory/page/Common/GetAllValidCateList',//获取指定场景下所有可用通用页面分类列表信息接口
+    GetAllValidCateList:'manageFactory/page/Common/GetAllValidCateList',//获取指定场景下所有显示通用页面分类列表信息接口
     GetCateInfoById:'manageFactory/page/Common/GetCateInfoById',//获取通用页面分类详情信息接口
     GetCateList:'manageFactory/page/Common/GetCateList',//获取通用页面分类列表信息接口
-
+    AddPage:'manageFactory/page/Common/Add',//新增通用页面信息接口
+  },
+  Index:{
+    Statistics:'manageFactory/index/Index/Statistics',//获取角色类型码接口
   },
   File:{
     AddImage:'basic/upload/File/AddImage',//后台账户上传图片通用接口
@@ -66,7 +69,7 @@ let url = {
   },
   control:{
     AddAres:'control/setting/Area/Add',//总平台管理端新增地址信息接口
-    ChangeStatusByIds:'control/setting/Area/ChangeStatusByIds',//总平台管理端批量修改地址可用状态接口
+    ChangeStatusByIds:'control/setting/Area/ChangeStatusByIds',//总平台管理端批量修改地址显示状态接口
     DelAreaByIds:'control/setting/Area/DelByIds',//总平台管理端批量删除地址接口
     EditAreaById:'control/setting/Area/EditById',//总平台管理端修改地址信息接口
     GetAreaInfoById:'control/setting/Area/GetInfoById',//总平台管理端获取地址详情信息接口
@@ -100,7 +103,7 @@ let url = {
     ChangeInfoById:'common/attachment/Group/ChangeInfoById',//根据附件分组ID修改远程附件分组信息
   },
   attachmentGroup:{
-    GetList:'cloud/common/attachment/Group/GetList',//获取平台可用的附件空间类型对应的分组列表
+    GetList:'cloud/common/attachment/Group/GetList',//获取平台显示的附件空间类型对应的分组列表
   },
   attachmentLog:{
     GetList:'common/attachment/Log/GetList',//获取附件空间类型对应的配置列表

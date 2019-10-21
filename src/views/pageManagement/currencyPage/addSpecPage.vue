@@ -2,6 +2,17 @@
   <div class="bg-white py-2 px-1 rounded wrap box-shadow-page pb-5">
     <yTitle>新增页面</yTitle>    
     <div class="content bg-gray mt-2 p-1 rounded">
+      <div class="bg-white rounded mb-2 p-2">
+        <p style="font-size:14px;color:#333;font-weight:bold;">{{specName}}页面</p>
+        <p style="font-size:12px;color:#686A73;" class="mt-1 d-flex">
+          <span style="font-size:12px;">适用场景：</span>
+          <el-breadcrumb separator="/" class="bread">
+            <el-breadcrumb-item 
+              v-for="(item,index) in specRoleList"
+              :key="index">{{item.role_type_name}}</el-breadcrumb-item>
+          </el-breadcrumb>
+        </p>
+      </div>
       <!-- form开始 -->
       <div class="form-wrap bg-white pt-3 rounded">
         <el-form :model="ruleForm" :rules="rules" 
@@ -91,8 +102,8 @@
       <!-- form end -->
     </div>
     <div class="footer py-2 bg-white">
-      <el-button size="mini" style="padding:7px 35px;">取消</el-button>
-      <el-button size="mini" type="primary">保存并下一步</el-button>
+      <el-button size="mini" style="padding:7px 35px;" @click="goBack()">取消</el-button>
+      <el-button size="mini" type="primary" @click="goNext()">保存并下一步</el-button>
     </div>
   </div>
 </template>
@@ -108,7 +119,7 @@ export default {
         specType:'',//用于展示数据
         pageType:'',//用于编辑
         name:'',
-        type:'1',
+        type:1,
         Apiurl:'',
         pageUrl:'',
         status:'1',
@@ -132,13 +143,25 @@ export default {
         status:[
           {required: true, message: '请选择页面状态'}
         ],
-      }
+      },
+      specName:'待对接',
+      specRoleList:[
+        {role_type_name:'待对接'}
+      ]
     }
   },
   created(){
     // this.isEdit = true
   },
   methods:{
+    goBack(){
+      this.$router.go(-1)
+    },
+    goNext(){
+      this.$router.push({
+        path:'/pageManagement/currencyPage/customPage'
+      })
+    },
     changePageCateSel(){
 
     },
@@ -150,7 +173,76 @@ export default {
     },
     cancelSpec(){
       this.editSpec = false
-    }
+    },
+    GetRoleType(){
+      return new Promise((resolve,reject)=>{
+        let _this = this
+        _this.$http.post(_this.baseUrl + _this.url.common.GetRoleType,{
+          role_type:_this.url.role_type,
+          token:_this.$utils.getToken()
+        }).then((res)=>{
+          if(res.data.ret==200){
+            // console.log(res.data.data)
+            let data = res.data.data
+            let arr = []
+            // _this.options = data.map((item)=>{
+            //   return {
+            //     label:item.name,
+            //     value:Number(item.role_type)
+            //   }
+            // })
+            
+            _this.roleTypeList = data.map((item)=>{
+              return {
+                label:item.name,
+                value:Number(item.role_type)
+              }
+            })
+
+            _this.ruleRoleTypeOptions = data.map((item)=>{
+              return {
+                label:item.name,
+                value:Number(item.role_type)
+              }
+            })
+          //  _this.options.unshift({label:'全部适用',value:-1})
+          _this.ruleRoleTypeOptions.unshift({label:'全部',value:-1})
+          //  _this.options.unshift({label:'选择适用场景',value:-2})
+            resolve()
+          }
+        })
+      })
+    },
+    getPageCates(roleType){
+      return new Promise((resolve,reject)=>{
+        let _this = this 
+        if(roleType==-2){
+          _this.pageTypeOptions = []
+          return false
+        }
+        _this.$http.post(_this.baseUrl + _this.url.Common.GetAllValidCateList,{
+          token:_this.$utils.getToken(),
+          role_type:roleType || roleType == 0 ? roleType : -1
+        }).then((res)=>{
+          if(res.data.ret==200){
+            let data = res.data.data
+            _this.pageOptions = data.list.map((item,index)=>{
+              return {
+                label:item.name,
+                value:Number(item.id)
+              }
+            })
+            _this.pageTypeOptions = data.list.map((item,index)=>{
+              return {
+                label:item.name,
+                value:Number(item.id)
+              }
+            })
+            resolve(_this.pageOptions)
+          }
+        })
+      })
+    },
   },
   components:{
     ySelect
@@ -158,6 +250,9 @@ export default {
 }
 </script>
 <style lang="less" scoped>
+.bread{
+  font-size: 12px;
+}
 .wrap-item{
   border: 1px solid transparent;
   .img{

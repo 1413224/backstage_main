@@ -45,8 +45,8 @@
             label="状态"
             width="120">
           <template slot-scope="scope">
-              <el-button v-if="scope.row.status==1" class="status" type="success" size="small">可用</el-button>
-              <el-button v-if="scope.row.status==0" class="status" type="danger" size="small">禁用</el-button>
+              <el-button v-if="scope.row.status==1" class="status" type="success" size="small">显示</el-button>
+              <el-button v-if="scope.row.status==0" class="status" type="danger" size="small">隐藏</el-button>
           </template>
         </el-table-column> -->
         <el-table-column

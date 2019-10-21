@@ -1,10 +1,10 @@
 <template>
-  <div class="detail-wrap">
+  <div class="detail-wrap bg-white py-2 px-1 box-shadow-page rounded">
     <yTitle>{{titText}} - 栏目管理</yTitle>
     <div class="content bg-gray">
-      <div class="search clearfix">
-        <el-button @click="delBatch()" size="small" type="danger" plain>批量删除</el-button>
-        <el-button @click="addColumn('column')" size="small" type="primary" plain>新增</el-button>
+      <div class="search clearfix rounded p-2">
+        <el-button @click="addColumn('column')" size="mini" type="primary">新增栏目</el-button>
+        <el-button @click="delBatch()" size="mini" plain>批量删除</el-button>
       </div>
           <!-- :lazy="true"
           :load="load" 
@@ -60,8 +60,8 @@
             width="180">
             <template slot-scope="scope">
               <div @click="changeStatus(Number(scope.row.status),scope.row.id)">
-                <el-button v-if="scope.row.status==1" class="status" type="success" size="small">可用</el-button>
-                <el-button v-if="scope.row.status==0" class="status" type="danger" size="small">禁用</el-button>
+                <el-button v-if="scope.row.status==1" class="status" type="success" size="small" plain>显示</el-button>
+                <el-button v-if="scope.row.status==0" class="status" size="small" plain>隐藏</el-button>
               </div>
             </template>
           </el-table-column>
@@ -150,8 +150,8 @@
           </el-form-item>
           <el-form-item label="状态：" prop="status">
             <el-radio-group v-model="ColumnGroup.status">
-              <el-radio label="1">可用</el-radio>
-              <el-radio label="0">禁用</el-radio>
+              <el-radio label="1">显示</el-radio>
+              <el-radio label="0">隐藏</el-radio>
             </el-radio-group>
           </el-form-item>
         </el-form>
@@ -216,8 +216,8 @@
           
           <el-form-item label="状态：" prop="status">
             <el-radio-group v-model="column.status">
-              <el-radio label="1">可用</el-radio>
-              <el-radio label="0">禁用</el-radio>
+              <el-radio label="1">显示</el-radio>
+              <el-radio label="0">隐藏</el-radio>
             </el-radio-group>
           </el-form-item>
         </el-form>
@@ -272,8 +272,8 @@
 
           <el-form-item label="状态：" prop="status">
             <el-radio-group v-model="pageColumn.status">
-              <el-radio label="1">可用</el-radio>
-              <el-radio label="0">禁用</el-radio>
+              <el-radio label="1">显示</el-radio>
+              <el-radio label="0">隐藏</el-radio>
             </el-radio-group>
           </el-form-item>
         </el-form>
@@ -441,7 +441,6 @@ export default {
   border-radius: 5px;
   .search{
     background: #fff;
-    padding: 10px;
     .search-input{
       width: 250px;
     }

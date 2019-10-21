@@ -8,9 +8,10 @@
         :rules="searchRules" 
         ref="searchForm" 
         label-width="80px"
+        label-position=""
         class="border-bottom">
-        <el-row>
-          <el-col :span="9" class="d-flex">
+        <el-row class="d-flex">
+          <div class="d-flex">
             <el-form-item label="页面分类" prop="roleType">
               <ySelect
                 v-model="searchForm.roleType" 
@@ -22,9 +23,9 @@
                 v-model="searchForm.pageType" 
                 :options="pageTypeOptions" :configs="pageTypeConfigs"
                 @changeSel="changePageSel"
-                placeholder="请选择页面分类"></ySelect>
+                placeholder="选择页面分类"></ySelect>
             </el-form-item>
-          </el-col>
+          </div>
           <!-- <el-col :span="6">
             <el-form-item label="页面分类：" prop="pageType">
               <ySelect
@@ -34,23 +35,23 @@
                 placeholder="请选择页面分类"></ySelect>
             </el-form-item>
           </el-col> -->
-          <el-col :span="5">
+          <div>
             <el-form-item label="状态" prop="status">
               <ySelect
                 v-model="searchForm.status" 
                 :options="statusOptions" :configs="statusConfigs"
                 ></ySelect>
             </el-form-item>
-          </el-col>
-          <el-col :span="4">
+          </div>
+          <div>
             <el-form-item label="关键字" prop="keyword">
               <el-input size="small" v-model="searchForm.keyword" placeholder="页面名称/页面路径"></el-input>
             </el-form-item>
-          </el-col>
-          <el-col :span="4" class="pl-3 pt">
-            <el-button type="primary" size="mini" @click="searchSubmit('searchForm')">搜索</el-button>
-            <el-button size="mini" @click="resetForm('searchForm')">清空</el-button>
-          </el-col>
+          </div>
+          <div class="pl-3 pt">
+            <el-button class="search-btn" type="primary" size="mini" @click="searchSubmit('searchForm')">搜索</el-button>
+            <el-button class="search-btn" size="mini" @click="resetForm('searchForm')">清空</el-button>
+          </div>
         </el-row>
       </el-form>
       <el-row class="mt-2 pb-1">
@@ -264,7 +265,7 @@ export default {
       },
       statusOptions:[
         { label:'全部',value:'-1' },
-        { label:'可用',value:'1' },
+        { label:'启用',value:'1' },
         { label:'禁用',value:'0' },
       ],
       statusConfigs:{},

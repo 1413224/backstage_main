@@ -24,7 +24,8 @@ export default {
 <style lang="less" scoped>
 .tit{
   color: #595961;
-  font-weight: bold;
+  // font-weight: bold;
   font-size: 15px;
+  padding-left: 8px;
 }
 </style>

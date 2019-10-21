@@ -1,0 +1,114 @@
+.head{
+  position: fixed;
+  width: calc(100% - 274px);
+  z-index: 3000;
+}
+.content-wrap{
+  padding-top: 60px;
+  width: calc(100% - 300px);
+}
+.content{
+  
+}
+.config-drawer{
+  width: 305px;
+  box-shadow:-5px 0px 10px 0px rgba(35, 21, 24, 0.35);
+  &.el-dialog__wrapper{
+    left: auto;
+    top: 104px;
+  }
+  .collapse{
+    // padding-left: 10px;
+    
+  }
+}
+.config-drawer /deep/ #el-drawer__title{
+  display: none;
+}
+.config-drawer /deep/ .el-drawer{
+  overflow-y: auto;
+}
+.collapse /deep/ .el-collapse-item__header{
+  background: #FAFAFA;
+  padding-left: 10px;
+  color: #22242F;
+  font-weight: bold;
+}
+.collapse /deep/ .el-collapse-item__content{
+  padding: 10px;
+}
+.coll-form /deep/ .el-form-item__label{
+  color: #686A73;
+  font-size: 12px !important;
+}
+.coll-form /deep/ .el-form-item__content{
+  font-size: 12px;
+}
+.coll-form /deep/ .el-form-item{
+  margin-bottom: 10px;
+}
+.coll-input /deep/ .el-input__inner{
+  background: #F4F7FD;
+  border: 1px solid transparent;
+}
+.coll-input /deep/ .el-textarea__inner{
+  background: #F4F7FD;
+  border: 1px solid transparent;
+}
+.coll-input /deep/ .el-textarea__inner::placeholder{
+  color: #999;
+  font-family: 'Source Han Sans SC';
+}
+.coll-input /deep/ .el-input.is-focus .el-input__inner{
+  border-color: transparent;
+}
+.mergecoll /deep/ .el-form-item__label{
+  width: 10px !important;
+  text-align: center;
+  padding: 0;
+}
+.mergecoll /deep/ .el-form-item__content{
+  margin-left: 13px !important;
+}
+.check{
+  margin-right: 10px;
+  top: -1px;
+}
+.check /deep/ .el-checkbox__inner{
+  border:1px solid #B2AEBC;
+}
+.check /deep/ .el-checkbox__input.is-checked .el-checkbox__inner{
+  border: 1px solid #409EFF;
+}
+.addlabel-wrap{
+  .add-btn{
+    color: #2589FF;
+    border: 1px dashed #E3E2E5;
+  }
+  &:hover{
+    cursor: pointer;
+  }
+  .desc{
+    color: #AFB1B8;
+  }
+}
+.span-draggable{
+  .item{
+    border: 1px dashed #E3E2E5;
+    &:hover{
+      cursor: move;
+    }
+  }
+}
+.label-width /deep/ .el-form-item__label{
+  width: 75px !important;
+}
+.label-width /deep/ .el-input{
+  width: 95%;
+}
+.edit-text{
+  font-size: 12px !important;
+}
+.status-text /deep/ .el-radio__label{
+  font-size: 12px;
+}

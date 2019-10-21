@@ -106,10 +106,10 @@ export default {
         case 'addButton':
           _this.addButton()//新增按钮
           break;
-        case 'availableButton'://批量可用
+        case 'availableButton'://批量显示
           _this.availableButton()
           break;
-        case 'unavailableButton'://批量不可用
+        case 'unavailableButton'://批量不显示
           _this.unavailableButton()
           break;
         case 'deleteButton'://批量删除
@@ -123,7 +123,7 @@ export default {
         
       }
     },
-    changeStatus(){//修改可用，禁用状态
+    changeStatus(){//修改显示，隐藏状态
       // console.log(this.status)
       let _this = this,
           token = '';

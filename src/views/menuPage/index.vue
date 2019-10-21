@@ -1,11 +1,49 @@
 <template>
   <div class="bg-white py-2 px-1 rounded wrap">
-    <!-- <div class="tit">侧边栏管理</div> -->
-    <yTitle>侧边栏管理</yTitle>
+    <yTitle>导航管理</yTitle>
 
     <div class="content bg-gray">
-      <div class="search clearfix">
-        <ySelect
+      <div class="search clearfix pt-2 px-1 rounded pb-1">
+        <el-form
+          :model="searchForm" 
+          :rules="searchRules" 
+          ref="searchForm" 
+          label-width="80px"
+          class="border-bottom">
+          <el-row>
+            <el-col :span="6">
+              <el-form-item label="应用场景" prop="scene">
+                <ySelect
+                v-if="options.length!=0" 
+                v-model="searchForm.scene" 
+                :options="options" :configs="configs"
+                @changeSel="changeSel"></ySelect>
+              </el-form-item>
+            </el-col>
+            <el-col :span="6">
+              <el-form-item label="关键字" prop="keyword">
+                <el-input size="small" class="search-input" 
+                placeholder="导航名称" v-model="searchForm.keyword">
+                </el-input>
+              </el-form-item>
+            </el-col>
+            <el-col :span="6">
+              <div class="btn-wrap mt">
+                <el-button style="margin-left:20px;" @click="searchSubmit('searchForm')" type="primary" size="mini">搜索</el-button>
+                <el-button @click="resetForm('searchForm')" plain size="mini">清空</el-button>
+              </div>
+            </el-col>
+          </el-row>
+        </el-form>
+        <el-row class="mt-2 pb-1">
+          <el-col :span="20">
+            <div class="btn-wrap">
+              <el-button style="margin-left:20px;" @click="goAddMenuPage()" type="primary" size="mini">新增导航</el-button>
+              <el-button @click="delNav()" plain size="mini">批量删除</el-button>
+            </div>
+          </el-col>
+        </el-row>
+        <!-- <ySelect
           v-if="options.length!=0" 
           v-model="scene" 
           :options="options" :configs="configs"
@@ -13,13 +51,26 @@
         <el-button @click="goAddMenuPage()" type="primary" plain size="small">新增侧边栏组</el-button>
         <el-input size="small" class="search-input fr" placeholder="请输入内容" v-model="keyword">
           <el-button @click="getList()" slot="append" icon="el-icon-search"></el-button>
-        </el-input>
+        </el-input> -->
       </div>
+
+      <numberTips>
+        <div class="items d-flex a-center mr-5">
+          <span class="tit">符合条件的导航总数：</span>
+          <span class="num">{{totalNums}}</span>
+        </div>
+      </numberTips>
+
       <div class="table-wrap">
         <el-table
           :data="tableData"
           stripe
+          @selection-change="selectionChange"
           style="width: 100%">
+          <el-table-column
+            type="selection"
+            width="55">
+          </el-table-column>
           <el-table-column
             prop="role_type_name"
             label="应用场景">
@@ -45,14 +96,18 @@
           <el-table-column
             prop="rootFontSize"
             label="根字体">
+            <template slot-scope="scope">
+              <p>{{scope.row.rootFontSize}}px</p>
+            </template>
           </el-table-column>
           <el-table-column
             prop="status"
             label="状态">
             <template slot-scope="scope">
               <div @click="changeStatus(Number(scope.row.status),scope.row.id)">
-                <el-button v-if="scope.row.status==1" class="status" type="success" size="small">可用</el-button>
-                <el-button v-if="scope.row.status==0" class="status" type="danger" size="small">禁用</el-button>
+                <el-button v-if="scope.row.status==1" class="status" 
+                  type="success" size="small" plain>显示</el-button>
+                <el-button v-if="scope.row.status==0" class="status" size="small" plain>隐藏</el-button>
               </div>
             </template>
           </el-table-column>
@@ -96,23 +151,29 @@
 </template>
 <script>
 import ySelect from '@/components/ySelect/index'
+import numberTips from '@/components/numberTips/numberTips'
 import { resolve, reject } from 'q';
 export default {
   data(){
     return {
-      scene:-1,
+      searchForm:{
+        scene:-1,
+        keyword:'',
+      },
+      searchRules:{},
+      
       options:[
         // {label:"全部",value:-1},
         // {label:"总后台",value:0},
         // {label:"联盟企业",value:1},
       ],
       configs:{},
-      keyword:'',
       tableData: [],
       totalNums:0,
       curPage: 1,
       pageSize: 10,
-      totalPages:1
+      totalPages:1,
+      selection:[]
     }
   },
   created(){
@@ -121,6 +182,20 @@ export default {
     })
   },
   methods:{
+    resetForm(formName){
+      this.$refs[formName].resetFields()
+    },
+    searchSubmit(formName){
+      this.$refs[formName].validate((valid)=>{
+        if(!valid){
+          return false
+        }
+        this.getList()
+      })
+    },
+    selectionChange(selection){
+      this.selection = selection
+    },
     goAddMenuPage(){
       this.$router.push({
         path:'/menupage/addMenuPage'
@@ -158,8 +233,8 @@ export default {
       // console.log(_this.scene)
       _this.$http.post(_this.baseUrl + _this.url.manageFactory.GetList,{
         token:_this.$utils.getToken(),
-        role_type:roleType || roleType==0 ? roleType : _this.scene,
-        keyword:_this.keyword,
+        role_type:roleType || roleType==0 ? roleType : _this.searchForm.scene,
+        keyword:_this.searchForm.keyword,
         page_size:_this.pageSize,
         page_num:_this.curPage
       }).then((res)=>{
@@ -193,6 +268,46 @@ export default {
         }
       })
     },
+    delNav(){
+      let _this = this,
+          idsArr = [],
+          ids = '';
+      if(_this.selection.length==0){
+        _this.$message({
+          type: 'warning',
+          message: '请选择需要删除的数据!'
+        })
+        return false
+      }
+      _this.selection.map((item,index)=>{
+        idsArr.push(item.id)
+      })
+      ids = idsArr.toString()
+
+      _this.$confirm('此操作将永久删除该信息, 是否继续?', '提示',{
+        confirmButtonText: '确定',
+        cancelButtonText: '取消',
+        type: 'warning'
+      }).then(()=>{
+        _this.$http.post(_this.baseUrl + _this.url.manageFactory.DelManageByIds,{
+          token:_this.$utils.getToken(),
+          ids:id
+        }).then((res)=>{
+          if(res.data.ret==200){
+            _this.$message({
+              type: 'success',
+              message: '删除成功!'
+            })
+            _this.getList()
+          }
+        })
+      }).catch(()=>{
+        _this.$message({
+          type: 'info',
+          message: '已取消删除'
+        })
+      })
+    },
     delManage(id){
       let _this = this
       _this.$confirm('此操作将永久删除该信息, 是否继续?','提示',{
@@ -200,9 +315,9 @@ export default {
         cancelButtonText: '取消',
         type: 'warning'
       }).then(()=>{
-        _this.$http.post(_this.baseUrl + _this.url.manageFactory.DelManageById,{
+        _this.$http.post(_this.baseUrl + _this.url.manageFactory.DelManageByIds,{
           token:_this.$utils.getToken(),
-          id:id
+          ids:id
         }).then((res)=>{
           if(res.data.ret==200){
             _this.$message({
@@ -249,7 +364,8 @@ export default {
 
   },
   components:{
-    ySelect
+    ySelect,
+    numberTips
   }
 }
 </script>
@@ -266,7 +382,6 @@ export default {
   border-radius: 5px;
   .search{
     background: #fff;
-    padding: 10px;
     .search-input{
       width: 250px;
     }
@@ -289,7 +404,7 @@ export default {
 .table-wrap{
   .el-table thead{
     color: #333;
-    font-weight: bold;
+    // font-weight: bold;
   }
 }
 @media screen and (max-width: 1200px) {

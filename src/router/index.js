@@ -128,8 +128,8 @@ export default new Router({
             title:'栏目详情',
             breadList:[
               { name:'首页',path:'/home' },
-              { name:'侧边栏管理',path:'/menupage' },
-              { name:'栏目详情' }
+              { name:'导航管理',path:'/menupage' },
+              { name:'栏目' }
             ]
           }
         },
@@ -245,7 +245,20 @@ export default new Router({
           }
         },
         {
-          path:"/settings/attachmentConfig",
+          path:'/pageManagement/currencyPage/customPage',
+          component:() => import('@/views/pageManagement/currencyPage/customPage'),
+          meta:{
+            title:'自定义后台页面',
+            parentsLabel:'页面',
+            breadList:[
+              { name:'通用页面',path:'/pageManagement/currencyPage/pageList' },
+              { name:'页面列表',path:'/pageManagement/currencyPage/addSpecPageList'},
+              { name:'新增页面' }
+            ]
+          }
+        },
+        {
+          path:'/settings/attachmentConfig',
           component:() => import('@/views/settings/attachmentConfig'),
           meta:{
             title:'远程附件',
@@ -255,9 +268,48 @@ export default new Router({
               { name:'远程附件'}
             ]
           }
+        },
+        {
+          path:'/settings/roleConfig/roleList',
+          component:() => import('@/views/settings/roleConfig/roleList'),
+          meta:{
+            title:'角色列表',
+            parentsLabel:'设置',
+            breadList:[
+              { name:'首页',path:'/home' },
+              { name:'角色管理'}
+            ]
+          }
+        },
+        {
+          path:'/settings/roleConfig/addRole',
+          component:() => import('@/views/settings/roleConfig/addRole'),
+          meta:{
+            title:'新增角色',
+            parentsLabel:'设置',
+            breadList:[
+              { name:'角色管理',path:'/settings/roleConfig/roleList' },
+              { name:'新增角色'}
+            ]
+          }
+        },
+        {
+          path:'/settings/roleConfig/roleDetail',
+          component:() => import('@/views/settings/roleConfig/roleDetail'),
+          meta:{
+            title:'角色详情',
+            parentsLabel:'设置',
+            breadList:[
+              { name:'角色管理',path:'/settings/roleConfig/roleList' },
+              { name:'角色详情'}
+            ]
+          }
         }
       ]
     },
 
-  ]
+  ],
+  scrollBehavior(to, from, savedPosition){
+    return {x:0,y:0}
+  }
 })

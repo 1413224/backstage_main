@@ -84,47 +84,43 @@
         </el-table-column>
         <el-table-column
           prop="name"
-          label="页面名称"
-          width="180">
+          label="页面名称">
         </el-table-column>
         <el-table-column
           prop="path"
-          label="页面路径"
-          width="180">
+          label="页面路径">
         </el-table-column>
-        <el-table-column
+        <!-- <el-table-column
           label="所属角色"
           width="180">
           <template slot-scope="scope">
             <div v-for="(item,index) in scope.row.role_type_list" :key="index">{{item.role_type_name}}</div>
           </template>
-        </el-table-column>
-        <el-table-column
+        </el-table-column> -->
+        <!-- <el-table-column
           prop="cate_name"
           label="角色分类名称"
           width="180">
-        </el-table-column>
+        </el-table-column> -->
         <el-table-column
           prop="status"
-          label="状态"
-          width="180">
+          label="状态">
           <template slot-scope="scope">
             <div @click="changeStatus(Number(scope.row.status),scope.row.id)">
-              <el-button v-if="scope.row.status==1" class="status" type="success" plain size="small">可用</el-button>
-              <el-button v-if="scope.row.status==0" class="status" plain size="small">禁用</el-button>
+              <el-button v-if="scope.row.status==1" class="status" type="success" plain size="small">显示</el-button>
+              <el-button v-if="scope.row.status==0" class="status" plain size="small">隐藏</el-button>
             </div>
           </template>
         </el-table-column>
-        <el-table-column
+        <!-- <el-table-column
           label="创建时间"
           width="180">
           <template slot-scope="scope">
             <div>{{scope.row.create_time|formatDate}}</div>
           </template>
-        </el-table-column>
+        </el-table-column> -->
         <el-table-column
-          label="更新时间"
-          width="180">
+          label="更新时间">
           <template slot-scope="scope">
             <div>{{scope.row.update_time|formatDate}}</div>
           </template>
@@ -210,8 +206,8 @@
       </el-form-item>
       <el-form-item label="状态：" prop="status">
         <el-radio-group v-model="pageForm.status">
-          <el-radio label="1">可用</el-radio>
-          <el-radio label="0">禁用</el-radio>
+          <el-radio label="1">显示</el-radio>
+          <el-radio label="0">隐藏</el-radio>
         </el-radio-group>
       </el-form-item>
     </el-form>
@@ -259,8 +255,8 @@ export default {
       },
       statusOptions:[
         { label:'全部',value:'-1' },
-        { label:'可用',value:'1' },
-        { label:'禁用',value:'0' },
+        { label:'显示',value:'1' },
+        { label:'隐藏',value:'0' },
       ],
       statusConfigs:{},
       tableData:[],

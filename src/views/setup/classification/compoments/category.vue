@@ -48,8 +48,8 @@
         </el-form-item>
         <el-form-item label="分类状态" prop="status">
           <el-radio-group v-model="categoryForm.status">
-            <el-radio :label="1">可用</el-radio>
-            <el-radio :label="0">不可用</el-radio>
+            <el-radio :label="1">显示</el-radio>
+            <el-radio :label="0">不显示</el-radio>
           </el-radio-group>
         </el-form-item>
         <el-form-item label="分类名称" prop="name">

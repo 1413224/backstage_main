@@ -166,8 +166,8 @@
         </el-form-item>
         <el-form-item label="状态：" prop="status">
           <el-radio-group v-model="classifyForm.status">
-            <el-radio label="1">可用</el-radio>
-            <el-radio label="0">禁用</el-radio>
+            <el-radio label="1">显示</el-radio>
+            <el-radio label="0">隐藏</el-radio>
           </el-radio-group>
         </el-form-item>
       </el-form>

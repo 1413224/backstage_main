@@ -80,12 +80,38 @@ export default {
       menuType: "menuPage",
       name: "设置",
       children:[
+        // {
+        //   menuId:12,
+        //   menuType:"menuPage",
+        //   name:"远程附件",
+        //   path:'/settings/attachmentConfig'
+        // },
         {
-          menuId:12,
-          menuType:"menuPage",
-          name:"远程附件",
-          path:'/settings/attachmentConfig'
+          menuId:'account',
+          menuType:'menuLabel',
+          name:'账号信息',
+          children:[
+            {
+              menuId:'userInfo',
+              menuType:'menuPage',
+              name:'个人信息',
+              path:'/settings/attachmentConfig'
+            }
+          ]
         },
+        {
+          menuId:'system',
+          menuType:'menuLabel',
+          name:'系统设置',
+          children:[
+            {
+              menuId:'roleManage',
+              menuType:'menuPage',
+              name:'角色管理',
+              path:'/settings/roleConfig/roleList'
+            }
+          ]
+        }
       ]
     }
   ]

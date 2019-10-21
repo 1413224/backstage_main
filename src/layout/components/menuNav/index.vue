@@ -188,6 +188,8 @@ export default {
     let _this = this
 
     if(_this.menuList.some(_this.filter)){
+      //进入到的具体页面发射请求告诉它是否显示隐藏（1）
+      //配置的路由告诉他显示或隐藏（2，可选）
       _this.showSecondSideBar = false
       _this.$emit('changeLeft',false)
     }else{
@@ -196,7 +198,7 @@ export default {
       _this.$emit('changeLeft',true)//等待修改
       // _this.$emit('changeLeft',false)
     }
-
+    // console.log(_this.$route)
     _this.filterMenuList.map((item)=>{
       item.children.map(submenuItem=>{//设置默认展开项
         _this.menuSetting.defaultOpeneds.push(String(submenuItem.menuId))
@@ -229,6 +231,7 @@ export default {
   },
   methods:{
     filter(list){
+      // console.log(list)
       return list.path == this.$route.path
     },
     toNavMenu(item,index,e) {
@@ -303,37 +306,47 @@ export default {
   height: 100%;
   z-index: 102;
   // border: 1px solid #f00;
-  background: #273543;
+  // background: #273543;
+  background: #22242F;
 }
 .shared-first-sidebar{
-  background-color: #273543;
+  // background-color: #273543;
+  background: #22242F;
 }
 .shared-team-logo{
-  width: 92px;
-  height: 56px;
-  padding-top: 12px;
+  width: 120px;
+  height: 80px;
+  // padding-top: 20px;
+  display: flex;
+  align-items: center;
   .team-logo{
     margin:0 auto;
-    width: 32px;
-    height: 32px;
+    width: 40px;
+    height: 40px;
     -webkit-border-radius: 50%;
     border-radius: 50%;
     background-size: cover;
     background-position: 50% 50%;
     background-color: #fff;
-    border: 1px solid #fff;
+    // border: 1px solid #fff;
   }
 }
 .shared-first-sidebar-nav{
+  margin-top: 10px;
   li{
     // width: 74px;
     font-size: 14px;
-    height: 40px;
-    line-height: 40px;
-    color: #fff;
+    height: 42px;
+    line-height: 42px;
+    color:#7F839D;
     padding-left: 18px;
     cursor: pointer;
     position: relative;
+    i{
+      position: relative;
+      top: 1px;
+      margin-right: 6px;
+    }
     .xian{
       width: 4px;
       height: 20px;
@@ -394,9 +407,15 @@ export default {
   overflow-y: scroll;
 }
 </style>
-<style>
+<style lang="less">
 .el-menu{
   border-right: none;
+}
+.shared-second-sidebar /deep/ .el-submenu__title{
+  font-size: 12px;
+}
+.shared-second-sidebar /deep/ .el-menu-item{
+  font-size: 12px;
 }
 </style>
 

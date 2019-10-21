@@ -25,7 +25,7 @@
             </div>
             <el-tag :class="column.isClick == false ? '' : 'point'" v-else-if="column.status" size="mini" :type="Number(scope.row.status) ? 'success' : 'danger'" disable-transitions>
               <span @click="changeStatus(Number(scope.row.status),scope.row.id,column.isClick)">
-                {{Number(scope.row.status) ? '可用' : '禁用'}}
+                {{Number(scope.row.status) ? '显示' : '隐藏'}}
               </span>
             </el-tag>
             <div v-else-if="column.actions">

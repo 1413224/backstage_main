@@ -1,60 +1,64 @@
 <template>
-  <div class="content bg-gray">
-    <el-form :model="ruleForm" :rules="rules" ref="ruleForm" label-width="120px">
-      <el-form-item label="活动区域：" prop="scene">
-        <!-- <el-select class="item" size="small" v-model="ruleForm.scene" placeholder="请选择活动区域">
-          <el-option label="区域一" value="shanghai"></el-option>
-          <el-option label="区域二" value="beijing"></el-option>
-        </el-select> -->
-        <ySelect v-model="ruleForm.scene" :options="options" :configs="configs"></ySelect>
-      </el-form-item>
-      <el-form-item label="标题：" prop="name">
-        <el-input size="small" class="item" v-model="ruleForm.name" placeholder="请输入标题"></el-input>
-      </el-form-item>
-      <el-form-item label="布局：" prop="layout">
-        <el-radio-group v-model="ruleForm.layout">
-          <el-radio class="theme-raido" label="default">
-            <div class="wrap-item" :class="{'border-blue-dashed':ruleForm.layout=='default'}">
-              <div class="img">
-                <img src="../../assets/weimeng.png" alt="">
-              </div>
-              <p class="desc">微盟布局</p>
-            </div>
-          </el-radio>
-          <el-radio class="theme-raido" label="youzan">
-            <div class="wrap-item" :class="{'border-blue-dashed':ruleForm.layout=='youzan'}">
-              <div class="img">
-                <img src="../../assets/youzan.png" alt="">
-              </div>
-              <p class="desc">有赞布局</p>
-            </div>
-          </el-radio>
-        </el-radio-group>
-      </el-form-item>
-      <el-form-item label="主题：" prop="theme">
-          <el-radio-group v-model="ruleForm.theme">
-            <el-radio label="red"><span class="yzcolor"></span>胭脂红</el-radio>
-            <el-radio label="blue"><span class="tkcolor"></span>天空蓝</el-radio>
-          </el-radio-group>
-      </el-form-item>
-      <el-form-item label="根字体：" prop="rootFontSize">
-        <el-input 
-          size="small" class="item" 
-          placeholder="请输入根字体大小" 
-          type="number"
-          max="16"
-          min="12"
-          v-model="ruleForm.rootFontSize">
-          <template slot="append">px</template>
-        </el-input>
-      </el-form-item>
-      <el-form-item label="状态：" prop="status">
-        <el-radio-group v-model="ruleForm.status">
-          <el-radio label="1">可用</el-radio>
-          <el-radio label="0">禁用</el-radio>
-        </el-radio-group>
-      </el-form-item>
-    </el-form>
+  <div class="content bg-white box-shadow-page">
+    <div class="bg-gray p-1 rounded">
+      <div class="bg-white py-2 rounded">
+        <el-form :model="ruleForm" :rules="rules" ref="ruleForm" label-width="120px">
+          <el-form-item label="活动区域" prop="scene">
+            <!-- <el-select class="item" size="small" v-model="ruleForm.scene" placeholder="请选择活动区域">
+              <el-option label="区域一" value="shanghai"></el-option>
+              <el-option label="区域二" value="beijing"></el-option>
+            </el-select> -->
+            <ySelect v-model="ruleForm.scene" :options="options" :configs="configs"></ySelect>
+          </el-form-item>
+          <el-form-item label="标题" prop="name">
+            <el-input size="small" class="item" v-model="ruleForm.name" placeholder="请输入标题"></el-input>
+          </el-form-item>
+          <el-form-item label="布局" prop="layout">
+            <el-radio-group v-model="ruleForm.layout">
+              <el-radio class="theme-raido" label="default">
+                <div class="wrap-item" :class="{'border-blue-dashed':ruleForm.layout=='default'}">
+                  <div class="img">
+                    <img src="../../assets/weimeng.png" alt="">
+                  </div>
+                  <p class="desc">微盟布局</p>
+                </div>
+              </el-radio>
+              <el-radio class="theme-raido" label="youzan">
+                <div class="wrap-item" :class="{'border-blue-dashed':ruleForm.layout=='youzan'}">
+                  <div class="img">
+                    <img src="../../assets/youzan.png" alt="">
+                  </div>
+                  <p class="desc">有赞布局</p>
+                </div>
+              </el-radio>
+            </el-radio-group>
+          </el-form-item>
+          <el-form-item label="主题" prop="theme">
+              <el-radio-group v-model="ruleForm.theme">
+                <el-radio label="red"><span class="yzcolor"></span>胭脂红</el-radio>
+                <el-radio label="blue"><span class="tkcolor"></span>天空蓝</el-radio>
+              </el-radio-group>
+          </el-form-item>
+          <el-form-item label="根字体" prop="rootFontSize">
+            <el-input 
+              size="small" class="item" 
+              placeholder="请输入根字体大小" 
+              type="number"
+              max="16"
+              min="12"
+              v-model="ruleForm.rootFontSize">
+              <template slot="append">px</template>
+            </el-input>
+          </el-form-item>
+          <el-form-item label="状态" prop="status">
+            <el-radio-group v-model="ruleForm.status">
+              <el-radio label="1">显示</el-radio>
+              <el-radio label="0">隐藏</el-radio>
+            </el-radio-group>
+          </el-form-item>
+        </el-form>
+      </div>
+    </div>
     <div class="bottom">
       <el-button @click="submitManage('ruleForm')" size="small" type="primary">保存</el-button>
       <el-button @click="goBackList" size="small">取消</el-button>
@@ -75,7 +79,7 @@ export default {
       ruleForm:{
         scene:0,
         name:'',
-        layout:'1',
+        layout:'default',
         theme:'1',
         status:'1',
         rootFontSize:''
@@ -94,7 +98,7 @@ export default {
           {required: true, message: '请输入根字体大小'}
         ],
         status:[
-          {required: true, message: '请选择可用状态'}
+          {required: true, message: '请选择显示状态'}
         ]
       }
     }
@@ -105,6 +109,9 @@ export default {
     if(this.manageId = this.$route.query.id){
       this.getInfo()
       this.configs.disabled = true
+    }
+    if(this.$route.query.roleType){
+      this.ruleForm.scene = Number(this.$route.query.roleType)
     }
     
   },

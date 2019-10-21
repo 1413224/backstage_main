@@ -8,38 +8,28 @@
       <div class="right fr d-flex">
         <div class="item mr-1 d-flex flex-column a-center">
           <p class="tit">系统页面总数</p>
-          <p class="num mt-1">99</p>
+          <p class="num mt-1">{{systemPageNums}}</p>
         </div>
         <div class="xian"></div>
         <div class="item ml-1 d-flex flex-column a-center">
           <p class="tit">通用页面总数</p>
-          <p class="num mt-1">99</p>
+          <p class="num mt-1">{{commonPageNums}}</p>
         </div>
       </div>
     </div>
-    <div class="list-wrap mt-1 d-flex">
-      <div class="item rounded mr-2">
-        <div class="list-tit px-1 py-1">
-          <p class="tit">成高成管理后台</p>
-          <p class="desc mt-1">-管理整个平台的数据信息-管理整个平台的数据信息</p>
+    <div class="list-wrap mt-1 d-flex flex-wrap">
+      <div class="item rounded mr-2 mb-2"
+        v-for="(item,index) in list"
+        :key="index">
+        <div class="list-tit px-2 pb-2">
+          <p class="tit pt-2">{{item.name}}</p>
+          <p class="desc mt-1 ellipsis2">{{item.desc}}</p>
         </div>
-        <div class="list-bottom d-flex px-1 j-sb a-center">
-          <el-button type="primary" plain size="mini">立即设置</el-button>
+        <div class="list-bottom d-flex px-2 j-sb a-center">
+          <el-button v-if="item.navbar == null" type="primary" plain size="mini" @click="goAddMenu(item.role_type)">立即设置</el-button>
+          <p class="navbar" v-if="item.navbar!=null">{{item.navbar.name}}</p>
           <div class="nums">
-            <span class="num">30</span>
-            <span class="text">页</span>
-          </div>
-        </div>
-      </div>
-      <div class="item rounded mr-2">
-        <div class="list-tit px-1 py-1">
-          <p class="tit">成高成管理后台</p>
-          <p class="desc mt-1">-管理整个平台的数据信息-管理整个平台的数据信息</p>
-        </div>
-        <div class="list-bottom d-flex px-1 j-sb a-center">
-          <el-button type="primary" plain size="mini">立即设置</el-button>
-          <div class="nums">
-            <span class="num">30</span>
+            <span class="num">{{item.page_nums}}</span>
             <span class="text">页</span>
           </div>
         </div>
@@ -52,14 +42,36 @@
 export default {
   data(){
     return {
-
+      commonPageNums:'',
+      systemPageNums:'',
+      list:[]
     }
   },
   created(){
-
+    this.getStatistics()
   },
   methods:{
-
+    goAddMenu(roleType){
+      this.$router.push({
+        path:'/menupage/addMenuPage',
+        query:{
+          roleType:roleType
+        }
+      })
+    },
+    getStatistics(){
+      let _this = this
+      _this.$http.post(_this.baseUrl + _this.url.Index.Statistics,{
+        token:_this.$utils.getToken()
+      }).then((res)=>{
+        if(res.data.ret==200){
+          let data = res.data.data
+          _this.commonPageNums = data.common_page_nums
+          _this.systemPageNums = data.system_page_nums
+          _this.list = data.list
+        }
+      })
+    }
   }
 }
 </script>
@@ -103,7 +115,7 @@ export default {
 }
 .list-wrap{
   .item{
-    width: 200px;
+    width: 310px;
     border: 1px solid #E8E8E8;
     overflow: hidden;
     &:hover{
@@ -111,7 +123,7 @@ export default {
     }
     &:nth-child(2n){
       .list-tit{
-        background:url('../assets/list-tit.png') 100% 100%;
+        background:url('../assets/list-tit.png') 100% 100% no-repeat;
         color: #fff;
       }
       .desc{
@@ -123,6 +135,7 @@ export default {
       font-weight: bold;
       color: #333;
       background: #E3F0FC;
+      height: 80px;
     }
     .desc{
       font-size: 12px;
@@ -130,7 +143,11 @@ export default {
       line-height: 16px;
     }
     .list-bottom{
-      padding: 15px 10px;
+      padding: 15px 20px;
+      .navbar{
+        color: #666;
+        font-size: 12px;
+      }
       .nums{
         color: #333;
         .num{

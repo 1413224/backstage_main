@@ -75,8 +75,8 @@
               width="180">
               <template slot-scope="scope">
                 <div @click="changeStatus(Number(scope.row.status),scope.row.id)">
-                  <el-button v-if="scope.row.status==1" class="status" type="success" size="small">可用</el-button>
-                  <el-button v-if="scope.row.status==0" class="status" type="danger" size="small">禁用</el-button>
+                  <el-button v-if="scope.row.status==1" class="status" type="success" size="small">显示</el-button>
+                  <el-button v-if="scope.row.status==0" class="status" type="danger" size="small">隐藏</el-button>
                 </div>
               </template>
             </el-table-column>
@@ -141,8 +141,8 @@
         </el-form-item>
         <el-form-item label="状态：" prop="status">
           <el-radio-group v-model="dialogForm.status">
-            <el-radio label="1">可用</el-radio>
-            <el-radio label="0">禁用</el-radio>
+            <el-radio label="1">显示</el-radio>
+            <el-radio label="0">隐藏</el-radio>
           </el-radio-group>
         </el-form-item>
       </el-form>
@@ -173,8 +173,8 @@ export default {
       statusConfigs:{},
       statusOptions:[
         { label:'全部',value:'-1' },
-        { label:'可用',value:'1' },
-        { label:'禁用',value:'0' },
+        { label:'显示',value:'1' },
+        { label:'隐藏',value:'0' },
       ],
       tableData:[
         // {}
