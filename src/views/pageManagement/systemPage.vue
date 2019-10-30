@@ -265,7 +265,7 @@ export default {
       },
       statusOptions:[
         { label:'全部',value:'-1' },
-        { label:'启用',value:'1' },
+        { label:'显示',value:'1' },
         { label:'禁用',value:'0' },
       ],
       statusConfigs:{},
@@ -301,6 +301,7 @@ export default {
   methods:{
     resetForm(formName){
       this.$refs[formName].resetFields()
+      this.getList()
     },
     searchSubmit(formName){
       this.$refs[formName].validate((valid)=>{

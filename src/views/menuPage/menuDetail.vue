@@ -104,7 +104,11 @@
             <el-form-item label="组名称：" prop="name">
               <el-input size="small" class="item-input" v-model="ColumnGroup.name" placeholder="请输入名称"></el-input>
             </el-form-item>
+            <el-form-item label="路径" prop="groupPath">
+              <el-input size="small" class="item-input" v-model="ColumnGroup.groupPath" placeholder="请输入路径"></el-input>
+            </el-form-item>
           </div>
+
           <div v-if="ColumnGroup.menuType=='menuPage'">
             <el-form-item  label="页面名称：" prop="pageName">
               <el-input size="small" class="item-input" v-model="ColumnGroup.pageName" placeholder="请输入名称"></el-input>
@@ -328,7 +332,8 @@ export default {
         status:'1',
         pageName:'',
         pagePath:'',
-        isBlank:'1'
+        isBlank:'1',
+        groupPath:''
       },
       columnGroupRules:{
         name:[
@@ -339,6 +344,9 @@ export default {
         ],
         pagePath:[
           {required: true, message: '请输入页面路径',trigger:'blur'}
+        ],
+        groupPath:[
+          {required: true, message: '请输入路径',trigger:'blur'}
         ]
       },
       column:{

@@ -23,9 +23,9 @@ export default {
 </script>
 <style lang="less" scoped>
 .tit{
-  color: #595961;
+  color: #333333FF;
   // font-weight: bold;
-  font-size: 15px;
+  font-size: 14px;
   padding-left: 8px;
 }
 </style>

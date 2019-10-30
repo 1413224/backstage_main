@@ -135,6 +135,7 @@ export default {
       _this.ColumnGroup.name = ''
       _this.ColumnGroup.pageName = ''
       _this.ColumnGroup.pagePath = ''
+      _this.ColumnGroup.groupPath = ''
       _this.ColumnGroup.isBlank = '1'
       _this.ColumnGroup.status = '1'
 
@@ -177,6 +178,7 @@ export default {
         params.menuType = _this.ColumnGroup.menuType
         params.name =  _this.ColumnGroup.name
         params.status = _this.ColumnGroup.status
+        params.path = _this.ColumnGroup.groupPath
       }else if(_this.ColumnGroup.menuType=='menuPage'){
         params.menuType = _this.ColumnGroup.menuType
         params.name = _this.ColumnGroup.pageName
@@ -304,7 +306,8 @@ export default {
           _this.dialogColumnGroupText = '编辑'
           _this.disableColumn = true //需要还原
           _this.ColumnGroup.menuType = data.menuType        
-          _this.ColumnGroup.name = data.name        
+          _this.ColumnGroup.name = data.name   
+          _this.ColumnGroup.groupPath = data.path  
           _this.ColumnGroup.status = data.status        
           _this.dialogColumnGroup = true
         }

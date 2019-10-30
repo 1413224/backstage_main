@@ -1,5 +1,5 @@
 <template>
-  <div class="num-wrap mt-2 rounded p-2 d-flex">
+  <div class="num-wrap mt-1 rounded p-2 d-flex">
     <slot></slot>
   </div>
 </template>

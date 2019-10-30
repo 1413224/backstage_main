@@ -6,7 +6,7 @@
           <div class="team-logo" style="background-image: url(&quot;https://img.yzcdn.cn/public_files/2016/05/13/8f9c442de8666f82abaf7dd71574e997.png!60x60.jpg&quot;);">
           </div>
         </div>
-        <ul class="shared-first-sidebar-nav" ref="firsrMenu">
+        <ul class="shared-first-sidebar-nav" ref="firstMenu">
           <li 
             v-for="(item,index) in menuList" 
             :key="index" 
@@ -186,24 +186,22 @@ export default {
   },
   created(){
     let _this = this
+    // if(_this.menuList.some(_this.filter)){
+    //   //进入到的具体页面发射请求告诉它是否显示隐藏（1）
+    //   //配置的路由告诉他显示或隐藏（2，可选）
+    //   _this.showSecondSideBar = false
+    //   _this.$emit('changeLeft',false)
+    // }else{
+    //   _this.showSecondSideBar = true//等待修改
+    //   _this.$emit('changeLeft',true)//等待修改
+    //   // _this.$emit('changeLeft',false)
+    // }
+    // console.log(_this.menuList)
 
-    if(_this.menuList.some(_this.filter)){
-      //进入到的具体页面发射请求告诉它是否显示隐藏（1）
-      //配置的路由告诉他显示或隐藏（2，可选）
-      _this.showSecondSideBar = false
-      _this.$emit('changeLeft',false)
-    }else{
-      _this.showSecondSideBar = true//等待修改
-      // _this.showSecondSideBar = false//等待修改
-      _this.$emit('changeLeft',true)//等待修改
-      // _this.$emit('changeLeft',false)
-    }
-    // console.log(_this.$route)
     _this.filterMenuList.map((item)=>{
       item.children.map(submenuItem=>{//设置默认展开项
         _this.menuSetting.defaultOpeneds.push(String(submenuItem.menuId))
       })
-      // _this.subMenuData = item.children  //刷新侧边栏数据丢失
       if(item.name == _this.$route.meta.parentsLabel){
         _this.subMenuData = item.children
         return false
@@ -211,7 +209,15 @@ export default {
     })
   },
   mounted(){
-    // console.log(this.$refs)
+    // console.log(this.$refs.firstMenu.children)
+    let _this = this
+    let idx = this.obtainIndex()
+    if(_this.menuList[idx].children!=undefined){
+      _this.showSecondSideBar = true
+    }else{
+      _this.showSecondSideBar = false
+      _this.$emit('changeLeft',false)
+    }
   },
   computed:{
     ...mapState({
@@ -231,7 +237,6 @@ export default {
   },
   methods:{
     filter(list){
-      // console.log(list)
       return list.path == this.$route.path
     },
     toNavMenu(item,index,e) {
@@ -257,6 +262,13 @@ export default {
       
       _this.subMenuData = item.children
 
+    },
+    obtainIndex(){
+      for(let i=0;i<this.$refs.firstMenu.children.length;i++){
+        if(this.$refs.firstMenu.children[i].className=='active'){
+          return i
+        }
+      }
     },
     enter(item){//鼠标移入
       // console.log(item)  如果有选中样式，则不加载数据
@@ -374,11 +386,12 @@ export default {
   // background: #fff;
   background: #fafafa;
   // border-right: 1px solid #ebedf0;
-  z-index: 1;
+  // z-index: 1;
   position: fixed;
   top: 0;
   box-sizing: border-box;
-  overflow: hidden;
+  // overflow: hidden;
+  overflow-y: auto;
   padding-top: 56px;
   z-index: 100;
   .second-sidebar-title{

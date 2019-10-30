@@ -5,14 +5,14 @@
     <div class="content bg-gray">
       <div class="search clearfix px-1 rounded">
         <div class="py-2 border-bottom">
-          <span style="margin:0 10px 0 20px;font-size:14px;">适用场景</span>
+          <span style="margin:0 10px 0 20px;font-size:12px;">适用场景</span>
           <ySelect
             v-if="options.length!=0" 
             v-model="scene" 
             :options="options" :configs="configs"></ySelect>
             <!-- @changeSel="changeSel" -->
 
-          <span style="margin:0 10px 0 40px;font-size:14px;">状态</span>
+          <span style="margin:0 10px 0 40px;font-size:12px;">状态</span>
           <el-select size="small" v-model="status">
             <el-option :value="Number(-1)" label="全部"></el-option>
             <el-option :value="Number(1)" label="显示"></el-option>
@@ -20,8 +20,8 @@
           </el-select>
           <!-- @change="changeStatusSearch" -->
 
-          <span style="margin:0 10px 0 40px;font-size:14px;">关键字</span>
-          <el-input size="small" class="search-input" placeholder="分类名称" v-model="keyword">
+          <span style="margin:0 10px 0 40px;font-size:12px;">关键字</span>
+          <el-input size="small" class="search-input yinput" placeholder="分类名称" v-model="keyword">
             <!-- <el-button @click="getList()" slot="append" icon="el-icon-search"></el-button> -->
           </el-input>
 
@@ -237,6 +237,7 @@ export default {
       _this.scene = -2
       _this.status = -1
       _this.keyword = ''
+      _this.getList()
     },
     searchSubmit(){
       this.getList()

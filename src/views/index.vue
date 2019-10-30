@@ -17,8 +17,9 @@
         </div>
       </div>
     </div>
-    <div class="list-wrap mt-1 d-flex flex-wrap">
-      <div class="item rounded mr-2 mb-2"
+    <!-- d-flex flex-wrap j-center -->
+    <div class="list-wrap mt-1 clearfix">
+      <div class="item rounded mr-2 mb-2 fl"
         v-for="(item,index) in list"
         :key="index">
         <div class="list-tit px-2 pb-2">
@@ -105,7 +106,7 @@ export default {
     .item{
       .tit{
         color: #999;
-        font-size: 12px;
+        font-size: 14px;
       }
       .num{
         font-weight: bold;
@@ -114,6 +115,9 @@ export default {
   }
 }
 .list-wrap{
+  width: 95%;
+  // border:1px solid #333;
+  margin: 10px auto 0;
   .item{
     width: 310px;
     border: 1px solid #E8E8E8;

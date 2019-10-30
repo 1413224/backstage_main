@@ -60,6 +60,10 @@ let url = {
   Index:{
     Statistics:'manageFactory/index/Index/Statistics',//获取角色类型码接口
   },
+  PermGroup:{//角色组
+    GetList:'manageFactory/perm/PermGroup/GetList',//获取通用角色组列表信息接口
+    
+  },
   File:{
     AddImage:'basic/upload/File/AddImage',//后台账户上传图片通用接口
     AddImageByUrl:'basic/upload/File/AddImageByUrl',//后台账户上传图片通用接口

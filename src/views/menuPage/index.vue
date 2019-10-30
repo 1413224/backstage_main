@@ -3,36 +3,30 @@
     <yTitle>导航管理</yTitle>
 
     <div class="content bg-gray">
-      <div class="search clearfix pt-2 px-1 rounded pb-1">
+      <div class="search clearfix pt-2 px-1 rounded">
         <el-form
           :model="searchForm" 
           :rules="searchRules" 
           ref="searchForm" 
           label-width="80px"
           class="border-bottom">
-          <el-row>
-            <el-col :span="6">
-              <el-form-item label="应用场景" prop="scene">
-                <ySelect
-                v-if="options.length!=0" 
-                v-model="searchForm.scene" 
-                :options="options" :configs="configs"
-                @changeSel="changeSel"></ySelect>
-              </el-form-item>
-            </el-col>
-            <el-col :span="6">
-              <el-form-item label="关键字" prop="keyword">
-                <el-input size="small" class="search-input" 
-                placeholder="导航名称" v-model="searchForm.keyword">
-                </el-input>
-              </el-form-item>
-            </el-col>
-            <el-col :span="6">
-              <div class="btn-wrap mt">
-                <el-button style="margin-left:20px;" @click="searchSubmit('searchForm')" type="primary" size="mini">搜索</el-button>
-                <el-button @click="resetForm('searchForm')" plain size="mini">清空</el-button>
-              </div>
-            </el-col>
+          <el-row class=" d-flex">
+            <el-form-item label="应用场景" prop="scene">
+              <ySelect
+              v-if="options.length!=0" 
+              v-model="searchForm.scene" 
+              :options="options" :configs="configs"
+              @changeSel="changeSel"></ySelect>
+            </el-form-item>
+            <el-form-item label="关键字" prop="keyword">
+              <el-input size="small" class="search-input yinput" 
+              placeholder="导航名称" v-model="searchForm.keyword">
+              </el-input>
+            </el-form-item>
+            <div class="btn-wrap mt">
+              <el-button style="margin-left:20px;" @click="searchSubmit('searchForm')" type="primary" size="mini">搜索</el-button>
+              <el-button @click="resetForm('searchForm')" plain size="mini">清空</el-button>
+            </div>
           </el-row>
         </el-form>
         <el-row class="mt-2 pb-1">
@@ -184,6 +178,7 @@ export default {
   methods:{
     resetForm(formName){
       this.$refs[formName].resetFields()
+      this.getList()
     },
     searchSubmit(formName){
       this.$refs[formName].validate((valid)=>{
@@ -291,7 +286,7 @@ export default {
       }).then(()=>{
         _this.$http.post(_this.baseUrl + _this.url.manageFactory.DelManageByIds,{
           token:_this.$utils.getToken(),
-          ids:id
+          ids:ids
         }).then((res)=>{
           if(res.data.ret==200){
             _this.$message({

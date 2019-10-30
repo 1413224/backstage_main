@@ -261,7 +261,7 @@ export default {
 <style lang="less">
 .content{
   .el-form-item__label{
-    font-weight: bold;
+    // font-weight: bold;
   }
   .theme-raido{
     .el-radio__input{

@@ -61,6 +61,12 @@ export default {
               path:'/pageManagement/currencyPage/paegClassify'
             }
           ]
+        },
+        {
+          menuId:'drafts',
+          menuType:'menuPage',
+          name:'草稿箱',
+          path:'/pageManagement/currencyPage/drafts'
         }
         
       ]
@@ -109,9 +115,28 @@ export default {
               menuType:'menuPage',
               name:'角色管理',
               path:'/settings/roleConfig/roleList'
+            },
+            {
+              menuId:'operator',
+              menuType:'menuPage',
+              name:'操作员管理',
+              path:'/settings/operator/operatorList'
+            },
+            {
+              menuId:'addressLibrary',
+              menuType:'menuPage',
+              name:'地址库',
+              path:'/settings/addressLibrary/addressList'
+            },
+            {
+              menuId:'journal',
+              menuType:'menuPage',
+              name:'操作日志',
+              path:'/settings/journal/journalList'
             }
           ]
-        }
+        },
+        
       ]
     }
   ]

@@ -8,42 +8,34 @@
           ref="searchForm" 
           label-width="80px"
           class="border-bottom">
-          <el-row>
-            <el-col :span="9" class="d-flex">
-              <el-form-item label="页面分类" prop="roleType">
-                <ySelect
-                  v-model="searchForm.roleType" 
-                  :options="options"
-                  @changeSel="changeSel"></ySelect>
-              </el-form-item>
-              <el-form-item label="--" prop="pageType" class="merge">
-                <ySelect
-                  v-model="searchForm.pageType" 
-                  :options="pageTypeOptions"
-                  placeholder="选择页面分类"></ySelect>
-              </el-form-item>
-            </el-col>
-            <el-col :span="5">
-              <el-form-item label="关键字" prop="keyword">
-                <el-input size="small" v-model="searchForm.keyword" placeholder="页面名称/页面路径"></el-input>
-              </el-form-item>
-            </el-col>
-            <el-col :span="5">
-              <el-form-item label="状态" prop="status">
-                <ySelect
-                  v-model="searchForm.status" 
-                  :options="statusOptions"></ySelect>
-              </el-form-item>
-            </el-col>
+          <el-row class=" d-flex">
+            <el-form-item label="页面分类" prop="roleType">
+              <ySelect
+                v-model="searchForm.roleType" 
+                :options="options"
+                @changeSel="changeSel"></ySelect>
+            </el-form-item>
+            <el-form-item label="--" prop="pageType" class="merge">
+            <ySelect
+              v-model="searchForm.pageType" 
+              :options="pageTypeOptions"
+              placeholder="选择页面分类"></ySelect>
+          </el-form-item>
+            <el-form-item label="关键字" prop="keyword">
+              <el-input size="small" v-model="searchForm.keyword" placeholder="页面名称/页面路径"></el-input>
+            </el-form-item>
+            <el-form-item label="状态" prop="status">
+              <ySelect
+                v-model="searchForm.status" 
+                :options="statusOptions"></ySelect>
+            </el-form-item>
           </el-row>
-          <el-row>
-            <el-col :span="5">
-              <el-form-item label="页面类型" prop="status">
-                <ySelect
-                  v-model="searchForm.type" 
-                  :options="typeOptions"></ySelect>
-              </el-form-item>
-            </el-col>
+          <el-row class=" d-flex">
+            <el-form-item label="页面类型" prop="status">
+              <ySelect
+                v-model="searchForm.type" 
+                :options="typeOptions"></ySelect>
+            </el-form-item>
             <el-col :span="4" class="pl-3 pt">
               <el-button type="primary" size="mini" @click="searchSubmit('searchForm')">搜索</el-button>
               <el-button size="mini" @click="resetForm('searchForm')">清空</el-button>
@@ -184,6 +176,7 @@ export default {
   methods:{
     resetForm(formName){
       this.$refs[formName].resetFields()
+      this.getList()
     },
     searchSubmit(formName){
       this.getList()

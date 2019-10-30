@@ -7,6 +7,12 @@
           :rules="rules"
           ref="ruleForm" 
           label-width="120px">
+          <el-form-item label="角色类型" prop="roleType">
+            <ySelect
+              v-model="ruleForm.roleType" 
+              :options="options"
+              @changeSel="changeSel"></ySelect>
+          </el-form-item>
           <el-form-item label="角色名称" prop="roleName">
             <el-input v-model="ruleForm.roleName" size="small" class="item" placeholder="请输入角色名称"></el-input>
           </el-form-item>
@@ -57,13 +63,16 @@
   </div>
 </template>
 <script>
+import ySelect from '@/components/ySelect/index'
+import actions from '../actions/roleConfig/addRole.js'
 export default {
   data(){
     return {
       ruleForm:{
         roleName:'',
         roleDesc:'',
-        status:'1'
+        status:'1',
+        roleType:''
       },
       rules:{
         roleName:[
@@ -71,6 +80,9 @@ export default {
         ],
         roleDesc:[
           {required: true, message: '请输入角色描述'}
+        ],
+        roleType:[
+          {required: true, message: '请选择角色类型'}
         ]
       },
       activeNames:['0'],
@@ -112,10 +124,18 @@ export default {
             }
           ]
         }
-      ]
+      ],
+      options:[]
     }
   },
+  created(){
+    this.GetRoleType()
+  },
   methods:{
+    ...actions,
+    changeSel(){
+
+    },
     goBackList(){
 
     },
@@ -127,6 +147,9 @@ export default {
       console.log(value)
       console.log(idx)
     }
+  },
+  components:{
+    ySelect
   }
 }
 </script>

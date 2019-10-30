@@ -52,7 +52,10 @@ export default new Router({
           name: 'index',
           component: () => import('@/views/index'),
           meta:{
-            title:'首页'
+            title:'首页',
+            breadList:[
+              { name:'首页'}
+            ]
           }
         },
         {
@@ -126,6 +129,7 @@ export default new Router({
           component:() => import('@/views/menuPage/menuDetail'),
           meta:{
             title:'栏目详情',
+            parentsLabel:'导航',
             breadList:[
               { name:'首页',path:'/home' },
               { name:'导航管理',path:'/menupage' },
@@ -258,6 +262,18 @@ export default new Router({
           }
         },
         {
+          path:'/pageManagement/currencyPage/drafts',
+          component:() => import('@/views/pageManagement/currencyPage/drafts'),
+          meta:{
+            title:'草稿箱',
+            parentsLabel:'页面',
+            breadList:[
+              { name:'通用页面',path:'/pageManagement/currencyPage/pageList' },
+              { name:'草稿箱' }
+            ]
+          }
+        },
+        {
           path:'/settings/attachmentConfig',
           component:() => import('@/views/settings/attachmentConfig'),
           meta:{
@@ -302,6 +318,78 @@ export default new Router({
             breadList:[
               { name:'角色管理',path:'/settings/roleConfig/roleList' },
               { name:'角色详情'}
+            ]
+          }
+        },
+        {
+          path:'/settings/operator/operatorList',
+          component:() => import('@/views/settings/operator/operatorList'),
+          meta:{
+            title:'操作员管理',
+            parentsLabel:'设置',
+            breadList:[
+              { name:'首页',path:'/home' },
+              { name:'操作员管理'}
+            ]
+          }
+        },
+        {
+          path:'/settings/operator/addOperator',
+          component:() => import('@/views/settings/operator/addOperator'),
+          meta:{
+            title:'新增操作员',
+            parentsLabel:'设置',
+            breadList:[
+              { name:'操作员管理',path:'/settings/operator/operatorList' },
+              { name:'新增操作员'}
+            ]
+          }
+        },
+        {
+          path:'/settings/operator/operatorDetail',
+          component:() => import('@/views/settings/operator/operatorDetail'),
+          meta:{
+            title:'角色详情',
+            parentsLabel:'设置',
+            breadList:[
+              { name:'操作员管理',path:'/settings/operator/operatorList' },
+              { name:'操作员详情'}
+            ]
+          }
+        },
+        {
+          path:'/settings/addressLibrary/addressList',
+          component:() => import('@/views/settings/addressLibrary/addressList'),
+          meta:{
+            title:'地址库',
+            parentsLabel:'设置',
+            breadList:[
+              { name:'首页',path:'/home' },
+              { name:'地址库'}
+            ]
+          }
+        },
+        {
+          path:'/settings/addressLibrary/addAddress',
+          component:() => import('@/views/settings/addressLibrary/addAddress'),
+          meta:{
+            title:'新增地址',
+            parentsLabel:'设置',
+            breadList:[
+              { name:'地址库',path:'/settings/addressLibrary/addressList' },
+              { name:'新增地址'}
+            ]
+          }
+        },
+        {
+          path:'/settings/journal/journalList',
+          component:() => import('@/views/settings/journal/journalList'),
+          meta:{
+            title:'操作日志',
+            parentsLabel:'设置',
+            breadList:[
+              { name:'首页',path:'/home' },
+              { name:'操作日志'}
             ]
           }
         }

@@ -1,36 +1,43 @@
 <template>
-  <div class="content bg-white box-shadow-page rounded py-2 px-1">
-    <yTitle>角色管理</yTitle>
-    <div class="bg-gray rounded p-1 mt-2">
-      <div class="search bg-white rounded px-1 pt-2 pb-1">
+  <div class="content rounded box-shadow-page px-1 py-2 bg-white">
+    <yTitle>操作员管理</yTitle>
+    <div class=" bg-gray rounded p-1 mt-2">
+      <div class="search bg-white rounded pt-2 px-1">
         <el-form
           :model="searchForm" 
           :rules="searchRules" 
           ref="searchForm" 
-          label-width="80px"
-          class="border-bottom">
-          <el-row class=" d-flex">
+          label-width="100px"
+          class="border-bottom d-flex">
+          <div class="input">
             <el-form-item label="关键字" prop="keyword">
-              <el-input size="small" class="yinput" v-model="searchForm.keyword" placeholder="角色名称"></el-input>
+              <el-input size="small" v-model="searchForm.keyword" placeholder="账户名/姓名/手机号"></el-input>
             </el-form-item>
+          </div>
+          <div>
+            <el-form-item label="所属角色" prop="roleType">
+              <ySelect
+                v-model="searchForm.roleType" 
+                :options="options"></ySelect>
+            </el-form-item>
+          </div>
+          <div>
             <el-form-item label="状态" prop="status">
               <ySelect
-                v-model="searchForm.status"
-                :options="statusOptions"></ySelect>
+                v-model="searchForm.status" 
+                :options="statusOptions" placeholder="请选择账户状态"></ySelect>
             </el-form-item>
-            <div class="mt pl-5">
-              <el-button type="primary" size="mini" @click="searchSubmit('searchForm')">搜索</el-button>
-              <el-button size="mini" @click="resetForm('searchForm')">清空</el-button>
-            </div>
-          </el-row>
+          </div>
+          <div class="pl-5 pt">
+            <el-button class="search-btn" type="primary" size="mini" @click="searchSubmit('searchForm')">搜索</el-button>
+            <el-button class="search-btn" size="mini" @click="resetForm('searchForm')">清空</el-button>
+          </div>
         </el-form>
-        <el-row class="mt-2 pb-1">
-          <el-col :span="20">
-            <div class="btn-wrap">
-              <el-button style="margin-left:20px;" @click="addPage()" type="primary" size="mini">新增角色</el-button>
-              <!-- <el-button @click="delPage()" plain size="mini">批量删除</el-button> -->
-            </div>
-          </el-col>
+        <el-row>
+          <div class="btn-wrap my-2">
+            <el-button style="margin-left:20px;" @click="addOperator()" type="primary" size="mini">新增操作员</el-button>
+            <el-button @click="delPage()" plain size="mini">批量删除</el-button>
+          </div>
         </el-row>
       </div>
 
@@ -38,24 +45,26 @@
         <el-table
           :data="tableData"
           stripe
-          @selection-change="selectionChange"
-          style="width:100%;">
+          @selection-change="selectionChange">
           <el-table-column
             type="selection"
             width="55">
           </el-table-column>
           <el-table-column
+            prop="countName"
+            label="账户名">
+          </el-table-column>
+          <el-table-column
             prop="name"
-            label="角色名称">
+            label="姓名">
           </el-table-column>
           <el-table-column
-            prop="desc"
-            label="角色描述"
-            width="300">
+            prop="phone"
+            label="手机号">
           </el-table-column>
           <el-table-column
-            prop="nums"
-            label="人数">
+            prop="role"
+            label="所属角色">
           </el-table-column>
           <el-table-column
             prop="status"
@@ -68,9 +77,19 @@
             </template>
           </el-table-column>
           <el-table-column
+            prop="addRole"
+            label="添加人">
+          </el-table-column>
+          <el-table-column
+            label="创建时间">
+            <template slot-scope="scope">
+              <div>{{scope.row.create_time|formatDate}}</div>
+            </template>
+          </el-table-column>
+          <el-table-column
             label="操作">
             <template slot-scope="scope">
-              <el-button @click="goDetail(scope.row.id,scope.row)" type="text" size="small">详情</el-button>
+              <el-button @click="goEdit(scope.row.id,scope.row)" type="text" size="small">详情</el-button>
               <el-button @click="delManage(scope.row.id)" type="text" size="small">删除</el-button>
             </template>
           </el-table-column>
@@ -79,7 +98,7 @@
     </div>
     <el-pagination
       ref="paging" 
-      class="pagination mt-1 text-right"
+      class="pagination mt-2 text-right"
       @size-change="handleSize"
       @current-change="handleCurrent"
       :current-page="curPage"
@@ -92,19 +111,21 @@
 </template>
 <script>
 import ySelect from '@/components/ySelect/index'
-import actions from '../actions/roleConfig/roleList.js'
+
 export default {
   data(){
     return {
       searchForm:{
         keyword:'',
-        status:'-1'
+        roleType:'',
+        status:null
       },
       searchRules:{},
-      statusOptions:[
+      options:[
         { label:'全部',value:'-1' },
-        { label:'启用',value:'1' },
-        { label:'禁用',value:'0' },
+      ],
+      statusOptions:[
+        { label:'全部',value:-1 },
       ],
       tableData:[
         {}
@@ -117,10 +138,22 @@ export default {
     }
   },
   created(){
-    this.getList()
+
   },
   methods:{
-    ...actions,
+    selectionChange(selection){
+      this.selection = selection
+    },
+    addOperator(){
+      this.$router.push({
+        path:'/settings/operator/addOperator'
+      })
+    },
+    goEdit(id){
+      this.$router.push({
+        path:'/settings/operator/operatorDetail'
+      })
+    },
     searchSubmit(){
       this.getList()
     },
@@ -136,17 +169,6 @@ export default {
     handleCurrent(currentVal){
       this.curPage = currentVal
       this.getList()
-    },
-    
-    addPage(){
-      this.$router.push({
-        path:'/settings/roleConfig/addRole'
-      })
-    },
-    goDetail(id){
-      this.$router.push({
-        path:'/settings/roleConfig/roleDetail'
-      })
     }
   },
   components:{
