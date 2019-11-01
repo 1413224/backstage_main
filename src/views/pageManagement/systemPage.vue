@@ -266,7 +266,7 @@ export default {
       statusOptions:[
         { label:'全部',value:'-1' },
         { label:'显示',value:'1' },
-        { label:'禁用',value:'0' },
+        { label:'隐藏',value:'0' },
       ],
       statusConfigs:{},
       tableData:[],

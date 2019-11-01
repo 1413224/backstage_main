@@ -358,6 +358,67 @@ export default new Router({
           }
         },
         {
+          path:'/perm',
+          component:() => import('@/views/perm/index'),
+          meta:{
+            title:'权限组',
+            parentsLabel:'字典',
+            breadList:[
+              { name:'首页',path:'/home' },
+              { name:'操作员详情'}
+            ]
+          }
+        },
+        {
+          path:'/perm/permGroup',
+          component:() => import('@/views/perm/permGroup'),
+          meta:{
+            title:'权限组列表',
+            parentsLabel:'字典',
+            breadList:[
+              { name:'权限组',path:'/perm' },
+              { name:'详情'}
+            ]
+          }
+        },
+        {
+          path:'/perm/addEditPermGroup',
+          component:() => import('@/views/perm/addEditPermGroup'),
+          meta:{
+            title:'添加/编辑权限组',
+            parentsLabel:'字典',
+            breadList:[
+              { name:'权限组',path:'/perm' },
+              { name:'编辑'}
+            ]
+          }
+        },
+        //页面组
+        {
+          path:'/pageManagement/pageGroup',
+          component:() => import('@/views/pageManagement/pageGroup/pageGroup'),
+          meta:{
+            title:'页面组',
+            parentsLabel:'页面',
+            breadList:[
+              { name:'首页',path:'/home' },
+              { name:'页面组'}
+            ]
+          }
+        },
+        {
+          path:'/pageManagement/pageGroup/pageList',
+          component:() => import('@/views/pageManagement/pageGroup/pageList'),
+          meta:{
+            title:'页面组-页面',
+            parentsLabel:'页面',
+            breadList:[
+              { name:'页面组',path:'/pageManagement/pageGroup' },
+              { name:'页面'}
+            ]
+          }
+        },
+        {
           path:'/settings/addressLibrary/addressList',
           component:() => import('@/views/settings/addressLibrary/addressList'),
           meta:{

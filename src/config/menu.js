@@ -24,6 +24,19 @@ export default {
       name:'页面',
       children:[
         {
+          menuId:'pageGroup',
+          menuType:'menuLabel',
+          name:'页面组',
+          children:[
+            {
+              menuId:'pageGroupList',
+              menuType:"menuPage",
+              name:"页面组",
+              path:'/pageManagement/pageGroup'
+            }
+          ]
+        },
+        {
           menuId:'system',
           menuType:'menuLabel',
           name:'系统页面',
@@ -69,6 +82,35 @@ export default {
           path:'/pageManagement/currencyPage/drafts'
         }
         
+      ]
+    },
+    {
+      icon: "icon-detail",
+      isBlank: false,
+      menuId: 'diction',
+      menuType: "menu",
+      name: "字典",
+      path: "/diction",
+      children:[
+        {
+          menuId:'dictionGl',
+          menuType:'menuLabel',
+          name:'字典管理',
+          children:[
+            {
+              menuId:'logType',
+              menuType:"menuPage",
+              name:"日志类型",
+              path:'/'
+            },
+            {
+              menuId:'permGroup',
+              menuType:"menuPage",
+              name:"权限组",
+              path:'/perm'
+            }
+          ]
+        }
       ]
     },
     {

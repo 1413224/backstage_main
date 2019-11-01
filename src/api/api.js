@@ -111,6 +111,27 @@ let url = {
   },
   attachmentLog:{
     GetList:'common/attachment/Log/GetList',//获取附件空间类型对应的配置列表
+  },
+  Perm:{
+    GetAllList:'manageFactory/perm/Perm/GetAllList',//获取通用权限列表信息接口
+    Statistics:'manageFactory/perm/Perm/Statistics',//权限组汇总信息接口
+    ChangeStatusByIds:'manageFactory/perm/Perm/ChangeStatusByIds',//批量修改权限可用状态接口
+    UpdateDisplayOrder:'manageFactory/perm/Perm/UpdateDisplayOrder',//更新权限排序信息接口
+    DelByIds:'manageFactory/perm/Perm/DelByIds',//批量删除权限信息接口
+    GetPageList:'manageFactory/perm/Perm/GetPageList',//获取页面列表信息接口
+    Add:'manageFactory/perm/Perm/Add',//新增权限信息接口
+    EditById:'manageFactory/perm/Perm/EditById',//修改权限信息接口
+    GetInfoById:'manageFactory/perm/Perm/GetInfoById',//获取权限详情信息接口
+  },
+  pageGroup:{
+    AddGroup:'manageFactory/page/Group/Add',//新增页面组信息接口
+    GetGroupList:'manageFactory/page/Group/GetList',//获取页面组列表信息接口
+    DelGroupByIds:'manageFactory/page/Group/DelByIds',//批量删除页面组信息接口
+    EditGroupById:'manageFactory/page/Group/EditById',//修改页面组信息接口
+    GetGroupPageList:'manageFactory/page/Group/GetPageList',//获取页面组页面列表信息接口
+    GetList:'manageFactory/page/GroupPage/GetList',//获取页面组页面列表信息接口
+    Add:'manageFactory/page/GroupPage/Add',//新增页面信息接口
+    DelByIds:'manageFactory/page/GroupPage/DelByIds',//批量删除页面组页面信息接口
   }
 }
 

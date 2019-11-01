@@ -228,7 +228,7 @@ export default {
       cancelButtonText: '取消',
       type: 'warning'
     }).then(()=>{
-      _this.$http.post(_this.baseUrl + _this.url.System.DelByIds,{
+      _this.$http.post(_this.baseUrl + _this.url.System.DelGroupByIds,{
         token:_this.$utils.getToken(),
         ids:id
       }).then((res)=>{
@@ -278,7 +278,7 @@ export default {
       cancelButtonText: '取消',
       type: 'warning'
     }).then(()=>{
-      _this.$http.post(_this.baseUrl + _this.url.System.DelByIds,{
+      _this.$http.post(_this.baseUrl + _this.url.System.DelGroupByIds,{
         token:_this.$utils.getToken(),
         ids:ids
       }).then((res)=>{
