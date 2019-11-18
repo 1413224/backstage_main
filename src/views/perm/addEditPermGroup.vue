@@ -31,19 +31,19 @@
                   stripe
                   style="width: 700px;">
                   <el-table-column
-                    prop="page_name"
+                    prop="name"
                     label="页面名称">
                   </el-table-column>
                   <el-table-column
-                    prop="page_path"
+                    prop="path"
                     label="路径">
                   </el-table-column>
                   <el-table-column
-                    prop="pageType"
+                    prop="type"
                     label="类型">
                     <template slot-scope="scope">
-                      <p v-if="scope.row.pageType==0">通用页面</p>
-                      <p v-if="scope.row.pageType==1">系统页面</p>
+                      <p v-if="scope.row.type==0">通用页面</p>
+                      <p v-if="scope.row.type==1">系统页面</p>
                     </template>
                   </el-table-column>
                   <el-table-column
@@ -123,7 +123,7 @@
               <p v-if="scope.row.type==1">系统页面</p>
             </template>
           </el-table-column>
-          <el-table-column
+          <!-- <el-table-column
             label="操作">
             <template slot-scope="scope">
               <el-button
@@ -132,7 +132,7 @@
                 @click="selPage(scope.row)">选择
               </el-button>
             </template>
-          </el-table-column>
+          </el-table-column> -->
         </el-table>
       </div>
       <el-pagination
@@ -212,6 +212,9 @@ export default {
       _this.showQX = true
       _this.Info.parent_name = unescape(_this.$route.query.name)
     }else if(_this.$route.query.id && !_this.$route.query.name){
+      // if(_this.$route.query.editName){
+      //   _this.Info.parent_name = unescape(_this.$route.query.editName)
+      // }
       _this.isEdit = true
       _this.showQX = true
       _this.getInfo()

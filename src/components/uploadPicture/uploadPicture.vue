@@ -64,9 +64,6 @@
                 <div class="mask">
                   <i class="iconfont icon-check"></i>
                 </div>
-                <!-- <div class="del">
-                    <i class="iconfont icon-delete"></i>
-                  </div> -->
                 <div class="del-border">
                   <div class="del" @click.stop="ptDelImage(item)">
                     <i class="iconfont icon-delete"></i>
@@ -199,9 +196,6 @@
                 <div class="mask">
                   <i class="iconfont icon-check"></i>
                 </div>
-                <!-- <div class="del">
-                    <i class="iconfont icon-delete"></i>
-                  </div> -->
                 <div class="del-border">
                   <div class="del" @click.stop="ptDelImage(item)">
                     <i class="iconfont icon-delete"></i>
@@ -323,11 +317,6 @@ export default {
     })
     // _this.getPtGroupList()
   },
-  computed: {
-    ...mapState({
-      // dialogPicture:state => state.uploadPicture.dialogPicture
-    })
-  },
   methods: {
     ...actions,
     
@@ -377,34 +366,14 @@ export default {
       // console.log(file)
       let _this = this
       console.log(file)
-      // console.log(_this.$refs.uploada.uploadFiles)
-      // console.log(_this.list)
-      // const isJPG = file.type === 'image/jpeg/png'
-      // const isLt2M = file.size / 1024 / 1024 < 2
-      // if (!isJPG) {
-      //   this.$message.error('上传头像图片只能是 JPG 格式!')
-      // }
-      // if (!isLt2M) {
-      //   this.$message.error('上传头像图片大小不能超过 2MB!')
-      // }
-      // return isJPG && isLt2M
-      // _this.imgRequest(file)
     },
     imgRequest(obj){
       let _this = this
       let fileObj = obj.file
-      // let fileObj = obj
       let form = new FormData()
-
-      // console.log(_this.$refs.uploada.uploadFiles)
-      // console.log(obj.file)
-      // return 
-
       form.append("file", fileObj)
-      // form.append("file",_this.$refs.uploada.uploadFiles)
       form.append("token", _this.$utils.getToken())
       form.append("role_type", _this.url.role_type)
-
       _this.$http({
           method:'post',
           url:_this.baseUrl + _this.url.File.AddImage,
@@ -414,13 +383,9 @@ export default {
           }
         }).then((res)=>{
         if(res.data.ret==200){
-          // _this.$message({
-          //   type: 'success',
-          //   message: '更改成功!'
-          // })
+          
         }
       })
-      // console.log(form.get('file'))
     },
     linkUpLoadPic(){
       let _this = this

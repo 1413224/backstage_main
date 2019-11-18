@@ -8,7 +8,6 @@
 
     <el-submenu v-else :index="item.url">
       <template slot="title">
-        <!-- <el-menu-item :index="item.url">{{item.name}}</el-menu-item> -->
         <span>{{item.name}}</span>
       </template>
      <sidebarItem 

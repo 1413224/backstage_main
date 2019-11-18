@@ -118,7 +118,6 @@ export default {
     })
   },
   handleAdd(row){
-    // console.log(row)
     this.$router.push({
       path:'/perm/addEditPermGroup',
       query:{
@@ -129,13 +128,28 @@ export default {
     })
   },
   handleEdit(row){
-    this.$router.push({
-      path:'/perm/addEditPermGroup',
-      query:{
-        roleType:this.roleType,
-        id:row.id
-      }
-    })
+    console.log(row)
+    // return
+    let _this = this
+    if(row.parent_id!=0){
+      _this.$router.push({
+        path:'/perm/addEditPermGroup',
+        query:{
+          roleType:this.roleType,
+          id:row.id,
+          editName:escape(row.name)
+        }
+      })
+    }else{
+      _this.$router.push({
+        path:'/perm/addEditPermGroup',
+        query:{
+          roleType:this.roleType,
+          id:row.id,
+        }
+      })
+    }
+    
   },
   addPerm(){
     this.$router.push({

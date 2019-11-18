@@ -1,30 +1,20 @@
 <template>
   <div class="zent-breadcrumb">
-    <!-- <span>移动店铺</span> -->
     <breadCrumb class="breadCrumb fl"></breadCrumb>
     <ul class="navbar-right fr">
       <li class="sfc-solution-user">
         <i class="iconfont icon-unorderedlist"></i>
         <ul class="acount-menu">
-          <!-- 多视图 -->
-          <!--<li>
-             <svg-icon icon-class="clipboard"></svg-icon> 
-            <i class="iconfont icon-shop"></i>
-            <span class="lab">切换店铺</span>
-          </li>-->
           <router-link tag="li" to="/issue">
-            <!-- <svg-icon icon-class="clipboard"></svg-icon> -->
             <i class="iconfont icon-user"></i>
             <span class="lab">账号信息</span>
           </router-link>
           <li tag="li" to="" @click="logout">
-            <!-- <svg-icon icon-class="clipboard"></svg-icon> -->
             <i class="iconfont icon-poweroff"></i>
             <span class="lab">退出账号</span>
           </li>
         </ul> 
       </li>
-      <!-- <li><ySkin>ysdsf</ySkin></li> -->
     </ul>
   </div>
 </template>

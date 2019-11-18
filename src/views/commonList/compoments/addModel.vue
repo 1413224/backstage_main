@@ -77,25 +77,11 @@
   </div>
 </template>
 <script>
-const ySelect = () => ({
-  component:import("@/components/ySelect/index"),
-  // loading:dateTimePicker,// loading时渲染
-  // error:dateTimePicker, // 出错时渲染
-  // delay: 2000, // 当前组件等待时间
-  // timeout: 3000 //   最长等待时间
-})
-const yRadioGroup = () => ({
-  component:import("@/components/yRadioGroup/yRadioGroup")
-})
-const yArea = () => ({
-  component:import("@/components/cascader/yArea")
-})
-const datePicker = () => ({
-  component:import("@/components/datePicker/datePicker")
-})
-const dateTimePicker = () => ({
-  component:import("@/components/dateTimePicker/dateTimePicker")
-})
+const ySelect = () => ({component:import("@/components/ySelect/index"),})
+const yRadioGroup = () => ({component:import("@/components/yRadioGroup/yRadioGroup")})
+const yArea = () => ({component:import("@/components/cascader/yArea")})
+const datePicker = () => ({component:import("@/components/datePicker/datePicker")})
+const dateTimePicker = () => ({component:import("@/components/dateTimePicker/dateTimePicker")})
 import dataList from '@/config/data.js'
 import { getValid } from '@/utils/valid'
 import actions from './actions/addModel'

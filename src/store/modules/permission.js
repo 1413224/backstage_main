@@ -12,12 +12,7 @@ const permission = {
   actions:{
     getConfig({ commit }){
       return new Promise((resolve,reject)=>{
-        //请求config配置文件
-        //commit()
       })
-    },
-    aa(){
-      console.log(888)
     }
   }
 }

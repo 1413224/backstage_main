@@ -7,7 +7,6 @@ import router from '../router';
 
 axios.defaults.retry = 4 //请求次数
 axios.defaults.retryDelay = 1000 //请求间隙
-// axios.defaults.baseURL = '//dev.9yetech.com/apigw/' // 演示环境
 
 axios.interceptors.request.use(config => {
 	if(config.params){

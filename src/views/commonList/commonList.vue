@@ -10,8 +10,6 @@
           </div>          
         </div>
       </div>
-      <!-- <router-view></router-view> -->
-      <!-- 或外层重新装一层 -->
       <div class="bg-gray content">
         <!-- 提示信息开始 -->
         <div class="toptip" v-if="pageData.comment">{{pageData.comment}}</div>
@@ -50,16 +48,7 @@
                 </diyTable>
             </template>
           </div>
-          <!-- <div v-if="listData.length!=0">
-            <component
-            :is="item.type" 
-            v-for="(item,index) in mainData" 
-            :key="index"
-            :configs="item"
-            :lists="item.type=='diyTable'?listData:''"></component> 
-          </div>-->
         </div>
-        <!-- <yButton :configs="btnConfig"></yButton> -->
       </div>
     </div>
 
@@ -71,13 +60,8 @@
   </div>
 </template>
 <script>
-const MyTable = () => ({
-  component:import("@/components/table/myTable"),
-}) 
-const diyTable = () => ({
-  component:import("@/components/table/diyTable")
-})
-// import diyTable from '@/components/table/diyTable'
+const MyTable = () => ({component:import("@/components/table/myTable"),}) 
+const diyTable = () => ({component:import("@/components/table/diyTable")})
 import yButton from '@/components/yButton/yButton'
 import yImage from '@/components/yImage/yImage'
 import yText from '@/components/yText/yText'
@@ -92,23 +76,18 @@ export default {
       headerConfigs:{},
       mainConfigs:{},
       pageConfigs:{},
-      statInfo:[],//统计数据
-      statInfoData:{},//保存统计数据字段
-      listData:[],//页面接口getlist请求数据
-
+      statInfo:[],
+      statInfoData:{},
+      listData:[],
       curPage:1,
       pageSize:10,
       totalPages:1,
       totalNums:0
-
     }
   },
   created(){
-    // console.log(this.pageData)
-    // console.log(this.headerData)
-    // console.log(this.mainData)
     let _this = this
-      _this.statInfo = _this.pageData.statInfo //赋值统计数据
+      _this.statInfo = _this.pageData.statInfo
       _this.$nextTick(()=>{
         _this.setStatInfoData()
         _this.getList()
@@ -137,7 +116,6 @@ export default {
         page_num:_this.curPage,
         page_size:_this.pageSize
       },{token:token,status:-1},_this.ruleForm)
-      //apiService为空时，不需要请求
       if(_this.pageData.apiService){
         _this.$http.post(_this.pageData.apiService,params).then((res)=>{
           if(res.data.ret==200){
@@ -177,7 +155,7 @@ export default {
       pageData:state => state.diypage.pageData,
       headerData:state => state.diypage.headerData,
       mainData:state => state.diypage.mainData,
-      ruleForm:state => state.diypage.ruleForm,//search数据（入参）
+      ruleForm:state => state.diypage.ruleForm,
       listNum:state => state.diypage.listNum,
     }),
     extendsInfo(){

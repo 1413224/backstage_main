@@ -5,14 +5,11 @@
         <div class="team-logo" style="background-image: url(&quot;https://img.yzcdn.cn/public_files/2016/05/13/8f9c442de8666f82abaf7dd71574e997.png!60x60.jpg&quot;);">
         </div>
       </div>
-
       <ul class="shared-first-sidebar-nav">
         <li><svg-icon className="icon" icon-class="clipboard" /> dsfs</li>
         <router-link tag="li" to="">sdfgsa</router-link>
       </ul>
-
     </nav>
-    <!-- 二级导航 -->
     <nav id="shared-second-sidebar" class="shared-second-sidebar">
       <h2 class="second-sidebar-title">后台工厂</h2>
       <el-menu>

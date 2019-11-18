@@ -7,7 +7,6 @@
     <div class="app-container container" :class="{paved:pavreLeft}">
       <div class="app">
         <div class="app-inner">
-          <!-- <breadCrumb></breadCrumb> -->
           <router-view @changeViewLeft="changeLeft"></router-view>
         </div>
       </div>
@@ -23,10 +22,8 @@ import menuNav from './components/menuNav/index'
 export default {
   name:'layout',
   components: {
-    // sidebar
     menuNav,
-    topNav,
-    // breadCrumb
+    topNav
   },
   data() {
     return {

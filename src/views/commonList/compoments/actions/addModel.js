@@ -5,8 +5,6 @@ export default {
       if(!valid){
         return false
       }
-      //业务逻辑操作
-      alert(9)
     })
   }
 }

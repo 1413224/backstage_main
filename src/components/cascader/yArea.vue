@@ -11,10 +11,6 @@
 import { resolve } from 'q';
 export default {
   name:'yArea',
-  // model:{
-  //   prop:'areaArr',
-  //   event:'getAreaArr'
-  // },
   props:{
     value:[Array,String]
   },

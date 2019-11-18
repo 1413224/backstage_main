@@ -35,9 +35,7 @@
               {{item.name}}
             </el-button>
           </div>
-          
         </template>
-
 
         <el-button
           v-else
@@ -123,8 +121,7 @@ export default {
         
       }
     },
-    changeStatus(){//修改显示，隐藏状态
-      // console.log(this.status)
+    changeStatus(){
       let _this = this,
           token = '';
       if(_this.btnStatus==1){
@@ -185,7 +182,6 @@ export default {
       if(_this.configs.needLogin){
         token = _this.$utils.getToken()
       }
-      //这里的传参可能需要修改
       _this.configs.params.map((item,index)=>{
         params[item.name] = _this.ids
       })
@@ -193,7 +189,6 @@ export default {
         token:token,
         status:1
       })
-
       if(_this.configs.apiService){
         _this.$http.post(_this.configs.apiService,params).then((res)=>{
           if(res.data.ret==200){
@@ -202,13 +197,11 @@ export default {
           }
         })
       }
-
     },
     unavailableButton(){
       let _this = this,
           params = {},
           token = '';
-
       if(_this.ids==''){
         _this.$message({
           message:'请选择需要修改的数据信息',
@@ -216,11 +209,9 @@ export default {
         })
         return false
       }
-
       if(_this.configs.needLogin){
         token = _this.$utils.getToken()
       }
-      //这里的传参可能需要修改
       _this.configs.params.map((item,index)=>{
         params[item.name] = _this.ids
       })

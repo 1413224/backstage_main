@@ -44,13 +44,7 @@ export default {
       showSecondSideBar:false,
       idx:0,
       menuSetting: {
-        // backgroundColor: '#333743',
-        // textColor: '#909399',
-        // activeTextColor: '#909399',
         defaultOpeneds: [],
-        // uniqueOpened: true,
-        // router: true,
-        // collapseTransition: true
       },
       list:[
         {
@@ -186,20 +180,8 @@ export default {
   },
   created(){
     let _this = this
-    // if(_this.menuList.some(_this.filter)){
-    //   //进入到的具体页面发射请求告诉它是否显示隐藏（1）
-    //   //配置的路由告诉他显示或隐藏（2，可选）
-    //   _this.showSecondSideBar = false
-    //   _this.$emit('changeLeft',false)
-    // }else{
-    //   _this.showSecondSideBar = true//等待修改
-    //   _this.$emit('changeLeft',true)//等待修改
-    //   // _this.$emit('changeLeft',false)
-    // }
-    // console.log(_this.menuList)
-
     _this.filterMenuList.map((item)=>{
-      item.children.map(submenuItem=>{//设置默认展开项
+      item.children.map(submenuItem=>{
         _this.menuSetting.defaultOpeneds.push(String(submenuItem.menuId))
       })
       if(item.name == _this.$route.meta.parentsLabel){
@@ -209,7 +191,6 @@ export default {
     })
   },
   mounted(){
-    // console.log(this.$refs.firstMenu.children)
     let _this = this
     let idx = this.obtainIndex()
     if(_this.menuList[idx].children!=undefined){
@@ -241,7 +222,6 @@ export default {
     },
     toNavMenu(item,index,e) {
       let _this = this
-      // console.log(item)
       if(item.children){
         _this.showSecondSideBar = true
         _this.$emit('changeLeft',true)
@@ -250,7 +230,6 @@ export default {
         _this.$emit('changeLeft',false)
       }
 
-      //后续完善默认显示第一个路由
       if(!item.children){
         _this.subMenuData = []
         _this.$router.push({
@@ -270,11 +249,9 @@ export default {
         }
       }
     },
-    enter(item){//鼠标移入
-      // console.log(item)  如果有选中样式，则不加载数据
+    enter(item){
       let _this = this
       if(item.children){
-        // _this.openSubMenu(item)
         _this.subMenuDataMove = item.children
         _this.showMenu = true
       }else{
@@ -285,7 +262,6 @@ export default {
       this.showMenu = false
     },
     openSubMenu(item){
-      // console.log(item.children[0].children[0])
       let _this = this
       item.children.map((item)=>{
         _this.menuSetting.defaultOpeneds.push(String(item.menuId))

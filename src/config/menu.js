@@ -101,7 +101,7 @@ export default {
               menuId:'logType',
               menuType:"menuPage",
               name:"日志类型",
-              path:'/'
+              path:'/diction/log'
             },
             {
               menuId:'permGroup',

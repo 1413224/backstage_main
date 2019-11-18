@@ -10,9 +10,6 @@
       :align="align"
       size="small">
     </el-date-picker>
-    <!-- :format="format" -->
-      <!-- value-format="timestamp" -->
-
   </div>
 </template>
 <script>
@@ -28,9 +25,6 @@ export default {
       date:this.value,
       align:'',
       pickerOptions:{
-        // disabledDate(time) {
-        //   return time.getTime() > Date.now();
-        // }
       },
       shortcutsDate:[
         {
@@ -65,9 +59,6 @@ export default {
       if(showType=='date'){
         this.pickerOptions.shortcuts = this.shortcutsDate
       }
-      // if(showType=='date'){
-
-      // }
 
       this.align = 'right'
     }
@@ -81,14 +72,7 @@ export default {
     },
     format(){
       let showType = this.configs.showType
-      // console.log(showType)
       switch(showType){
-        // case 'year':
-        //   return 'yyyy'
-        //   break;
-        // case 'month':
-        //   return 'yyyy-MM'
-        //   break;
         case 'week':
           return ''
           break;

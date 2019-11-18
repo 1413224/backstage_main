@@ -9,13 +9,6 @@
       :show-password="yShowPassword"
       :autosize="{minRows:yMinRows,maxRows:yMaxRows}"
       ></el-input>
-      <!-- 
-      
-      :maxlength="yMaxlength"
-      :minlength="yMinlength"
-      :show-word-limit="yShowWordLimit"
-      :prefix-icon="yPrefixIcon"
-      :suffix-icon="ySuffixIcon" -->
   </div>
 </template>
 <script>

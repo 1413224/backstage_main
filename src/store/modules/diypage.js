@@ -9,8 +9,8 @@ const diypage = {
     ruleForm:{},//搜索，参数
     lineConfig:[],//tablelineConfigs
     tableConfig:{},
-    listNum:0,//判断是否需要重新请求加载列表数据
-    ids:'',//table列表的ids，其他按钮操作后必须重置
+    listNum:0,
+    ids:'',
   },
 
   mutations:{

@@ -1,11 +1,10 @@
 export default {
   testPhone(phone){
     if(!(/^1[3456789]\d{9}$/.test(phone))){ 
-      // alert("手机号码有误，请重填");  
       return true; 
     } 
   },
-  testPassword(value){//8-16位，必须包含字母和数字
+  testPassword(value){
     if(!(/^(?![0-9]+$)(?![a-zA-Z]+$)[0-9A-Za-z]{8,16}$/.test(value))){
       return true
     }
@@ -42,16 +41,11 @@ export default {
     let thisYear,
         yearList = [];
     thisYear = new Date().getFullYear()
-    // console.log(thisYear) 2019
     ++thisYear
     for(let i=10;i>0;i--){
       thisYear --
       yearList.push(thisYear)
     }
     return yearList
-  },
-  // findComponentUpward(context, componentName){
-  //   let parent = context.$parent;
-  //   let name = parent.$options.name;
-  // }
+  }
 }

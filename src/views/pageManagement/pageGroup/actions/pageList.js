@@ -75,6 +75,27 @@ export default{
       }
     })
   },
+  changeStatus(status,id){
+    let _this = this
+    if(status==0){
+      status = 1
+    }else{
+      status = 0
+    }
+    _this.$http.post(_this.baseUrl + _this.url.pageGroup.ChangeStatusByIds,{
+      token:_this.$utils.getToken(),
+      ids:id,
+      status:status
+    }).then((res)=>{
+      if(res.data.ret==200){
+        _this.$message({
+          type: 'success',
+          message: '修改成功!'
+        })
+        _this.getList()
+      }
+    })
+  },
   delPagepl(){
     let _this = this,
         idsArr = [],

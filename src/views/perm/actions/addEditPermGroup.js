@@ -93,7 +93,11 @@ export default {
       id:_this.$route.query.id
     }).then((res)=>{
       if(res.data.ret==200){
+        
         _this.Info = res.data.data
+        // if(_this.$route.query.editName){
+        //   _this.Info.parent_name = unescape(_this.$route.query.editName)
+        // }
         _this.rulesForm.groupName = _this.Info.name
         _this.rulesForm.code = _this.Info.code
         _this.rulesForm.type = _this.Info.type
@@ -115,11 +119,23 @@ export default {
   submitEditPage(){
     let _this = this
     _this.pageSelection = _this.selection
-    
+
+    _this.pageSelection.map((item,index)=>{
+      let i = false
+      _this.tableData.map((itm,idx)=>{
+        if(item.id==itm.id){
+          i = true
+        }
+      })
+      if(i){
+        _this.pageSelection.splice(index,1)
+      }
+    })
+    // console.log(_this.pageSelection)
     _this.pageSelection.map((item,index)=>{
       _this.tableData.push(item)
     })
-
+    
     _this.dialogPage = false
   },
   unBind(row){

@@ -28,7 +28,6 @@ export default {
   },
   methods:{
     getBreadcrumb(){
-      // console.log(this.$route.matched)
       let matched = this.$route.matched
       const first = matched[0]
       if(first && first.name !== '首页'){
@@ -37,18 +36,10 @@ export default {
       this.levelList = matched
     }
   },
-  mounted(){
-    // this.getBreadcrumb()
-  },
   computed:{
     breadList(){
       return this.$route.meta.breadList || []
     }
-  },
-  watch:{
-    // $route(to,from){
-    //   // this.getBreadcrumb()
-    // }
   }
 }
 </script>

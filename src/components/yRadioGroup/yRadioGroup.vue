@@ -24,10 +24,6 @@
 <script>
 export default {
   name:'yRadioGroup',
-  // model:{
-  //   prop:'radio',
-  //   event:'input'
-  // },
   props:{
     value:{
       type:[String,Number]

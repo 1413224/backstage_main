@@ -10,9 +10,7 @@ export default{
       if(!valid){
         return false
       }
-      //业务逻辑操作
       _this.$emit('changeList',_this.ruleFormData)
-
     })
   }
 }

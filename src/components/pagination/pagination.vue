@@ -36,15 +36,9 @@ export default {
   },
   methods:{
     handleSizeChange(sizeVal){
-      // console.log(sizeVal)
-      // this.pageSize = sizeVal
-      // this.curPage = 1
-      // this.$refs.paging.lastEmittedPage = 1
       this.$emit('sizeChange',sizeVal)
     },
     handleCurrentChange(currentVal){
-      // console.log(currentVal)
-      // this.curPage = currentVal
       this.$emit('currentChange',currentVal)
     }
   }

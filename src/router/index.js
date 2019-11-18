@@ -418,6 +418,19 @@ export default new Router({
             ]
           }
         },
+        //日志
+        {
+          path:'/diction/log',
+          component:() => import('@/views/diction/log/index'),
+          meta:{
+            title:'日志类型',
+            parentsLabel:'字典',
+            breadList:[
+              { name:'首页',path:'/home' },
+              { name:'日志'}
+            ]
+          }
+        },
         {
           path:'/settings/addressLibrary/addressList',
           component:() => import('@/views/settings/addressLibrary/addressList'),
